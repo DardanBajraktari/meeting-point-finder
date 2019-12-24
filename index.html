@@ -4,9 +4,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="app.css"/>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
     <title>Document</title>
 </head>
-<body>
+<body id="home">
+    <div class="navbar-fixed">
+        <nav class="blue-grey">
+            <div class="container">
+                <div class="nav-wrapper">
+                    <a id="header-title" href="#home" class="brand-logo left-align">Meeting-Point Finder</a>
+                    <ul class="right hide-on-med-and-down">
+                        <li>
+                            <a href="#home">Mode Options</a>
+                        </li>
+                        <li>
+                            <a href="#search">Add New Point</a>
+                        </li>
+                        <li>
+                            <a href="#popular" class="btn blue-grey lighten-2">Run!</a>
+                        </li>
+                        <li>
+                            <a href="#gallery">Clear Points</a>
+                        </li>
+                        <li>
+                            <a href="#contact">Animation Speed</a>
+                        </li>
+                        <li>
+                            <a href="#contact">Trilateration Demo</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+
     <script src="app.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="js/materialize.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.dropdown-button').dropdown({
+            constrainWidth: false,
+            hover: true,
+            belowOrigin: true,
+            alignment: 'left'
+            });
+    
+            // JAVASCRIPT START HERE //
+        });
+    </script>
 </body>
 </html>

@@ -1,11 +1,47 @@
-function testFunction() {
-    let noOfFish = 0;
-
-    for (let i = 0; i < 10; i++) {
-        noOfFish++;
+class Point {
+    constructor(xPosition, yPosition, speed) {
+        this.xPosition = xPosition;
+        this.yPosition = yPosition;
+        this.speed = speed;
     }
-
-    return noOfFish;
 }
 
-console.log(testFunction());
+class Algorithm {
+    static findClosestMeet(points) {
+
+    }
+
+    static findConstantMotionMeet(points) {
+
+    }
+}
+
+class UI {
+    constructor() {
+        this.animationSpeed = 1;
+    }
+
+    addPoint() {
+
+    }
+
+    removePoint() {
+
+    }
+
+    clearPoints() {
+
+    }
+
+    runFindClosestMeet () {
+
+    }
+
+    runFindConstantMotionMeet() {
+
+    }
+
+    setAnimationSpeed(animationSpeed) {
+        this.animationSpeed = animationSpeed;
+    }
+}

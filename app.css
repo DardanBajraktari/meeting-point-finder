@@ -1,3 +1,19 @@
+body {
+    background-color: aliceblue;
+}
+
 #header-title {
     margin-left: -100px;
+}
+
+.point {
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    background-color: steelblue;
+    margin: auto;
+    margin-top: 200px;
+    border-width: 2px;
+    border-color: darkslategrey;
+    border-style: solid;
 }

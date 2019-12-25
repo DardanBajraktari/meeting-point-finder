@@ -1,2 +1,2 @@
 # meeting-point-finder
-Algorithm finds most efficient place to meet based on objects moving at variable speed
+This program finds the best place for a number of objects to meet, based on their positions and speeds, and it visualises this process with animation. Users are able to add new objects and control their positions and speeds to find the most efficient meeting-point.

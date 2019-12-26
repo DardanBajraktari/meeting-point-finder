@@ -1,10 +1,24 @@
-let animationSpeed = 1;
-
 class Point {
-    constructor(xPosition, yPosition, speed) {
+    constructor(name, xPosition, yPosition, speed) {
+        this.name = name;
         this.xPosition = xPosition;
         this.yPosition = yPosition;
         this.speed = speed;
+    }
+}
+
+class Points {
+    static getPoints() {
+        let points = [];
+
+        return points;
+    }
+
+    static addPoint() {
+        const points = Points.getPoints();
+        const point = new Point('Unnamed point', 200, 200, 1);
+
+        points.push(point);        
     }
 }
 
@@ -19,8 +33,18 @@ class Algorithm {
 }
 
 class UI {
-    addPoint() {
+    constructor() {
+        this.animationSpeed = 1;
+    }
 
+    addPoint() {
+        const newPoint = document.createElement('div');
+        newPoint.classList.add('point');
+
+        const points = Points.getPoints();
+        newPoint.id = 'point' + points.length;
+        this.dragPoint(newPoint);
+        document.body.append(newPoint);
     }
 
     dragPoint(element) {
@@ -70,9 +94,15 @@ class UI {
     }
 }
 
-dragPoint(document.getElementById('point1'));
+document.getElementById('add-new-point').addEventListener('click', function () {
+    Points.addPoint();
+    const uI = new UI();
+    uI.addPoint();
+});
 
-function dragPoint(element) {
-    const uI = new UI;
-    uI.dragPoint(element);
-}
+// dragPoints(document.getElementById('point1'));
+
+// function dragPoints(element) {
+//     const uI = new UI;
+//     uI.dragPoints(element);
+// }

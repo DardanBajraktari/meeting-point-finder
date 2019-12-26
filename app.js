@@ -99,10 +99,3 @@ document.getElementById('add-new-point').addEventListener('click', function () {
     const uI = new UI();
     uI.addPoint();
 });
-
-// dragPoints(document.getElementById('point1'));
-
-// function dragPoints(element) {
-//     const uI = new UI;
-//     uI.dragPoints(element);
-// }

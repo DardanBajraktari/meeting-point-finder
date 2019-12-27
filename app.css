@@ -19,6 +19,10 @@ body {
     border-style: solid;
 }
 
+.point:hover {
+    cursor: move;
+}
+
 #points-container {
     width: 100% !important;
     height: 92vh !important;
@@ -30,9 +34,26 @@ body {
     top: 64px;
     width: 250px;
     height: 350px;
-    background-color: rgba(167, 176, 177, 0.8);
-    border-bottom-left-radius: 10px;
+    background-color: rgba(142, 180, 185, 0.582);
+    border-bottom-left-radius: 5px;
     transform: translateX(100%);
+}
+
+/* .side-box #point-name {
+    border-bottom: solid;
+    border-width: 1px;
+} */
+
+.side-box i {
+    font-size: 30px;
+    margin-top: 2px;
+    margin-left: -11px;
+    margin-right: -35px;
+    cursor: pointer;
+}
+
+.side-box i:hover{
+    color: rgb(99, 94, 94);
 }
 
 .settings-box-view {

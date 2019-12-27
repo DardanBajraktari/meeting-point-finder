@@ -23,7 +23,7 @@ class Points {
 
     static addPoint() {
         const points = Points.getPoints();
-        let id = 'point' + (points.length + 1);
+        const id = 'point' + (points.length + 1);
         const point = new Point('Unnamed point', id, 200, 200, 1);
 
         points.push(point);
@@ -162,9 +162,13 @@ document.getElementById('add-new-point').addEventListener('click', function () {
 });
 
 document.body.addEventListener('click', function (event) {
-    if (event.target.className !== 'point') {
-        console.log(event.target);
-        const uI = new UI();
-        uI.closePointSettings();
+    if (!event.target.classList.contains('point')) {
+        if (!document.getElementById('point-settings').contains(event.target)) {
+            const uI = new UI();
+            uI.closePointSettings();
+        } else if (event.target.classList.contains('material-icons')) {
+            const uI = new UI();
+            uI.closePointSettings();
+        }
     }
 });

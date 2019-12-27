@@ -10,11 +10,44 @@ body {
     height: 15px;
     width: 15px;
     border-radius: 50%;
-    background-color: steelblue;
+    background-color: rgb(212, 90, 90);
     position: absolute;
     top: 200px;
     left: 200px;
     border-width: 2px;
     border-color: darkslategrey;
     border-style: solid;
+}
+
+.side-box {
+    position: fixed;
+    right: 0;
+    top: 64px;
+    width: 250px;
+    height: 350px;
+    background-color: rgba(167, 176, 177, 0.7);
+    border-bottom-left-radius: 10px;
+    transform: translateX(100%);
+}
+
+.side-nav-view {
+    transform: translateX(0%);
+}
+
+.side-box ul {
+    margin: 0;
+    padding: 0;
+}
+
+.side-box ul li {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+.side-box ul li a {
+    display: block;
+    color: #fff;
+    padding: 10px;
+    text-decoration: none;
 }

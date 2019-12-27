@@ -19,7 +19,7 @@ body {
     border-style: solid;
 }
 
-.container {
+#points-container {
     width: 100% !important;
     height: 92vh !important;
 }

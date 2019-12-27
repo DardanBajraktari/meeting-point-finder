@@ -25,12 +25,12 @@ body {
     top: 64px;
     width: 250px;
     height: 350px;
-    background-color: rgba(167, 176, 177, 0.7);
+    background-color: rgba(167, 176, 177, 0.8);
     border-bottom-left-radius: 10px;
     transform: translateX(100%);
 }
 
-.side-nav-view {
+.settings-box-view {
     transform: translateX(0%);
 }
 

@@ -71,7 +71,7 @@ class UI {
             newPoint.id = points[points.length - 1].id;
         }
 
-        document.body.append(newPoint);
+        document.querySelector('.container').append(newPoint);
 
         this.dragPoint(newPoint);
         this.getInfoOnClick(newPoint);
@@ -114,7 +114,7 @@ class UI {
     getInfoOnClick(point) {
         let self = this;
         console.log(point);
-        point.addEventListener('click', function () {
+        point.addEventListener('mousedown', function () {
             self.openPointSettings(point);
         });
     }
@@ -129,11 +129,11 @@ class UI {
     }
 
     openPointSettings(point) {
-        document.getElementById('point-settings').classList.add('side-nav-view');
+        document.getElementById('point-settings').classList.add('settings-box-view');
     }
 
     closePointSettings() {
-        document.getElementById('point-settings').classList.remove('side-nav-view');
+        document.getElementById('point-settings').classList.remove('settings-box-view');
     }
 
     removePoint() {
@@ -159,4 +159,12 @@ document.getElementById('add-new-point').addEventListener('click', function () {
     Points.addPoint();
     const uI = new UI();
     uI.drawPoint();
+});
+
+document.body.addEventListener('click', function (event) {
+    if (event.target.className !== 'point') {
+        console.log(event.target);
+        const uI = new UI();
+        uI.closePointSettings();
+    }
 });

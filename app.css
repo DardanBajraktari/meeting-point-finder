@@ -19,6 +19,11 @@ body {
     border-style: solid;
 }
 
+.container {
+    width: 100% !important;
+    height: 92vh !important;
+}
+
 .side-box {
     position: fixed;
     right: 0;

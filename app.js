@@ -161,7 +161,7 @@ document.getElementById('add-new-point').addEventListener('click', function () {
     uI.drawPoint();
 });
 
-document.body.addEventListener('click', function (event) {
+document.body.addEventListener('mousedown', function (event) {
     if (!event.target.classList.contains('point')) {
         if (!document.getElementById('point-settings').contains(event.target)) {
             const uI = new UI();

@@ -28,13 +28,17 @@ body {
     height: 92vh !important;
 }
 
-.side-box {
+input {
+    all: initial;
+}
+
+.settings-box {
     position: fixed;
     right: 0;
     top: 64px;
     width: 250px;
     height: 350px;
-    background-color: rgba(142, 180, 185, 0.582);
+    background-color: rgba(89, 123, 128, 0.582);
     border-bottom-left-radius: 5px;
     transform: translateX(100%);
 }
@@ -44,36 +48,23 @@ body {
     border-width: 1px;
 } */
 
-.side-box i {
+.settings-box i {
     font-size: 30px;
     margin-top: 2px;
     margin-left: -11px;
     margin-right: -35px;
     cursor: pointer;
+    color: white;
 }
 
-.side-box i:hover{
-    color: rgb(99, 94, 94);
+.settings-box i:hover{
+    color: rgba(48, 42, 42, 0.534);
 }
 
 .settings-box-view {
     transform: translateX(0%);
 }
 
-.side-box ul {
-    margin: 0;
-    padding: 0;
-}
+#position-div label{
 
-.side-box ul li {
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
-}
-
-.side-box ul li a {
-    display: block;
-    color: #fff;
-    padding: 10px;
-    text-decoration: none;
 }

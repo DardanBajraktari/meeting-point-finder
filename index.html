@@ -29,7 +29,7 @@
                             <a href="#" class="btn red lighten-2">Run!</a>
                         </li>
                         <li>
-                            <a href="#">Clear Points</a>
+                            <a href="#" id="clear-points">Clear Points</a>
                         </li>
                         <li>
                             <a href="#contact" class="dropdown-button">Animation Speed
@@ -50,16 +50,22 @@
                 <i class="material-icons left">close</i>
                 <h5 class="center-align white-text">Point Name</h5>
             </div>
-            <div id="position-div" class="col m12">
-                <label class="center-align white-text">X-Position</label>
-                <div class="col m12" style="background-color: rgb(207, 224, 226); height: 20px;"></div>
+            <div class="col m12 position-div">
+                <label class="center-align white-text">X-Position:</label>
+                <input id="x-position-input" type="text" value="200">
+                <span>m</span>
             </div>
-            <div id="position-div" class="col m12">
-                <label class="center-align white-text">Y-Position</label>
-                <div class="col m12" style="background-color: rgb(207, 224, 226); height: 20px;"></div>
+            <div class="col m12 position-div">
+                <label class="center-align white-text">Y-Position:</label>
+                <input type="text" value="200">
+                <span>m</span>
             </div>
+            <div id="speed-div" class="col m12">
+                <label class="center-align white-text">Point Speed:</label>
+                <input type="text" value="20">
+                <span>m/s</span>
             </div>
-            <div class="col m12"></div>
+            <a id="delete-point" href="#" class="btn red lighten-2 center-align">Delete Point</a>
         </div>
     </div>
 

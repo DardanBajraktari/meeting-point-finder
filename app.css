@@ -28,19 +28,23 @@ body {
     height: 92vh !important;
 }
 
-input {
-    all: initial;
-}
-
 .settings-box {
     position: fixed;
     right: 0;
     top: 64px;
     width: 250px;
-    height: 350px;
-    background-color: rgba(89, 123, 128, 0.582);
+    height: 245px;
+    background-color: rgba(95, 136, 143, 0.582);
     border-bottom-left-radius: 5px;
     transform: translateX(100%);
+    border-bottom-style: solid;
+    border-left-style: solid;
+    border-color: rgba(118, 147, 177, 0.425);
+    border-width: 5px;
+}
+
+.settings-box-view {
+    transform: translateX(0%);
 }
 
 /* .side-box #point-name {
@@ -61,10 +65,32 @@ input {
     color: rgba(48, 42, 42, 0.534);
 }
 
-.settings-box-view {
-    transform: translateX(0%);
+.position-div {
+    margin-left: 40px !important;
 }
 
-#position-div label{
+#speed-div {
+    margin-left: 25px;
+}
 
+.settings-box label {
+    font-size: 15px;
+}
+
+.settings-box span {
+    color: white;
+}
+
+.settings-box input {
+    text-align: center !important;
+    width: 60px !important;
+    height: 15px !important;
+    color: white;
+    border-bottom-color: rgb(126, 142, 151) !important;
+    box-shadow: none !important;
+}
+
+#delete-point {
+    margin-left: 40px !important;
+    margin-top: 10px !important;
 }

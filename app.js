@@ -27,12 +27,19 @@ class Points {
         const point = new Point('Unnamed point', id, 200, 200, 1);
 
         points.push(point);
-        localStorage.setItem('points', JSON.stringify(points));
-        console.log(points);      
+        localStorage.setItem('points', JSON.stringify(points));      
     }
 
-    static removePoint() {
+    static removePoint(pointId) {
+        const points = Points.getPoints();
 
+        points.forEach(function (point, index) {
+            if (point.id === pointId) {
+                points.splice(index, 1);
+            }
+        });
+
+        localStorage.setItem('points', JSON.stringify(points));
     }
 
     static clearPoints() {
@@ -56,9 +63,10 @@ class Algorithm {
 }
 
 class UI {
-    constructor() {
-        this.animationSpeed = 1;
-    }
+    constructor() {}
+
+    static animationSpeed = 1;
+    static selectedPointId = '';
 
     drawPoint(point) {
         const newPoint = document.createElement('div');
@@ -74,7 +82,7 @@ class UI {
         document.querySelector('.container').append(newPoint);
 
         this.dragPoint(newPoint);
-        this.getInfoOnClick(newPoint);
+        this.addOpenSettingsOnClickListener(newPoint);
     }
 
     dragPoint(point) {
@@ -111,10 +119,10 @@ class UI {
         }
     }
 
-    getInfoOnClick(point) {
+    addOpenSettingsOnClickListener(point) {
         let self = this;
-        console.log(point);
         point.addEventListener('mousedown', function () {
+            UI.selectedPointId = point.id;
             self.openPointSettings(point);
         });
     }
@@ -129,7 +137,12 @@ class UI {
     }
 
     openPointSettings(point) {
+        document.getElementById('point-name').innerHTML = this.makeName(point.id);
         document.getElementById('point-settings').classList.add('settings-box-view');
+    }
+
+    makeName(pointId) {
+        return pointId.charAt(0).toUpperCase() + pointId.slice(1, 5) + ' ' + pointId.charAt(5); 
     }
 
     closePointSettings() {
@@ -137,7 +150,7 @@ class UI {
     }
 
     removePoint() {
-
+        document.getElementById(UI.selectedPointId).remove();
     }
 
     clearPoints() {
@@ -171,4 +184,11 @@ document.body.addEventListener('mousedown', function (event) {
             uI.closePointSettings();
         }
     }
+});
+
+document.getElementById('delete-point').addEventListener('click', function (event) {
+    const uI = new UI();
+    Points.removePoint(UI.selectedPointId);
+    uI.removePoint();
+    uI.closePointSettings();
 });

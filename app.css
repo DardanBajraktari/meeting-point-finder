@@ -47,10 +47,9 @@ body {
     transform: translateX(0%);
 }
 
-/* .side-box #point-name {
-    border-bottom: solid;
-    border-width: 1px;
-} */
+#point-name {
+    margin-top: 25px;
+}
 
 .settings-box i {
     font-size: 30px;
@@ -91,6 +90,6 @@ body {
 }
 
 #delete-point {
+    margin-top: 2px !important;
     margin-left: 40px !important;
-    margin-top: 10px !important;
 }

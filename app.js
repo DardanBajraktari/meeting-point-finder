@@ -43,7 +43,7 @@ class Points {
     }
 
     static clearPoints() {
-
+        localStorage.clear();
     }
 
     static displayPoints() {
@@ -130,19 +130,14 @@ class UI {
     displayPoints() {
         let self = this;
         const points = Points.getPoints();
-        
+
         points.forEach(function (point) {
             self.drawPoint(point);
         });
     }
 
     openPointSettings(point) {
-        document.getElementById('point-name').innerHTML = this.makeName(point.id);
         document.getElementById('point-settings').classList.add('settings-box-view');
-    }
-
-    makeName(pointId) {
-        return pointId.charAt(0).toUpperCase() + pointId.slice(1, 5) + ' ' + pointId.charAt(5); 
     }
 
     closePointSettings() {
@@ -154,7 +149,13 @@ class UI {
     }
 
     clearPoints() {
+        const points = Points.getPoints();
 
+        points.forEach(function (point) {
+            document.getElementById(point.id).remove();
+        });
+
+        this.closePointSettings();
     }
 
     findClosestMeet () {
@@ -191,4 +192,10 @@ document.getElementById('delete-point').addEventListener('click', function (even
     Points.removePoint(UI.selectedPointId);
     uI.removePoint();
     uI.closePointSettings();
+});
+
+document.getElementById('clear-points').addEventListener('click', function () {
+    const uI = new UI();
+    uI.clearPoints();
+    Points.clearPoints();
 });

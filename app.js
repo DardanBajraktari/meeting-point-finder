@@ -123,7 +123,6 @@ class UI {
         let self = this;
         point.addEventListener('mousedown', function () {
             UI.selectedPointId = point.id;
-            console.log(UI.selectedPointId);
             self.openPointSettings(point);
         });
     }

@@ -123,16 +123,8 @@ class UI {
         let self = this;
         point.addEventListener('mousedown', function () {
             UI.selectedPointId = point.id;
+            console.log(UI.selectedPointId);
             self.openPointSettings(point);
-        });
-    }
-
-    displayPoints() {
-        let self = this;
-        const points = Points.getPoints();
-
-        points.forEach(function (point) {
-            self.drawPoint(point);
         });
     }
 
@@ -142,6 +134,15 @@ class UI {
 
     closePointSettings() {
         document.getElementById('point-settings').classList.remove('settings-box-view');
+    }
+
+    displayPoints() {
+        let self = this;
+        const points = Points.getPoints();
+
+        points.forEach(function (point) {
+            self.drawPoint(point);
+        });
     }
 
     removePoint() {

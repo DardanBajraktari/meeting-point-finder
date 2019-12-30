@@ -34,11 +34,11 @@ body {
     top: 64px;
     width: 250px;
     height: 245px;
-    background-color: rgba(95, 136, 143, 0.582);
     border-bottom-left-radius: 5px;
+    background-color: rgba(95, 136, 143, 0.582);
+    border: 5px;
     transform: translateX(100%);
-    border-bottom-style: solid;
-    border-left-style: solid;
+    border-style: solid;
     border-color: rgba(118, 147, 177, 0.425);
     border-width: 5px;
 }

@@ -86,6 +86,7 @@ class UI {
     }
 
     dragPoint(point) {
+        const self = this;
         let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
         point.onmousedown = dragMouseDown;
 
@@ -116,7 +117,14 @@ class UI {
         function closeDragPoint() {
             document.onmouseup = null;
             document.onmousemove = null;
+            self.updatePointPosition();
         }
+    }
+
+    updatePointPosition() {
+        const selectedPoint = document.getElementById(UI.selectedPointId);
+        document.getElementById('x-position-input').value = selectedPoint.style.left;
+        document.getElementById('y-position-input').value = selectedPoint.style.top;
     }
 
     addOpenSettingsOnClickListener(point) {

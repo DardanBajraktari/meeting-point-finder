@@ -123,8 +123,12 @@ class UI {
 
     updatePointPosition() {
         const selectedPoint = document.getElementById(UI.selectedPointId);
-        document.getElementById('x-position-input').value = selectedPoint.style.left;
-        document.getElementById('y-position-input').value = selectedPoint.style.top;
+        document.getElementById('x-position-input').value = this.extractNumberValue(selectedPoint.style.left);
+        document.getElementById('y-position-input').value = this.extractNumberValue(selectedPoint.style.top);
+    }
+
+    extractNumberValue(positionString) {
+        return positionString.slice(0, (positionString.length - 2));
     }
 
     addOpenSettingsOnClickListener(point) {

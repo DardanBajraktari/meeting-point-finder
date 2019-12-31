@@ -115,12 +115,12 @@ class UI {
 
             point.style.top = (point.offsetTop - pos2) + "px";
             point.style.left = (point.offsetLeft - pos1) + "px";
+            self.updatePointPosition();
         }
 
         function closeDragPoint() {
             document.onmouseup = null;
             document.onmousemove = null;
-            self.updatePointPosition();
         }
     }
 

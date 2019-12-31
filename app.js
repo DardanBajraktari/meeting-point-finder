@@ -137,7 +137,12 @@ class UI {
     addOpenSettingsOnClickListener(point) {
         let self = this;
         point.addEventListener('mousedown', function () {
+            if (UI.selectedPointId) {
+                self.toggleHighlightPoint();
+            }
+
             UI.selectedPointId = point.id;
+            self.toggleHighlightPoint();
             self.openPointSettings(point);
         });
     }
@@ -148,7 +153,18 @@ class UI {
 
     closePointSettings() {
         document.getElementById('point-settings').classList.remove('settings-box-view');
+        this.toggleHighlightPoint();
         UI.selectedPointId = '';
+    }
+
+    toggleHighlightPoint() {
+        const selectedPoint = document.getElementById(UI.selectedPointId);
+
+        if (selectedPoint.classList.contains('highlight')) {
+            selectedPoint.classList.remove('highlight');
+        } else {
+            selectedPoint.classList.add('highlight');
+        }
     }
 
     displayPoints() {

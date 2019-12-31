@@ -23,6 +23,10 @@ body {
     cursor: move;
 }
 
+.highlight {
+    background-color: rgb(189, 54, 54);
+}
+
 #points-container {
     width: 100% !important;
     height: 92vh !important;

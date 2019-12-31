@@ -79,6 +79,9 @@ class UI {
             newPoint.id = points[points.length - 1].id;
         }
 
+        newPoint.style.left = '200px';
+        newPoint.style.top = '200px';
+
         document.querySelector('.container').append(newPoint);
 
         this.dragPoint(newPoint);

@@ -148,6 +148,7 @@ class UI {
 
     closePointSettings() {
         document.getElementById('point-settings').classList.remove('settings-box-view');
+        UI.selectedPointId = '';
     }
 
     displayPoints() {
@@ -210,7 +211,9 @@ document.getElementById('delete-point').addEventListener('click', function (even
 });
 
 document.getElementById('clear-points').addEventListener('click', function () {
-    const uI = new UI();
-    uI.clearPoints();
-    Points.clearPoints();
+    if (confirm('Are you sure you would like to clear all points?')) {
+        const uI = new UI();
+        uI.clearPoints();
+        Points.clearPoints();
+    }
 });

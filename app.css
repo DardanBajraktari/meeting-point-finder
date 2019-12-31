@@ -25,6 +25,9 @@ body {
 
 .highlight {
     background-color: rgb(189, 54, 54);
+    width: 16px;
+    height: 16px;
+    border-color: darkslategrey;
 }
 
 #points-container {

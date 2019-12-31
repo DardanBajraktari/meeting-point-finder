@@ -160,10 +160,12 @@ class UI {
     toggleHighlightPoint() {
         const selectedPoint = document.getElementById(UI.selectedPointId);
 
-        if (selectedPoint.classList.contains('highlight')) {
-            selectedPoint.classList.remove('highlight');
-        } else {
-            selectedPoint.classList.add('highlight');
+        if (selectedPoint) {
+            if (selectedPoint.classList.contains('highlight')) {
+                selectedPoint.classList.remove('highlight');
+            } else {
+                selectedPoint.classList.add('highlight');
+            }
         }
     }
 

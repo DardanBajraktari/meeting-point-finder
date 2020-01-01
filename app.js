@@ -85,7 +85,7 @@ class UI {
         document.querySelector('.container').append(newPoint);
 
         this.dragPoint(newPoint);
-        this.addOpenSettingsOnClickListener(newPoint);
+        this.addClickEventListener(newPoint);
     }
 
     dragPoint(point) {
@@ -134,7 +134,7 @@ class UI {
         return positionString.slice(0, (positionString.length - 2));
     }
 
-    addOpenSettingsOnClickListener(point) {
+    addClickEventListener(point) {
         let self = this;
         point.addEventListener('mousedown', function () {
             if (UI.selectedPointId) {

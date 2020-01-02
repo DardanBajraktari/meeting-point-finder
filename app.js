@@ -182,7 +182,6 @@ class UI {
         document.getElementById('point-settings').classList.remove('settings-box-view');
         this.toggleHighlightPoint();
         UI.selectedPointId = '';
-        console.log(PointStore.getPoints());
     }
 
     toggleHighlightPoint() {

@@ -169,6 +169,7 @@ class UI {
 
             UI.selectedPointId = point.id;
             self.toggleHighlightPoint();
+            self.updatePointPositionFields();
             self.openPointSettings(point);
         });
     }

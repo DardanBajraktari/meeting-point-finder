@@ -8,38 +8,58 @@ class Point {
     }
 }
 
-class Points {
-    static getPoints() {
-        let points;
+class PointStore {
+    static points = [];
 
-        if (localStorage.getItem('points') === null) {
-            points = [];
+    static getPoints() {
+        if (PointStore.points.length === 0) {
+            if (localStorage.getItem('points') === null) {
+                PointStore.points = [];
+            } else {
+                PointStore.points = JSON.parse(localStorage.getItem('points'));
+            }
         } else {
-            points = JSON.parse(localStorage.getItem('points'));
+            return PointStore.points;
         }
 
-        return points;
+        return PointStore.points;
     }
 
     static addPoint() {
-        const points = Points.getPoints();
         const id = 'point' + (points.length + 1);
         const point = new Point('Unnamed point', id, 200, 200, 1);
 
-        points.push(point);
-        localStorage.setItem('points', JSON.stringify(points));      
+        PointStore.points.push(point);
+        localStorage.setItem('points', JSON.stringify(PointStore.points));      
     }
 
-    static removePoint(pointId) {
-        const points = Points.getPoints();
+    static updatePointName(id, name) {
 
-        points.forEach(function (point, index) {
-            if (point.id === pointId) {
-                points.splice(index, 1);
+    }
+
+    static updatePointPosition(id, xPosition, yPosition) {
+        for (let i = 0; i < PointStore.points.length; i++) {
+            if (PointStore.points[i].id === id) {
+                PointStore.points[i].xPosition = xPosition;
+                PointStore.points[i].yPosition = yPosition;
+                break;
             }
-        });
+        }
+    }
+    
+    static updatePointSpeed(id, speed) {
 
-        localStorage.setItem('points', JSON.stringify(points));
+    }
+
+    static removePoint(id) {
+        for (let i = 0; i < PointStore.points.length; i++) {
+            if (PointStore.points[i].id === id) {
+                PointStore.points.splice(i, 1);
+                break;
+            }
+        }
+
+        localStorage.setItem('points', JSON.stringify(PointStore.points));
     }
 
     static clearPoints() {
@@ -75,8 +95,8 @@ class UI {
         if (point) {
             newPoint.id = point.id;
         } else {
-            const points = Points.getPoints();
-            newPoint.id = points[points.length - 1].id;
+            const points = PointStore.getPoints();
+            newPoint.id = points[PointStore.length - 1].id;
         }
 
         newPoint.style.left = '200px';
@@ -115,17 +135,24 @@ class UI {
 
             point.style.top = (point.offsetTop - pos2) + "px";
             point.style.left = (point.offsetLeft - pos1) + "px";
-            self.updatePointPosition();
+            self.updatePointPositionFields();
         }
 
         function closeDragPoint() {
+            const uI = new UI();
+            const xPosition = parseInt(uI.extractNumberValue(document.getElementById(UI.selectedPointId).style.left));
+            const yPosition = parseInt(uI.extractNumberValue(document.getElementById(UI.selectedPointId).style.top));
+
+            PointStore.updatePointPosition(UI.selectedPointId, xPosition, yPosition);
+
             document.onmouseup = null;
             document.onmousemove = null;
         }
     }
 
-    updatePointPosition() {
+    updatePointPositionFields() {
         const selectedPoint = document.getElementById(UI.selectedPointId);
+
         document.getElementById('x-position-input').value = this.extractNumberValue(selectedPoint.style.left);
         document.getElementById('y-position-input').value = this.extractNumberValue(selectedPoint.style.top);
     }
@@ -155,6 +182,7 @@ class UI {
         document.getElementById('point-settings').classList.remove('settings-box-view');
         this.toggleHighlightPoint();
         UI.selectedPointId = '';
+        console.log(PointStore.getPoints());
     }
 
     toggleHighlightPoint() {
@@ -171,7 +199,7 @@ class UI {
 
     displayPoints() {
         let self = this;
-        const points = Points.getPoints();
+        const points = PointStore.getPoints();
 
         points.forEach(function (point) {
             self.drawPoint(point);
@@ -183,7 +211,7 @@ class UI {
     }
 
     clearPoints() {
-        const points = Points.getPoints();
+        const points = PointStore.getPoints();
 
         points.forEach(function (point) {
             document.getElementById(point.id).remove();
@@ -201,10 +229,10 @@ class UI {
     }
 }
 
-document.addEventListener('DOMContentLoaded', Points.displayPoints);
+document.addEventListener('DOMContentLoaded', PointStore.displayPoints);
 
 document.getElementById('add-new-point').addEventListener('click', function () {
-    Points.addPoint();
+    PointStore.addPoint();
     const uI = new UI();
     uI.drawPoint();
 });
@@ -223,7 +251,7 @@ document.body.addEventListener('mousedown', function (event) {
 
 document.getElementById('delete-point').addEventListener('click', function (event) {
     const uI = new UI();
-    Points.removePoint(UI.selectedPointId);
+    PointStore.removePoint(UI.selectedPointId);
     uI.removePoint();
     uI.closePointSettings();
 });
@@ -232,6 +260,6 @@ document.getElementById('clear-points').addEventListener('click', function () {
     if (confirm('Are you sure you would like to clear all points?')) {
         const uI = new UI();
         uI.clearPoints();
-        Points.clearPoints();
+        PointStore.clearPoints();
     }
 });

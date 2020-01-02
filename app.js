@@ -26,7 +26,7 @@ class PointStore {
     }
 
     static addPoint() {
-        const id = 'point' + (points.length + 1);
+        const id = 'point' + (PointStore.points.length + 1);
         const point = new Point('Unnamed point', id, 200, 200, 1);
 
         PointStore.points.push(point);
@@ -95,8 +95,7 @@ class UI {
         if (point) {
             newPoint.id = point.id;
         } else {
-            const points = PointStore.getPoints();
-            newPoint.id = points[PointStore.length - 1].id;
+            newPoint.id = PointStore.points[PointStore.points.length - 1].id;
         }
 
         newPoint.style.left = '200px';

@@ -48,8 +48,14 @@ class PointStore {
 
     static removePoint(id) {
         PointStore.points.splice(id, 1);
-
+        PointStore.reassignPointIds(id);
         localStorage.setItem('points', JSON.stringify(PointStore.points));
+    }
+
+    static reassignPointIds(id) {
+        for (let i = id; i < PointStore.points.length; i++) {
+            PointStore.points[i].id = i;
+        }
     }
 
     static clearPoints() {
@@ -198,6 +204,8 @@ class UI {
 
     removePoint() {
         document.getElementById(UI.selectedPointId).remove();
+        PointStore.removePoint(parseInt(UI.selectedPointId));
+        this.closePointSettings();
     }
 
     clearPoints() {
@@ -240,9 +248,7 @@ document.body.addEventListener('mousedown', function (event) {
 
 document.getElementById('delete-point').addEventListener('click', function (event) {
     const uI = new UI();
-    PointStore.removePoint(UI.selectedPointId);
     uI.removePoint();
-    uI.closePointSettings();
 });
 
 document.getElementById('clear-points').addEventListener('click', function () {

@@ -38,7 +38,6 @@ class PointStore {
     }
 
     static updatePointPosition(id, xPosition, yPosition) {
-        console.log(id);
         PointStore.points[id].xPosition = xPosition;
         PointStore.points[id].yPosition = yPosition;
     }
@@ -202,12 +201,11 @@ class UI {
     }
 
     clearPoints() {
-        const points = PointStore.getPoints();
-
-        points.forEach(function (point) {
+        PointStore.points.forEach(function (point) {
             document.getElementById(point.id).remove();
         });
 
+        PointStore.points = [];
         this.closePointSettings();
     }
 

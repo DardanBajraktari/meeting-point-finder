@@ -26,7 +26,7 @@ class PointStore {
     }
 
     static addPoint() {
-        const id = 'point' + (PointStore.points.length + 1);
+        const id = PointStore.points.length;
         const point = new Point('Unnamed point', id, 200, 200, 1);
 
         PointStore.points.push(point);
@@ -38,30 +38,17 @@ class PointStore {
     }
 
     static updatePointPosition(id, xPosition, yPosition) {
-        for (let i = 0; i < PointStore.points.length; i++) {
-            if (PointStore.points[i].id === id) {
-                PointStore.points[i].xPosition = xPosition;
-                PointStore.points[i].yPosition = yPosition;
-                break;
-            }
-        }
+        console.log(id);
+        PointStore.points[id].xPosition = xPosition;
+        PointStore.points[id].yPosition = yPosition;
     }
     
     static updatePointSpeed(id, speed) {
-        for (let i = 0; i < PointStore.points.length; i++) {
-            if (PointStore.points[i].id === id) {
-                PointStore.points[i].speed = speed;
-            }
-        }
+        PointStore.points[id].speed = parseInt(speed);
     }
 
     static removePoint(id) {
-        for (let i = 0; i < PointStore.points.length; i++) {
-            if (PointStore.points[i].id === id) {
-                PointStore.points.splice(i, 1);
-                break;
-            }
-        }
+        PointStore.points.splice(id, 1);
 
         localStorage.setItem('points', JSON.stringify(PointStore.points));
     }
@@ -186,6 +173,7 @@ class UI {
         document.getElementById('point-settings').classList.remove('settings-box-view');
         this.toggleHighlightPoint();
         UI.selectedPointId = '';
+        console.log(PointStore.points);
     }
 
     toggleHighlightPoint() {

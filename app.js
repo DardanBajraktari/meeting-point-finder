@@ -48,7 +48,11 @@ class PointStore {
     }
     
     static updatePointSpeed(id, speed) {
-
+        for (let i = 0; i < PointStore.points.length; i++) {
+            if (PointStore.points[i].id === id) {
+                PointStore.points[i].speed = speed;
+            }
+        }
     }
 
     static removePoint(id) {
@@ -261,4 +265,8 @@ document.getElementById('clear-points').addEventListener('click', function () {
         uI.clearPoints();
         PointStore.clearPoints();
     }
+});
+
+document.getElementById('speed-input').addEventListener('keyup', function (event) {
+    PointStore.updatePointSpeed(UI.selectedPointId, event.target.value)
 });

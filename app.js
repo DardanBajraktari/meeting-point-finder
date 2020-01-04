@@ -90,12 +90,13 @@ class UI {
 
         if (point) {
             newPoint.id = point.id;
+            newPoint.style.left = point.xPosition.toString() + 'px';
+            newPoint.style.top = point.yPosition.toString() + 'px';
         } else {
             newPoint.id = PointStore.points[PointStore.points.length - 1].id;
+            newPoint.style.left = '200px';
+            newPoint.style.top = '200px';
         }
-
-        newPoint.style.left = '200px';
-        newPoint.style.top = '200px';
 
         document.querySelector('.container').append(newPoint);
 
@@ -138,7 +139,9 @@ class UI {
             const xPosition = parseInt(uI.extractNumberValue(document.getElementById(UI.selectedPointId).style.left));
             const yPosition = parseInt(uI.extractNumberValue(document.getElementById(UI.selectedPointId).style.top));
 
+
             PointStore.updatePointPosition(UI.selectedPointId, xPosition, yPosition);
+            localStorage.setItem('points', JSON.stringify(PointStore.points));
 
             document.onmouseup = null;
             document.onmousemove = null;

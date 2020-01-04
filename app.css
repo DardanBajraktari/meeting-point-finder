@@ -12,8 +12,6 @@ body {
     border-radius: 50%;
     background-color: rgb(250, 125, 125);
     position: absolute;
-    top: 200px;
-    left: 200px;
     border-width: 2px;
     border-color: darkslategrey;
     border-style: solid;

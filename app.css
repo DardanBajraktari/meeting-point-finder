@@ -10,7 +10,7 @@ body {
     height: 15px;
     width: 15px;
     border-radius: 50%;
-    background-color: rgb(250, 125, 125);
+    background-color: rgb(153, 209, 192);
     position: absolute;
     border-width: 2px;
     border-color: darkslategrey;
@@ -22,7 +22,7 @@ body {
 }
 
 .highlight {
-    background-color: rgb(189, 54, 54);
+    background-color: rgb(64, 143, 110);
     width: 16px;
     height: 16px;
     border-color: darkslategrey;

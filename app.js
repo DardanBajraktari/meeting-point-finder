@@ -27,7 +27,8 @@ class PointStore {
 
     static addPoint() {
         const id = PointStore.points.length;
-        const point = new Point('Unnamed point', id, 200, 200, 1);
+        const xPosition = (200 + (20 * PointStore.points.length));
+        const point = new Point('Unnamed point', id, xPosition, 200, 1);
 
         PointStore.points.push(point);
         localStorage.setItem('points', JSON.stringify(PointStore.points));      
@@ -94,7 +95,8 @@ class UI {
             newPoint.style.top = point.yPosition.toString() + 'px';
         } else {
             newPoint.id = PointStore.points[PointStore.points.length - 1].id;
-            newPoint.style.left = '200px';
+            const xPositionMultiplier = 20 * (PointStore.points.length - 1);
+            newPoint.style.left = (200 + xPositionMultiplier).toString() + 'px';
             newPoint.style.top = '200px';
         }
 

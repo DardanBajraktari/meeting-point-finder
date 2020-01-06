@@ -158,6 +158,11 @@ class UI {
         document.getElementById('y-position-input').value = this.extractNumberValue(selectedPoint.style.top);
     }
 
+    updatePointSpeedField() {
+        const selectedPoint = document.getElementById(UI.selectedPointId);
+        document.getElementById('speed-input').value = PointStore.points[UI.selectedPointId].speed;
+    }
+
     extractNumberValue(positionString) {
         return positionString.slice(0, (positionString.length - 2));
     }
@@ -172,6 +177,7 @@ class UI {
             UI.selectedPointId = point.id;
             self.toggleHighlightPoint();
             self.updatePointPositionFields();
+            self.updatePointSpeedField();
             self.openPointSettings(point);
         });
     }

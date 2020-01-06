@@ -45,6 +45,7 @@ class PointStore {
     
     static updatePointSpeed(id, speed) {
         PointStore.points[id].speed = parseInt(speed);
+        localStorage.setItem('points', JSON.stringify(PointStore.points));
     }
 
     static removePoint(id) {

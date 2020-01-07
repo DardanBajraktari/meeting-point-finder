@@ -28,7 +28,7 @@ class PointStore {
     static addPoint() {
         const id = PointStore.points.length;
         const xPosition = (200 + (20 * PointStore.points.length));
-        const point = new Point('Unnamed point', id, xPosition, 200, 1);
+        const point = new Point('Unnamed point', id, xPosition, 200, 10);
 
         PointStore.points.push(point);
         localStorage.setItem('points', JSON.stringify(PointStore.points));      

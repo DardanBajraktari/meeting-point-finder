@@ -28,7 +28,7 @@ class PointStore {
     static addPoint() {
         const id = PointStore.points.length;
         const xPosition = (200 + (20 * PointStore.points.length));
-        const point = new Point('Unnamed point', id, xPosition, 200, 10);
+        const point = new Point('', id, xPosition, 200, 10);
 
         PointStore.points.push(point);
         localStorage.setItem('points', JSON.stringify(PointStore.points));      
@@ -161,8 +161,11 @@ class UI {
     }
 
     updatePointSpeedField() {
-        const selectedPoint = document.getElementById(UI.selectedPointId);
         document.getElementById('speed-input').value = PointStore.points[UI.selectedPointId].speed;
+    }
+
+    updatePointNameField() {
+        document.getElementById('name-input').value = PointStore.points[UI.selectedPointId].name;
     }
 
     extractNumberValue(positionString) {
@@ -180,6 +183,7 @@ class UI {
             self.toggleHighlightPoint();
             self.updatePointPositionFields();
             self.updatePointSpeedField();
+            self.updatePointNameField();
             self.openPointSettings(point);
         });
     }

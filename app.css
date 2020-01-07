@@ -52,7 +52,7 @@ body {
     transform: translateX(0%);
 }
 
-#point-name-input {
+#name-input {
     margin-top: 15px;
     margin-bottom: 15px;
     border: none !important;

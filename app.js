@@ -35,12 +35,14 @@ class PointStore {
     }
 
     static updatePointName(id, name) {
-
+        PointStore.points[id].name = name;
+        localStorage.setItem('points', JSON.stringify(PointStore.points));
     }
 
     static updatePointPosition(id, xPosition, yPosition) {
         PointStore.points[id].xPosition = xPosition;
         PointStore.points[id].yPosition = yPosition;
+        localStorage.setItem('points', JSON.stringify(PointStore.points));
     }
     
     static updatePointSpeed(id, speed) {
@@ -273,4 +275,8 @@ document.getElementById('clear-points').addEventListener('click', function () {
 
 document.getElementById('speed-input').addEventListener('keyup', function (event) {
     PointStore.updatePointSpeed(UI.selectedPointId, event.target.value)
+});
+
+document.getElementById('name-input').addEventListener('keyup', function (event) {
+    PointStore.updatePointName(UI.selectedPointId, event.target.value);
 });

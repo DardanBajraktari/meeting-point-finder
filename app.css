@@ -55,9 +55,10 @@ body {
 #name-input {
     margin-top: 15px;
     margin-bottom: 15px;
+    margin-left: 10px;
     border: none !important;
     padding: 6px;
-    width: 140px !important;
+    width: 170px !important;
     font-size: 20px;
 }
 

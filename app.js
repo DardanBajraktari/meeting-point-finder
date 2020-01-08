@@ -59,8 +59,9 @@ class PointStore {
     }
 
     static removePoint(id) {
-        PointStore.points.splice(id, 1);
-        PointStore.reassignPointIds(id);
+        const idAsInt = parseInt(id);
+        PointStore.points.splice(idAsInt, 1);
+        PointStore.reassignPointIds(idAsInt);
         localStorage.setItem('points', JSON.stringify(PointStore.points));
     }
 
@@ -157,7 +158,6 @@ class UI {
             const xPosition = parseInt(uI.extractNumberValue(document.getElementById(UI.selectedPointId).style.left));
             const yPosition = parseInt(uI.extractNumberValue(document.getElementById(UI.selectedPointId).style.top));
 
-
             PointStore.updatePointPosition(UI.selectedPointId, xPosition, yPosition);
             localStorage.setItem('points', JSON.stringify(PointStore.points));
 
@@ -207,7 +207,13 @@ class UI {
 
     closePointSettings() {
         document.getElementById('point-settings').classList.remove('settings-box-view');
-        this.toggleHighlightPoint();
+
+        if (UI.selectedPointId) {
+            if (document.getElementById(UI.selectedPointId).classList.contains('highlight')) {
+                this.toggleHighlightPoint();
+            }
+        }
+
         UI.selectedPointId = '';
         console.log(PointStore.points);
     }
@@ -235,7 +241,7 @@ class UI {
 
     removePoint() {
         document.getElementById(UI.selectedPointId).remove();
-        PointStore.removePoint(parseInt(UI.selectedPointId));
+        PointStore.removePoint(UI.selectedPointId);
         this.closePointSettings();
     }
 

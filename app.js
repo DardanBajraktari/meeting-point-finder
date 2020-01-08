@@ -1,3 +1,11 @@
+function onInit() {
+    const uI = new UI();
+
+    PointStore.displayPoints();
+    uI.toggleRunEnabled();
+    uI.showInstructions();
+}
+
 class Point {
     constructor(name, id, xPosition, yPosition, speed) {
         this.name = name;
@@ -57,8 +65,10 @@ class PointStore {
     }
 
     static reassignPointIds(id) {
+
         for (let i = id; i < PointStore.points.length; i++) {
             PointStore.points[i].id = i;
+            document.getElementById((i + 1).toString()).id = i.toString();
         }
     }
 
@@ -87,6 +97,10 @@ class UI {
 
     static animationSpeed = 1;
     static selectedPointId = '';
+
+    showInstructions() {
+        // Explain purpose of the application and how to use
+    }
 
     drawPoint(point) {
         const newPoint = document.createElement('div');
@@ -235,7 +249,17 @@ class UI {
         this.closePointSettings();
     }
 
-    findClosestMeet () {
+    toggleRunEnabled() {
+        const runButton = document.getElementById('run-button');
+
+        if (PointStore.points.length > 1) {
+            runButton.classList = 'btn red lighten-2';
+        } else {
+            runButton.classList = 'btn red lighten-3';
+        }
+    }
+
+    findClosestMeet() {
 
     }
 
@@ -244,12 +268,13 @@ class UI {
     }
 }
 
-document.addEventListener('DOMContentLoaded', PointStore.displayPoints);
+document.addEventListener('DOMContentLoaded', onInit);
 
 document.getElementById('add-new-point').addEventListener('click', function () {
     PointStore.addPoint();
     const uI = new UI();
     uI.drawPoint();
+    uI.toggleRunEnabled();
 });
 
 document.body.addEventListener('mousedown', function (event) {
@@ -267,6 +292,7 @@ document.body.addEventListener('mousedown', function (event) {
 document.getElementById('delete-point').addEventListener('click', function (event) {
     const uI = new UI();
     uI.removePoint();
+    uI.toggleRunEnabled();
 });
 
 document.getElementById('clear-points').addEventListener('click', function () {

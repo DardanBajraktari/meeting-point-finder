@@ -65,7 +65,6 @@ class PointStore {
     }
 
     static reassignPointIds(id) {
-
         for (let i = id; i < PointStore.points.length; i++) {
             PointStore.points[i].id = i;
             document.getElementById((i + 1).toString()).id = i.toString();
@@ -247,6 +246,7 @@ class UI {
 
         PointStore.points = [];
         this.closePointSettings();
+        this.toggleRunEnabled();
     }
 
     toggleRunEnabled() {

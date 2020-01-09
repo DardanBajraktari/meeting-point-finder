@@ -2,6 +2,7 @@ function onInit() {
     const uI = new UI();
 
     PointStore.displayPoints();
+    uI.initialiseFreedPositions();
     uI.toggleRunEnabled();
     uI.showInstructions();
 }
@@ -97,9 +98,19 @@ class UI {
 
     static animationSpeed = 1;
     static selectedPointId = '';
+    static freedPositions;
 
     showInstructions() {
         // Explain purpose of the application and how to use
+    }
+
+    initialiseFreedPositions() {
+        if (localStorage.getItem('freedPositions') === null) {
+            UI.freedPositions = [];
+        } else {
+            console.log(JSON.parse(localStorage.getItem('freedPositions')));
+            UI.freedPositions = JSON.parse(localStorage.getItem('freedPositions'));
+        }
     }
 
     drawPoint(point) {
@@ -112,8 +123,18 @@ class UI {
             newPoint.style.top = point.yPosition.toString() + 'px';
         } else {
             newPoint.id = PointStore.points[PointStore.points.length - 1].id;
-            const xPositionMultiplier = 20 * (PointStore.points.length - 1);
-            newPoint.style.left = (200 + xPositionMultiplier).toString() + 'px';
+
+            if (UI.freedPositions.length > 0) {
+                PointStore.points[newPoint.id].xPosition = UI.freedPositions[0];
+                newPoint.style.left = UI.freedPositions[0].toString() + 'px';
+
+                UI.freedPositions.shift();
+                localStorage.setItem('freedPositions', JSON.stringify(UI.freedPositions));
+            } else {
+                const xPositionMultiplier = 20 * (PointStore.points.length - 1);
+                newPoint.style.left = (200 + xPositionMultiplier).toString() + 'px';
+            }
+
             newPoint.style.top = '200px';
         }
 
@@ -241,6 +262,8 @@ class UI {
 
     removePoint() {
         document.getElementById(UI.selectedPointId).remove();
+        UI.freedPositions.push(PointStore.points[UI.selectedPointId].xPosition);
+        localStorage.setItem('freedPositions', JSON.stringify(UI.freedPositions));
         PointStore.removePoint(UI.selectedPointId);
         this.closePointSettings();
     }

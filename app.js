@@ -83,16 +83,6 @@ class PointStore {
     }
 }
 
-class Algorithm {
-    static findClosestMeet(points) {
-
-    }
-
-    static findConstantMotionMeet(points) {
-
-    }
-}
-
 class UI {
     constructor() {}
 
@@ -297,6 +287,50 @@ class UI {
     }
 }
 
+class Algorithm {
+    static findClosestMeetingPoint(points) {
+        let currentMeetTime;
+        let shortestMeetTime = calculateMeetTime(points[0], points[1]);
+        let point1;
+        let point2;
+
+        for (let i = 0; i < (points.length - 1); i++) {
+            for (let j = (i + 1); j < points.length; j++) {
+                currentMeetTime = calculateMeetTime(points[i], points[j]);
+
+                if (currentMeetTime < shortestMeetTime) {
+                    shortestMeetTime = currentMeetTime;
+                }
+            }
+        }
+
+        console.log(shortestMeetTime);
+
+        function calculateMeetTime(point1, point2) {
+            const xDifference = Math.abs(point1.xPosition - point2.xPosition);
+            console.log('xDifference ' + xDifference);
+
+            const yDifference = Math.abs(point1.yPosition - point2.yPosition);
+            console.log('yDifference ' + yDifference);
+
+            const distanceBetweenPoints = Math.sqrt(Math.pow(xDifference, 2) + Math.pow(yDifference, 2));
+            console.log('distanceBetweenPoints ' + distanceBetweenPoints);
+
+            const point1DistanceTravelled = (point1.speed / (point1.speed + point2.speed)) * distanceBetweenPoints;
+            console.log('point1DistanceTravelled ' + point1DistanceTravelled);
+
+            const meetTime = point1DistanceTravelled / point1.speed;
+            console.log('meetTime', meetTime);
+
+            return meetTime;
+        }
+    }
+
+    static findConstantMotionMeet(points) {
+
+    }
+}
+
 document.addEventListener('DOMContentLoaded', onInit);
 
 document.getElementById('add-new-point').addEventListener('click', function () {
@@ -338,4 +372,8 @@ document.getElementById('speed-input').addEventListener('keyup', function (event
 
 document.getElementById('name-input').addEventListener('keyup', function (event) {
     PointStore.updatePointName(UI.selectedPointId, event.target.value);
+});
+
+document.getElementById('run-button').addEventListener('click', function () {
+    Algorithm.findClosestMeetingPoint(PointStore.points);
 });

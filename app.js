@@ -288,6 +288,8 @@ class UI {
 }
 
 class Algorithm {
+    static shortestMeetTime;
+
     static findClosestMeetingPoint(points) {
         function findSlowestPoints(points) {
             let currentPointsData;
@@ -300,6 +302,7 @@ class Algorithm {
     
                     if (currentPointsData.meetTime > longestTime) {
                         slowestPointsData = currentPointsData;
+                        longestTime = currentPointsData.meetTime;
                     }
                 }
             }
@@ -310,30 +313,50 @@ class Algorithm {
                 const distanceBetweenPoints = Math.sqrt(Math.pow(xDifference, 2) + Math.pow(yDifference, 2));
                 const point1DistanceTravelled = (point1.speed / (point1.speed + point2.speed)) * distanceBetweenPoints;
                 const meetTime = point1DistanceTravelled / point1.speed;
+                console.log(meetTime);
+
+                Algorithm.shortestMeetTime = meetTime;
 
                 return {
                     point1: point1,
                     point2: point2,
-                    xDifference: xDifference,
-                    yDifference: yDifference,
+                    meetTime: meetTime,
                     point1DistanceTravelled,
-                    meetTime: meetTime
                 }
             }
 
             return slowestPointsData;
         }
 
-        function findMeetPoint(pointsData) {
-            const point1 = pointsData.point1;
-            const point2 = pointsData.point2;
-            const meetTime = pointsData.slowestTime;
+        function findMeetPoint(points) {
+            let meetingPoint = {
+                xPosition: null,
+                yPosition: null
+            };
+
+            const xDifference = points.point1.xPosition - points.point2.xPosition;
+            const yDifference = points.point1.yPosition - points.point2.yPosition;
+            const angle = Math.atan(yDifference / xDifference);
+
+            const xDistanceToMeetPoint = points.point1DistanceTravelled * Math.cos(angle);
+            const yDistanceToMeetPoint = points.point1DistanceTravelled * Math.sin(angle);
+
+            if (xDifference < 0) {
+                meetingPoint.xPosition = points.point1.xPosition + xDistanceToMeetPoint;
+                meetingPoint.yPosition = points.point1.yPosition + yDistanceToMeetPoint;
+            } else {
+                meetingPoint.xPosition = points.point1.xPosition - xDistanceToMeetPoint;
+                meetingPoint.yPosition = points.point1.yPosition - yDistanceToMeetPoint;
+            }
+
+            console.log(meetingPoint);
+            return meetingPoint;
         }
 
         const slowestPointsData = findSlowestPoints(points);
         console.log(slowestPointsData);
 
-        //return findMeetPoint(slowestPointsData);
+        return findMeetPoint(slowestPointsData);
     }
 
     static findConstantMotionMeet(points) {

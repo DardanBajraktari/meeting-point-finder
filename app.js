@@ -289,40 +289,47 @@ class UI {
 
 class Algorithm {
     static findClosestMeetingPoint(points) {
-        let currentMeetTime;
-        let shortestMeetTime = calculateMeetTime(points[0], points[1]);
-        let point1;
-        let point2;
+        const slowestPoints = findSlowestPoints(points);
+        const point1 = slowestPoints.point1;
+        const point2 = slowestPoints.point2;
+        const slowestTime = slowestPoints.slowestTime;
 
-        for (let i = 0; i < (points.length - 1); i++) {
-            for (let j = (i + 1); j < points.length; j++) {
-                currentMeetTime = calculateMeetTime(points[i], points[j]);
+        console.log(point1);
+        console.log(point2);
+        console.log(slowestTime);
 
-                if (currentMeetTime < shortestMeetTime) {
-                    shortestMeetTime = currentMeetTime;
+        function findSlowestPoints(points) {
+            let slowPoint1 = points[0];
+            let slowPoint2 = points[1]
+            let currentMeetTime;
+            let longestTime = calculateMeetTime(points[0], points[1]);
+
+            for (let i = 0; i < (points.length - 1); i++) {
+                for (let j = (i + 1); j < points.length; j++) {
+                    currentMeetTime = calculateMeetTime(points[i], points[j]);
+    
+                    if (currentMeetTime > longestTime) {
+                        slowPoint1 = points[i];
+                        slowPoint2 = points[j];
+                        longestTime = currentMeetTime;
+                    }
                 }
             }
-        }
 
-        console.log(shortestMeetTime);
+            function calculateMeetTime(point1, point2) {
+                const xDifference = Math.abs(point1.xPosition - point2.xPosition);
+                const yDifference = Math.abs(point1.yPosition - point2.yPosition);
+                const distanceBetweenPoints = Math.sqrt(Math.pow(xDifference, 2) + Math.pow(yDifference, 2));
+                const point1DistanceTravelled = (point1.speed / (point1.speed + point2.speed)) * distanceBetweenPoints;
+                
+                return point1DistanceTravelled / point1.speed;
+            }
 
-        function calculateMeetTime(point1, point2) {
-            const xDifference = Math.abs(point1.xPosition - point2.xPosition);
-            console.log('xDifference ' + xDifference);
-
-            const yDifference = Math.abs(point1.yPosition - point2.yPosition);
-            console.log('yDifference ' + yDifference);
-
-            const distanceBetweenPoints = Math.sqrt(Math.pow(xDifference, 2) + Math.pow(yDifference, 2));
-            console.log('distanceBetweenPoints ' + distanceBetweenPoints);
-
-            const point1DistanceTravelled = (point1.speed / (point1.speed + point2.speed)) * distanceBetweenPoints;
-            console.log('point1DistanceTravelled ' + point1DistanceTravelled);
-
-            const meetTime = point1DistanceTravelled / point1.speed;
-            console.log('meetTime', meetTime);
-
-            return meetTime;
+            return {
+                point1: slowPoint1,
+                point2: slowPoint2,
+                slowestTime: longestTime
+            };
         }
     }
 

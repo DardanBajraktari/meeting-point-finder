@@ -106,6 +106,7 @@ class UI {
     drawPoint(point) {
         const newPoint = document.createElement('div');
         newPoint.classList.add('point');
+        newPoint.classList.add('tooltipped');
 
         if (point) {
             newPoint.id = point.id;
@@ -127,6 +128,9 @@ class UI {
 
             newPoint.style.top = '200px';
         }
+
+        newPoint.setAttribute('data-position', 'top');
+        newPoint.setAttribute('data-tooltip', 'unnamed point');
 
         document.querySelector('.container').append(newPoint);
 

@@ -45,6 +45,8 @@ class PointStore {
 
     static updatePointName(id, name) {
         PointStore.points[id].name = name;
+        document.getElementById(id).setAttribute('data-tooltip', name);
+        $('#' + id).tooltip();
         localStorage.setItem('points', JSON.stringify(PointStore.points));
     }
 
@@ -130,10 +132,16 @@ class UI {
         }
 
         newPoint.setAttribute('data-position', 'top');
-        newPoint.setAttribute('data-tooltip', 'unnamed point');
+        
+        if (PointStore.points[newPoint.id].name == '') {
+            newPoint.setAttribute('data-tooltip', 'Unnamed Point');
+        } else {
+            newPoint.setAttribute('data-tooltip', PointStore.points[newPoint.id].name);
+        }
 
         document.querySelector('.container').append(newPoint);
 
+        $('#' + newPoint.id).tooltip();
         this.dragPoint(newPoint);
         this.addClickEventListener(newPoint);
     }

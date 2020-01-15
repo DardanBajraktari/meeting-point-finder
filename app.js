@@ -45,7 +45,13 @@ class PointStore {
 
     static updatePointName(id, name) {
         PointStore.points[id].name = name;
-        document.getElementById(id).setAttribute('data-tooltip', name);
+        
+        if (name !== '') {
+            document.getElementById(id).setAttribute('data-tooltip', name);
+        } else {
+            document.getElementById(id).setAttribute('data-tooltip', 'Unnamed point');
+        }
+
         $('#' + id).tooltip();
         localStorage.setItem('points', JSON.stringify(PointStore.points));
     }

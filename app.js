@@ -347,9 +347,10 @@ class UI {
 }
 
 class Algorithm {
+    static selectedAlgorithm = 'quickest meet';
     static shortestMeetTime;
 
-    static findClosestMeetingPoint(points) {
+    static findQuickestMeetingPoint(points) {
         function findSlowestPoints(points) {
             let currentPointsData;
             let slowestPointsData = calculatePointsData(points[0], points[1]);
@@ -418,12 +419,39 @@ class Algorithm {
         return findMeetPoint(slowestPointsData);
     }
 
+    static findAveragePoint(points) {
+        let sumX = 0;
+        let sumY = 0;
+
+        points.forEach(function (point) {
+            sumX += parseInt(point.xPosition);
+            sumY += parseInt(point.yPosition);
+        });
+
+        return {
+            xPosition: (sumX / points.length),
+            yPosition: (sumY / points.length)
+        };
+    }
+
     static findConstantMotionMeet(points) {
 
     }
 }
 
 document.addEventListener('DOMContentLoaded', onInit);
+
+document.getElementById('quickest-meet-option').addEventListener('click', function () {
+    Algorithm.selectedAlgorithm = 'quickest meet';
+});
+
+document.getElementById('average-meet-option').addEventListener('click', function () {
+    Algorithm.selectedAlgorithm = 'average meet';
+});
+
+document.getElementById('in-motion-meet-option').addEventListener('click', function () {
+    Algorithm.selectedAlgorithm = 'in motion meet';
+});
 
 document.getElementById('add-new-point').addEventListener('click', function () {
     PointStore.addPoint();
@@ -468,6 +496,12 @@ document.getElementById('name-input').addEventListener('keyup', function (event)
 
 document.getElementById('run-button').addEventListener('click', function () {
     if (PointStore.points.length > 1) {
-        Algorithm.findClosestMeetingPoint(PointStore.points);
+        if (Algorithm.selectedAlgorithm === 'quickest meet') {
+            Algorithm.findQuickestMeetingPoint(PointStore.points);
+        } else if (Algorithm.selectedAlgorithm === 'average meet') {
+            console.log(Algorithm.findAveragePoint(PointStore.points));
+        } else if (Algorithm.selectedAlgorithm === 'in motion meet') {
+            Algorithm.findConstantMotionMeet(PointStore.points);
+        }
     }
 });

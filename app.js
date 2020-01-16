@@ -128,7 +128,10 @@ class UI {
                 PointStore.points[newPoint.id].xPosition = UI.vacatedPositions[0];
                 newPoint.style.left = UI.vacatedPositions[0].toString() + 'px';
 
+                console.log(UI.vacatedPositions);
                 UI.vacatedPositions.shift();
+                console.log(UI.vacatedPositions);
+
                 localStorage.setItem('vacatedPositions', JSON.stringify(UI.vacatedPositions));
             } else {
                 const xPositionMultiplier = 20 * (PointStore.points.length - 1);
@@ -236,13 +239,11 @@ class UI {
         document.getElementById('point-settings').classList.add('settings-box-view');
     }
 
-    closePointSettings() {
+    closePointSettings(pointDeleted) {
         document.getElementById('point-settings').classList.remove('settings-box-view');
 
-        if (UI.selectedPointId) {
-            if (document.getElementById(UI.selectedPointId).classList.contains('highlight')) {
-                this.toggleHighlightPoint();
-            }
+        if (!pointDeleted) {
+            this.toggleHighlightPoint();
         }
 
         UI.selectedPointId = '';
@@ -271,35 +272,37 @@ class UI {
     }
 
     storeVacatedPosition(id) {
-        const position = 200 + (20 * id);
-        const positions = UI.vacatedPositions;
-        let temp;
-        let insertIndex;
-
-        console.log(positions);
+        if (PointStore.points[id].yPosition === 200) {
+            const position = PointStore.points[id].xPosition;
+            const positions = UI.vacatedPositions;
+            let temp;
+            let insertIndex;
     
-        if (positions.length === 0) {
-            positions.push(position);
-        } else {
-            for (let i = 0; i < positions.length; i++) {
-                if (position < positions[i]) {
-                    temp = positions[i];
-                    positions[i] = position;
-                    insertIndex = i;
-                    break;
-                }
-            }
-    
-            for (let i = (positions.length - 1); i > (insertIndex - 1); i--) {
-                if (i === insertIndex) {
-                    positions[i + 1] = temp;
+            if (positions.length === 0) {
+                positions.push(position);
+            } else {
+                if (position > positions[positions.length - 1]) {
+                    positions.push(position);
                 } else {
-                    positions[i + 1] = positions[i];
+                    for (let i = 0; i < positions.length; i++) {
+                        if (position < positions[i]) {
+                            temp = positions[i];
+                            positions[i] = position;
+                            insertIndex = i;
+                            break;
+                        }
+                    }
+            
+                    for (let i = (positions.length - 1); i > (insertIndex - 1); i--) {
+                        if (i === insertIndex) {
+                            positions[i + 1] = temp;
+                        } else {
+                            positions[i + 1] = positions[i];
+                        }
+                    }
                 }
             }
         }
-
-        console.log(positions);
     }
 
     removePoint() {
@@ -307,8 +310,11 @@ class UI {
 
         this.storeVacatedPosition(UI.selectedPointId);
         localStorage.setItem('vacatedPositions', JSON.stringify(UI.vacatedPositions));
+
+        console.log(UI.vacatedPositions);
+
         PointStore.removePoint(UI.selectedPointId);
-        this.closePointSettings();
+        this.closePointSettings('deleted point');
     }
 
     clearPoints() {
@@ -461,5 +467,7 @@ document.getElementById('name-input').addEventListener('keyup', function (event)
 });
 
 document.getElementById('run-button').addEventListener('click', function () {
-    Algorithm.findClosestMeetingPoint(PointStore.points);
+    if (PointStore.points.length > 1) {
+        Algorithm.findClosestMeetingPoint(PointStore.points);
+    }
 });

@@ -113,6 +113,7 @@ class UI {
 
     drawPoint(point) {
         const newPoint = document.createElement('div');
+
         newPoint.classList.add('point');
         newPoint.classList.add('tooltipped');
 
@@ -138,6 +139,7 @@ class UI {
         }
 
         newPoint.setAttribute('data-position', 'top');
+        newPoint.setAttribute('data-delay', '600');
         
         if (PointStore.points[newPoint.id].name == '') {
             newPoint.setAttribute('data-tooltip', 'Unnamed Point');

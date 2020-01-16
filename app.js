@@ -2,7 +2,7 @@ function onInit() {
     const uI = new UI();
 
     PointStore.displayPoints();
-    uI.initialiseFreedPositions();
+    uI.initialiseVacatedPositions();
     uI.toggleRunEnabled();
     uI.showInstructions();
 }
@@ -96,18 +96,18 @@ class UI {
 
     static animationSpeed = 1;
     static selectedPointId = '';
-    static freedPositions;
+    static vacatedPositions;
 
     showInstructions() {
         // Explain purpose of the application and how to use
     }
 
-    initialiseFreedPositions() {
-        if (localStorage.getItem('freedPositions') === null) {
-            UI.freedPositions = [];
+    initialiseVacatedPositions() {
+        if (localStorage.getItem('vacatedPositions') === null) {
+            UI.vacatedPositions = [];
         } else {
-            console.log(JSON.parse(localStorage.getItem('freedPositions')));
-            UI.freedPositions = JSON.parse(localStorage.getItem('freedPositions'));
+            console.log(JSON.parse(localStorage.getItem('vacatedPositions')));
+            UI.vacatedPositions = JSON.parse(localStorage.getItem('vacatedPositions'));
         }
     }
 
@@ -124,12 +124,12 @@ class UI {
         } else {
             newPoint.id = PointStore.points[PointStore.points.length - 1].id;
 
-            if (UI.freedPositions.length > 0) {
-                PointStore.points[newPoint.id].xPosition = UI.freedPositions[0];
-                newPoint.style.left = UI.freedPositions[0].toString() + 'px';
+            if (UI.vacatedPositions.length > 0) {
+                PointStore.points[newPoint.id].xPosition = UI.vacatedPositions[0];
+                newPoint.style.left = UI.vacatedPositions[0].toString() + 'px';
 
-                UI.freedPositions.shift();
-                localStorage.setItem('freedPositions', JSON.stringify(UI.freedPositions));
+                UI.vacatedPositions.shift();
+                localStorage.setItem('vacatedPositions', JSON.stringify(UI.vacatedPositions));
             } else {
                 const xPositionMultiplier = 20 * (PointStore.points.length - 1);
                 newPoint.style.left = (200 + xPositionMultiplier).toString() + 'px';
@@ -270,10 +270,43 @@ class UI {
         });
     }
 
+    storeVacatedPosition(id) {
+        const position = 200 + (20 * id);
+        const positions = UI.vacatedPositions;
+        let temp;
+        let insertIndex;
+
+        console.log(positions);
+    
+        if (positions.length === 0) {
+            positions.push(position);
+        } else {
+            for (let i = 0; i < positions.length; i++) {
+                if (position < positions[i]) {
+                    temp = positions[i];
+                    positions[i] = position;
+                    insertIndex = i;
+                    break;
+                }
+            }
+    
+            for (let i = (positions.length - 1); i > (insertIndex - 1); i--) {
+                if (i === insertIndex) {
+                    positions[i + 1] = temp;
+                } else {
+                    positions[i + 1] = positions[i];
+                }
+            }
+        }
+
+        console.log(positions);
+    }
+
     removePoint() {
         document.getElementById(UI.selectedPointId).remove();
-        UI.freedPositions.push(PointStore.points[UI.selectedPointId].xPosition);
-        localStorage.setItem('freedPositions', JSON.stringify(UI.freedPositions));
+
+        this.storeVacatedPosition(UI.selectedPointId);
+        localStorage.setItem('vacatedPositions', JSON.stringify(UI.vacatedPositions));
         PointStore.removePoint(UI.selectedPointId);
         this.closePointSettings();
     }

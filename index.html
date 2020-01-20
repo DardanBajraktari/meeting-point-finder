@@ -44,7 +44,7 @@
 
     <ul id="mode-options" class="dropdown-content">
         <li>
-            <a href="#" id="quickest-meet-option" class="red-text text-lighten-2">Quickest Meet</a>
+            <a href="#" id="quickest-meet-option" class="red-text text-lighten-2">Quickest meet</a>
         </li>
         <li>
             <a href="#" id="average-meet-option" class="red-text text-lighten-2">
@@ -105,6 +105,18 @@
                 hover: true,
                 belowOrigin: true,
                 alignment: 'left'
+            });
+
+            $('#quickest-meet-option').click(function () {
+                Materialize.toast('Quickest meet', 750, '', 200, 100);
+            });
+
+            $('#average-meet-option').click(function () {
+                Materialize.toast('Collectively convenient meet', 750, '', 200, 100);
+            });
+
+            $('#in-motion-meet-option').click(function () {
+                Materialize.toast('Meet in motion', 750, '', 200, 100);
             });
         });
     </script>

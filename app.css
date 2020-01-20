@@ -104,3 +104,10 @@ body {
     margin-top: 2px !important;
     margin-left: 40px !important;
 }
+
+#toast-container {
+    top: auto !important;
+    right: auto !important;
+    bottom: 5%;
+    left: 2%;  
+}

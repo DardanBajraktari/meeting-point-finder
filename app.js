@@ -337,11 +337,31 @@ class UI {
         }
     }
 
-    findClosestMeet() {
+    runAnimation(algorithm) {
+        switch (algorithm) {
+            case 'quickest meet':
+                this.showQuickestMeet();
+                break;
+            case 'average meet':
+                this.showAverageMeet();
+                break;
+            case 'in motion meet':
+                this.showMeetInMotion();
+                break;
+            default:
+                this.showQuickestMeet();
+        }
+    }
+
+    showQuickestMeet() {
 
     }
 
-    findConstantMotionMeet() {
+    showAverageMeet() {
+
+    }
+
+    showMeetInMotion() {
 
     }
 }
@@ -416,7 +436,9 @@ class Algorithm {
         const slowestPointsData = findSlowestPoints(points);
         console.log(slowestPointsData);
 
-        return findMeetPoint(slowestPointsData);
+        const slowestMeetPoint = findMeetPoint(slowestPointsData);
+
+        return slowestMeetPoint;
     }
 
     static findAveragePoint(points) {
@@ -496,12 +518,7 @@ document.getElementById('name-input').addEventListener('keyup', function (event)
 
 document.getElementById('run-button').addEventListener('click', function () {
     if (PointStore.points.length > 1) {
-        if (Algorithm.selectedAlgorithm === 'quickest meet') {
-            Algorithm.findQuickestMeetingPoint(PointStore.points);
-        } else if (Algorithm.selectedAlgorithm === 'average meet') {
-            console.log(Algorithm.findAveragePoint(PointStore.points));
-        } else if (Algorithm.selectedAlgorithm === 'in motion meet') {
-            Algorithm.findConstantMotionMeet(PointStore.points);
-        }
+        const uI = new UI();
+        uI.runAnimation(Algorithm.selectedAlgorithm);
     }
 });

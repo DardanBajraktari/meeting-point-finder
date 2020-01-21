@@ -46,10 +46,10 @@ class PointStore {
     static updatePointName(id, name) {
         PointStore.points[id].name = name;
         
-        if (name !== '') {
-            document.getElementById(id).setAttribute('data-tooltip', name);
-        } else {
+        if (name === '') {
             document.getElementById(id).setAttribute('data-tooltip', 'Unnamed point');
+        } else {
+            document.getElementById(id).setAttribute('data-tooltip', name);
         }
 
         $('#' + id).tooltip();
@@ -144,7 +144,7 @@ class UI {
         newPoint.setAttribute('data-position', 'top');
         newPoint.setAttribute('data-delay', '600');
         
-        if (PointStore.points[newPoint.id].name == '') {
+        if (PointStore.points[newPoint.id].name === '') {
             newPoint.setAttribute('data-tooltip', 'Unnamed Point');
         } else {
             newPoint.setAttribute('data-tooltip', PointStore.points[newPoint.id].name);
@@ -354,15 +354,12 @@ class UI {
     }
 
     showQuickestMeet() {
-
     }
 
     showAverageMeet() {
-
     }
 
     showMeetInMotion() {
-
     }
 }
 

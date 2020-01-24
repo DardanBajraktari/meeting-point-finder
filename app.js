@@ -354,9 +354,11 @@ class UI {
     }
 
     showQuickestMeet() {
+        console.log(Algorithm.findQuickestMeetingPoint(PointStore.points));
     }
 
     showAverageMeet() {
+        console.log(Algorithm.findAveragePoint(PointStore.points));
     }
 
     showMeetInMotion() {
@@ -516,6 +518,11 @@ document.getElementById('name-input').addEventListener('keyup', function (event)
 document.getElementById('run-button').addEventListener('click', function () {
     if (PointStore.points.length > 1) {
         const uI = new UI();
-        uI.runAnimation(Algorithm.selectedAlgorithm);
+        
+        if (PointStore.points.length > 1) {
+            uI.runAnimation(Algorithm.selectedAlgorithm);
+        } else {
+            alert('You have to have at least 2 points.');
+        }
     }
 });

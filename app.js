@@ -354,7 +354,7 @@ class UI {
     }
 
     showQuickestMeet() {
-        console.log(Algorithm.findQuickestMeetingPoint(PointStore.points));
+        console.log(Algorithm.findTwoSlowestMeetPoint(PointStore.points));
     }
 
     showAverageMeet() {
@@ -369,8 +369,8 @@ class Algorithm {
     static selectedAlgorithm = 'quickest meet';
     static shortestMeetTime;
 
-    static findQuickestMeetingPoint(points) {
-        function findSlowestPoints(points) {
+    static findTwoSlowestMeetPoint(points) {
+        function findTwoSlowestPoints(points) {
             let currentPointsData;
             let slowestPointsData = calculatePointsData(points[0], points[1]);
             let longestTime = slowestPointsData.meetTime;
@@ -432,7 +432,7 @@ class Algorithm {
             return meetingPoint;
         }
 
-        const slowestPointsData = findSlowestPoints(points);
+        const slowestPointsData = findTwoSlowestPoints(points);
         console.log(slowestPointsData);
 
         const slowestMeetPoint = findMeetPoint(slowestPointsData);

@@ -478,6 +478,7 @@ class Algorithms {
         });
 
         if (slowestPoint === twoSlowest.slowerPoint) {
+            console.log(twoSlowest.meetPoint);
             return twoSlowest.meetPoint;
         } else {
             return Algorithms.calculateLociIntersection(points);

@@ -354,24 +354,34 @@ class UI {
     }
 
     showQuickestMeet() {
-        console.log(Algorithm.findTwoSlowestMeetPoint(PointStore.points));
+       Algorithms.findQuickestMeetPoint(PointStore.points);
     }
 
     showAverageMeet() {
-        console.log(Algorithm.findAveragePoint(PointStore.points));
+        console.log(Algorithms.findAveragePoint(PointStore.points));
     }
 
     showMeetInMotion() {
     }
 }
 
-class Algorithm {
+class Algorithms {
     static selectedAlgorithm = 'quickest meet';
     static shortestMeetTime;
+
+    static distanceBetween(point1, point2) {
+        const xDifference = Math.abs(point1.xPosition - point2.xPosition);
+        const yDifference = Math.abs(point1.yPosition - point2.yPosition);
+        const distanceBetweenPoints = Math.sqrt(Math.pow(xDifference, 2) + Math.pow(yDifference, 2));
+
+        return distanceBetweenPoints;
+    }
 
     static findTwoSlowestMeetPoint(points) {
         function findTwoSlowestPoints(points) {
             let currentPointsData;
+            let slowerPoint;
+            let slowerPointDistanceTravelled;
             let slowestPointsData = calculatePointsData(points[0], points[1]);
             let longestTime = slowestPointsData.meetTime;
 
@@ -387,20 +397,28 @@ class Algorithm {
             }
 
             function calculatePointsData(point1, point2) {
-                const xDifference = Math.abs(point1.xPosition - point2.xPosition);
-                const yDifference = Math.abs(point1.yPosition - point2.yPosition);
-                const distanceBetweenPoints = Math.sqrt(Math.pow(xDifference, 2) + Math.pow(yDifference, 2));
+                const distanceBetweenPoints = Algorithms.distanceBetween(point1, point2);
                 const point1DistanceTravelled = (point1.speed / (point1.speed + point2.speed)) * distanceBetweenPoints;
+                const point2DistanceTravelled = distanceBetweenPoints - point1DistanceTravelled;
                 const meetTime = point1DistanceTravelled / point1.speed;
-                console.log(meetTime);
 
-                Algorithm.shortestMeetTime = meetTime;
+                Algorithms.shortestMeetTime = meetTime;
+
+                if (point1DistanceTravelled >= point2DistanceTravelled) {
+                    slowerPoint = point1;
+                    slowerPointDistanceTravelled = point1DistanceTravelled;
+                } else {
+                    slowerPoint = point2;
+                    slowerPointDistanceTravelled = point2DistanceTravelled;
+                }
 
                 return {
                     point1: point1,
                     point2: point2,
                     meetTime: meetTime,
+                    slowerPoint: slowerPoint,
                     point1DistanceTravelled,
+                    slowerPointDistanceTravelled
                 }
             }
 
@@ -428,16 +446,48 @@ class Algorithm {
                 meetingPoint.yPosition = points.point1.yPosition - yDistanceToMeetPoint;
             }
 
-            console.log(meetingPoint);
             return meetingPoint;
         }
 
         const slowestPointsData = findTwoSlowestPoints(points);
-        console.log(slowestPointsData);
+        const twoSlowestMeetPoint = findMeetPoint(slowestPointsData);
 
-        const slowestMeetPoint = findMeetPoint(slowestPointsData);
+        return {
+            point1Id: slowestPointsData.point1.id,
+            point2Id: slowestPointsData.point2.id,
+            meetPoint: twoSlowestMeetPoint,
+            slowerPoint: slowestPointsData.slowerPoint,
+            slowerPointDistance: slowestPointsData.slowerPointDistanceTravelled
+        };
+    }
 
-        return slowestMeetPoint;
+    static findQuickestMeetPoint(points) {
+        const twoSlowest = Algorithms.findTwoSlowestMeetPoint(points);
+        let slowestPoint = twoSlowest.slowerPoint;
+        let slowestDistance = twoSlowest.slowerPointDistance;
+        
+        points.forEach(function (point) {
+            if ((point.id !== twoSlowest.point1Id) && (point.id !== twoSlowest.point2Id)) {
+                const distanceAway = Algorithms.distanceBetween(point, twoSlowest.meetPoint);
+
+                if (distanceAway > slowestDistance) {
+                    slowestDistance = distanceAway;
+                    slowestPoint = point;
+                }
+            }
+        });
+
+        if (slowestPoint === twoSlowest.slowerPoint) {
+            return twoSlowest.meetPoint;
+        } else {
+            return Algorithms.calculateLociIntersection(points);
+        }
+    }
+
+    static calculateLociIntersection(points) {
+        console.log('yo');
+
+        return 10;
     }
 
     static findAveragePoint(points) {
@@ -463,15 +513,15 @@ class Algorithm {
 document.addEventListener('DOMContentLoaded', onInit);
 
 document.getElementById('quickest-meet-option').addEventListener('click', function () {
-    Algorithm.selectedAlgorithm = 'quickest meet';
+    Algorithms.selectedAlgorithm = 'quickest meet';
 });
 
 document.getElementById('average-meet-option').addEventListener('click', function () {
-    Algorithm.selectedAlgorithm = 'average meet';
+    Algorithms.selectedAlgorithm = 'average meet';
 });
 
 document.getElementById('in-motion-meet-option').addEventListener('click', function () {
-    Algorithm.selectedAlgorithm = 'in motion meet';
+    Algorithms.selectedAlgorithm = 'in motion meet';
 });
 
 document.getElementById('add-new-point').addEventListener('click', function () {
@@ -520,7 +570,7 @@ document.getElementById('run-button').addEventListener('click', function () {
         const uI = new UI();
         
         if (PointStore.points.length > 1) {
-            uI.runAnimation(Algorithm.selectedAlgorithm);
+            uI.runAnimation(Algorithms.selectedAlgorithm);
         } else {
             alert('You have to have at least 2 points.');
         }

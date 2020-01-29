@@ -485,9 +485,7 @@ class Algorithms {
     }
 
     static calculateLociIntersection(points) {
-        console.log('yo');
-
-        return 10;
+        console.log('Run loci intersection algorithm');
     }
 
     static findAveragePoint(points) {

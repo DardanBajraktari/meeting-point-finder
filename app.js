@@ -281,23 +281,15 @@ class UI {
             if (positions.length === 0) {
                 positions.push(position);
             } else {
-                if (position > positions[positions.length - 1]) {
-                    positions.push(position);
-                } else {
-                    for (let i = 0; i < positions.length; i++) {
-                        if (position < positions[i]) {
-                            temp = positions[i];
+                for (let i = (positions.length - 1); i >= 0; i--) {
+                    if (position > positions[i]) {
+                        positions[i+1] = position;
+                        break;
+                    } else {
+                        positions[i+1] = positions[i];
+
+                        if (i === 0) {
                             positions[i] = position;
-                            insertIndex = i;
-                            break;
-                        }
-                    }
-            
-                    for (let i = (positions.length - 1); i > (insertIndex - 1); i--) {
-                        if (i === insertIndex) {
-                            positions[i + 1] = temp;
-                        } else {
-                            positions[i + 1] = positions[i];
                         }
                     }
                 }

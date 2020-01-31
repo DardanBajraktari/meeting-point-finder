@@ -455,30 +455,35 @@ class Algorithms {
 
     static findQuickestMeetPoint(points) {
         const twoSlowest = Algorithms.findTwoSlowestMeetPoint(points);
-        let slowestPoint = twoSlowest.slowerPoint;
-        let slowestDistance = twoSlowest.slowerPointDistance;
         
-        points.forEach(function (point) {
-            if ((point.id !== twoSlowest.point1Id) && (point.id !== twoSlowest.point2Id)) {
-                const distanceAway = Algorithms.distanceBetween(point, twoSlowest.meetPoint);
-
-                if (distanceAway > slowestDistance) {
-                    slowestDistance = distanceAway;
-                    slowestPoint = point;
-                }
-            }
-        });
-
-        if (slowestPoint === twoSlowest.slowerPoint) {
-            console.log(twoSlowest.meetPoint);
+        if (points.length === 2) {
             return twoSlowest.meetPoint;
         } else {
-            return Algorithms.calculateLociIntersection(points);
+            let slowestPoint = twoSlowest.slowerPoint;
+            let slowestDistance = twoSlowest.slowerPointDistance;
+            
+            points.forEach(function (point) {
+                if ((point.id !== twoSlowest.point1Id) && (point.id !== twoSlowest.point2Id)) {
+                    const distanceAway = Algorithms.distanceBetween(point, twoSlowest.meetPoint);
+
+                    if (distanceAway > slowestDistance) {
+                        slowestDistance = distanceAway;
+                        slowestPoint = point;
+                    }
+                }
+            });
+
+            if (slowestPoint === twoSlowest.slowerPoint) {
+                console.log(twoSlowest.meetPoint);
+                return twoSlowest.meetPoint;
+            } else {
+                return Algorithms.calculateLociIntersection(points, slowestPoint);
+            }
         }
     }
 
-    static calculateLociIntersection(points) {
-        console.log('Run loci intersection algorithm');
+    static calculateLociIntersection(points, slowestPoint) {
+        console.log(slowestPoint);
     }
 
     static findAveragePoint(points) {

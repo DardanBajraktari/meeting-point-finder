@@ -483,7 +483,9 @@ class Algorithms {
     }
 
     static calculateLociIntersection(points, slowestPoint) {
-        console.log(slowestPoint);
+        function findIntersectingArc() {
+            
+        }
     }
 
     static findAveragePoint(points) {

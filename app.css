@@ -6,6 +6,10 @@ body {
     margin-left: -100px;
 }
 
+#nav-menu-items {
+    margin-right: -50px;
+}
+
 .point {
     height: 16px;
     width: 16px;

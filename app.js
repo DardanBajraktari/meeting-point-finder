@@ -405,10 +405,10 @@ class Algorithms {
                 }
 
                 return {
-                    point1: point1,
-                    point2: point2,
-                    meetTime: meetTime,
-                    slowerPoint: slowerPoint,
+                    point1,
+                    point2,
+                    meetTime,
+                    slowerPoint,
                     point1DistanceTravelled,
                     slowerPointDistanceTravelled
                 }

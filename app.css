@@ -46,28 +46,24 @@ body {
     border-radius: 8px;
 }
 
-#skip-tutorial {
+.tutorial-button {
     position: absolute;
+    bottom: 2%;
+    text-transform: none;
+    transition: none;
+    padding: 0 1rem;
+}
+
+#skip-button {
     left: 2%;
-    bottom: 2%;
-    text-transform: none;
-    transition: none;
 }
 
-#previous {
-    position: absolute;
-    bottom: 2%;
+#previous-button {
     right: 20%;
-    text-transform: none;
-    transition: none;
 }
 
-#next {
-    position: absolute;
-    bottom: 2%;
+#next-button {
     right: 2%;
-    text-transform: none;
-    transition: none;
 }
 
 #points-container {

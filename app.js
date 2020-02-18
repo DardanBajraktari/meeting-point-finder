@@ -575,7 +575,7 @@ document.getElementById('run-button').addEventListener('click', function () {
     }
 });
 
-document.getElementById('skip-tutorial').addEventListener('click', function () {
+document.getElementById('skip-button').addEventListener('click', function () {
     document.getElementById('tutorial').style.visibility = 'hidden';
 });
 

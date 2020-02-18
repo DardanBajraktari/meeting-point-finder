@@ -30,7 +30,48 @@ body {
     border-color: darkslategrey;
 }
 
+#tutorial {
+    background-color: rgb(220, 236, 250);
+    position: absolute;
+    z-index: 2;
+    margin: auto;
+    width: 40%;
+    height: 60%;
+    text-align: center;
+    border: 2px solid #34495e;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 8px;
+}
+
+#skip-tutorial {
+    position: absolute;
+    left: 2%;
+    bottom: 2%;
+    text-transform: none;
+    transition: none;
+}
+
+#previous {
+    position: absolute;
+    bottom: 2%;
+    right: 20%;
+    text-transform: none;
+    transition: none;
+}
+
+#next {
+    position: absolute;
+    bottom: 2%;
+    right: 2%;
+    text-transform: none;
+    transition: none;
+}
+
 #points-container {
+    z-index: 1;
     width: 100% !important;
     height: 92vh !important;
 }
@@ -42,12 +83,12 @@ body {
     width: 250px;
     height: 245px;
     border-bottom-left-radius: 5px;
-    background-color: rgba(95, 136, 143, 0.582);
-    border: 5px;
+    background-color: rgba(84, 121, 128, 0.582);
+    border: 3px;
     transform: translateX(100%);
     border-style: solid;
     border-color: rgba(118, 147, 177, 0.725);
-    border-width: 5px;
+    border-width: 3px;
 }
 
 .settings-box-view {

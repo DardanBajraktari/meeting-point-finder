@@ -150,7 +150,7 @@ class UI {
             newPoint.setAttribute('data-tooltip', PointStore.points[newPoint.id].name);
         }
 
-        document.querySelector('.container').append(newPoint);
+        document.getElementById('points-container').append(newPoint);
 
         $('#' + newPoint.id).tooltip();
         this.dragPoint(newPoint);
@@ -573,4 +573,12 @@ document.getElementById('run-button').addEventListener('click', function () {
             alert('You have to have at least 2 points.');
         }
     }
+});
+
+document.getElementById('skip-tutorial').addEventListener('click', function () {
+    document.getElementById('tutorial').style.visibility = 'hidden';
+});
+
+document.getElementById('instructions').addEventListener('click', function () {
+    document.getElementById('tutorial').style.visibility = 'visible';
 });

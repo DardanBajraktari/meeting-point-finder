@@ -54,16 +54,22 @@ body {
     padding: 0 1rem;
 }
 
+#page-number {
+    position: absolute;
+    bottom: 4%;
+    right: 3%;
+}
+
 #skip-button {
     left: 2%;
 }
 
 #previous-button {
-    right: 15%;
+    right: 21%;
 }
 
 #next-button {
-    right: 2%;
+    right: 9%;
 }
 
 #points-container {

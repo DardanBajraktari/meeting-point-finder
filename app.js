@@ -97,9 +97,21 @@ class UI {
     static animationSpeed = 1;
     static selectedPointId = '';
     static vacatedPositions;
+    static currentTutorialPage = 0;
 
-    showInstructions() {
-        // Explain purpose of the application and how to use
+    updateTutorial() {
+        const tutorialTitles = ['Meet Point Finder Tutorial', 'Mode Options', 'Point Settings', 'Deleting Points', 'Animation Speed'];
+        const tutorialParagraphs = [
+            'This tutorial explains how to use the application, but press skip if you\'d prefer to dive right in!',
+            'The purpose of the program is to find the optimal location for the objects, represented by points, to meet at...'
+        ];
+        const tutorialImages = ['points.png', 'modes.png'];
+
+        document.getElementById('updatedTutorialElements').innerHTML = `
+            <h3>${tutorialTitles[UI.currentTutorialPage]}</h3>
+            <p>${tutorialParagraphs[UI.currentTutorialPage]}</p>
+            <img src="${tutorialImages[UI.currentTutorialPage]}" width="400" height="250">
+        `;
     }
 
     initialiseVacatedPositions() {
@@ -575,10 +587,22 @@ document.getElementById('run-button').addEventListener('click', function () {
     }
 });
 
+document.getElementById('instructions').addEventListener('click', function () {
+    document.getElementById('tutorial').style.visibility = 'visible';
+});
+
 document.getElementById('skip-button').addEventListener('click', function () {
     document.getElementById('tutorial').style.visibility = 'hidden';
 });
 
-document.getElementById('instructions').addEventListener('click', function () {
-    document.getElementById('tutorial').style.visibility = 'visible';
+document.getElementById('next-button').addEventListener('click', function () {
+    const uI = new UI();
+    UI.currentTutorialPage++;
+    uI.updateTutorial();
+});
+
+document.getElementById('previous-button').addEventListener('click', function () {
+    const uI = new UI();
+    UI.currentTutorialPage--;
+    uI.updateTutorial();
 });

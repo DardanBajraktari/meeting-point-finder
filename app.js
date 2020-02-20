@@ -4,7 +4,7 @@ function onInit() {
     PointStore.displayPoints();
     uI.initialiseVacatedPositions();
     uI.toggleRunEnabled();
-    uI.showInstructions();
+    uI.updateTutorial();
 }
 
 class Point {
@@ -97,7 +97,8 @@ class UI {
     static animationSpeed = 1;
     static selectedPointId = '';
     static vacatedPositions;
-    static currentTutorialPage = 0;
+    static currentTutorialIndex = 0;
+    static tutorialVisible = true;
 
     updateTutorial() {
         const tutorialTitles = ['Meet Point Finder Tutorial', 'Mode Options', 'Point Settings', 'Deleting Points', 'Animation Speed', 'That\'s all!'];
@@ -111,12 +112,18 @@ class UI {
         ];
         const tutorialImages = ['points.png', 'modes.png'];
 
-        document.getElementById('page-number').innerHTML = `${UI.currentTutorialPage + 1}/6`;
+        if (UI.tutorialVisible === false) {
+            document.getElementById('tutorial').style.visibility = 'hidden';
+            document.getElementById('previous-button').style.visibility = 'hidden';
+            document.getElementById('next-button').style.visibility = 'hidden';
+        }
+
+        document.getElementById('page-number').innerHTML = `${UI.currentTutorialIndex + 1}/6`;
 
         document.getElementById('updatedTutorialElements').innerHTML = `
-            <h3 class="blue-grey-text text-darken-2">${tutorialTitles[UI.currentTutorialPage]}</h3>
-            <p>${tutorialParagraphs[UI.currentTutorialPage]}</p>
-            <img src="${tutorialImages[UI.currentTutorialPage]}" width="70%" height="40%">
+            <h3 class="blue-grey-text text-darken-2">${tutorialTitles[UI.currentTutorialIndex]}</h3>
+            <p>${tutorialParagraphs[UI.currentTutorialIndex]}</p>
+            <img src="${tutorialImages[UI.currentTutorialIndex]}" width="50%" height="40%">
         `;
     }
 
@@ -598,17 +605,23 @@ document.getElementById('instructions').addEventListener('click', function () {
 });
 
 document.getElementById('skip-button').addEventListener('click', function () {
-    document.getElementById('tutorial').style.visibility = 'hidden';
+    const uI = new UI();
+    UI.tutorialVisible = false;
+    uI.updateTutorial();
 });
 
 document.getElementById('next-button').addEventListener('click', function () {
     const uI = new UI();
-    UI.currentTutorialPage++;
+    UI.currentTutorialIndex++;
     uI.updateTutorial();
 });
 
 document.getElementById('previous-button').addEventListener('click', function () {
     const uI = new UI();
-    UI.currentTutorialPage--;
+    
+    if (UI.currentTutorialIndex !== 0) {
+        UI.currentTutorialIndex--;
+    }
+
     uI.updateTutorial();
 });

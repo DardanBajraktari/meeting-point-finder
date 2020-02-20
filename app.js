@@ -100,12 +100,18 @@ class UI {
     static currentTutorialPage = 0;
 
     updateTutorial() {
-        const tutorialTitles = ['Meet Point Finder Tutorial', 'Mode Options', 'Point Settings', 'Deleting Points', 'Animation Speed'];
+        const tutorialTitles = ['Meet Point Finder Tutorial', 'Mode Options', 'Point Settings', 'Deleting Points', 'Animation Speed', 'That\'s all!'];
         const tutorialParagraphs = [
             'This tutorial explains how to use the application, but press skip if you\'d prefer to dive right in!',
-            'The purpose of the program is to find the optimal location for the objects, represented by points, to meet at...'
+            'The purpose of the program is to find the optimal location for the objects, represented by points, to meet at...',
+            'You can set the position and speed of points...',
+            'Points can be individually deleted...',
+            'The speed of the animation can be varied...',
+            'I hope you enjoy using this application!...'
         ];
         const tutorialImages = ['points.png', 'modes.png'];
+
+        document.getElementById('page-number').innerHTML = `${UI.currentTutorialPage + 1}/6`;
 
         document.getElementById('updatedTutorialElements').innerHTML = `
             <h3 class="blue-grey-text text-darken-2">${tutorialTitles[UI.currentTutorialPage]}</h3>

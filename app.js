@@ -108,9 +108,9 @@ class UI {
         const tutorialImages = ['points.png', 'modes.png'];
 
         document.getElementById('updatedTutorialElements').innerHTML = `
-            <h3>${tutorialTitles[UI.currentTutorialPage]}</h3>
+            <h3 class="blue-grey-text text-darken-2">${tutorialTitles[UI.currentTutorialPage]}</h3>
             <p>${tutorialParagraphs[UI.currentTutorialPage]}</p>
-            <img src="${tutorialImages[UI.currentTutorialPage]}" width="400" height="250">
+            <img src="${tutorialImages[UI.currentTutorialPage]}" width="70%" height="40%">
         `;
     }
 

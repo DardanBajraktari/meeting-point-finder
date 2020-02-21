@@ -100,21 +100,23 @@ class UI {
     static currentTutorialIndex = 0;
 
     updateTutorial() {
-        const tutorialTitles = ['Meet Point Finder Tutorial', 'Mode Options', 'Point Settings', 'Deleting Points', 'Animation Speed', 'That\'s all!'];
+        const tutorialTitles = ['Meet Point Finder Tutorial', 'Finding the Meet Point', 'Mode Options', 'Adding Points', 'Point Settings', 'Deleting Points', 'Animation Speed', 'That\'s all!'];
         const tutorialParagraphs = [
             'This tutorial explains how to use the application, but press skip if you\'d prefer to dive right in!',
             'The purpose of the program is to find the optimal location for the objects, represented by points, to meet at...',
+            'You can choose the criteria...',
+            'Add as many points...',
             'You can set the position and speed of points...',
             'Points can be individually deleted...',
             'The speed of the animation can be varied...',
             'I hope you enjoy using this application!...'
         ];
-        const tutorialImages = ['points.png', 'modes.png'];
+        const tutorialImages = ['points.png', 'Meet Point.png', 'modes.png', 'Adding Points.png', 'Point Settings.png', 'Clear Points.png', 'Animation Speed.png'];
         const nextButton = document.getElementById('next-button');
 
-        document.getElementById('page-number').innerHTML = `${UI.currentTutorialIndex + 1}/6`;
+        document.getElementById('page-number').innerHTML = `${UI.currentTutorialIndex + 1}/8`;
 
-        if (UI.currentTutorialIndex === 5) {
+        if (UI.currentTutorialIndex === 7) {
             nextButton.innerHTML = 'Finish';
             document.getElementById('previous-button').style.right = '22.75%';
         } else if (nextButton.innerHTML == 'Finish') {
@@ -616,7 +618,7 @@ document.getElementById('skip-button').addEventListener('click', function () {
 document.getElementById('next-button').addEventListener('click', function () {
     const uI = new UI();
     
-    if (UI.currentTutorialIndex !== 5) {
+    if (UI.currentTutorialIndex !== 7) {
         UI.currentTutorialIndex++;
         uI.updateTutorial();
     } else {

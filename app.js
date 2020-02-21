@@ -105,7 +105,7 @@ class UI {
             'This tutorial will take you through the main features of this application. Click next to begin learning about meet-point finder, or feel free instead to press skip if you\'d prefer to dive right in!',
             'The purpose of the program is to find the optimal location for the objects, represented by points, to meet at. This meet point is calculated based on criteria chosen in the \'mode options\' menu. When the run button is clicked, an animation will demonstrate how the loci of the points develop in time and intersect to find this meet-point.',
             'In the \'Mode Options\' section of the main menu, you will be able to choose from a number of different criteria by which the optimal meeting-point for the points will be determined. By default, the quickest possible meet (point for all points to meet in the shortest time), is selected.',
-            'By clicking the \'Add New Point\' button in the menu, you can add as many points as you like to the simulation. All points and point data will be saved, even after you close or refresh the page.',
+            'By clicking the \'Add New Point\' button in the menu, you can add new points, with a maximum of 10, to the simulation. All points and point data will be saved, even after you close or refresh the page.',
             'You can set the position of any point by either dragging the point to a position with the cursor, or manually input the values for its x and y coordinate in the settings box, which is opened by clicking on the point you wish to edit. Here you can give the points names as well as set the speed at which the object represented by the point travels at.',
             'Points can be individually deleted by clicking the \'Delete Point\' button in its settings. You can also click the \'Clear Points\' button in the menu if you would like to delete all points. You will be prompted to confirm the decision.',
             'The speed at which the animation plays can be changed in the \'Animation Speed\' section of the menu. You can choose from 0.5x, 1x (normal), and 2x.',
@@ -552,10 +552,13 @@ document.getElementById('in-motion-meet-option').addEventListener('click', funct
 });
 
 document.getElementById('add-new-point').addEventListener('click', function () {
-    PointStore.addPoint();
     const uI = new UI();
-    uI.drawPoint();
-    uI.toggleRunEnabled();
+
+    if (PointStore.points.length !== 10) {
+        PointStore.addPoint();
+        uI.drawPoint();
+        uI.toggleRunEnabled();
+    }
 });
 
 document.body.addEventListener('mousedown', function (event) {

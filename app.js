@@ -579,6 +579,14 @@ document.getElementById('delete-point').addEventListener('click', function (even
     uI.toggleRunEnabled();
 });
 
+document.getElementById('x-position-input').addEventListener('keyup', function (event) {
+    document.getElementById(UI.selectedPointId).style.left = event.target.value + 'px';
+});
+
+document.getElementById('y-position-input').addEventListener('keyup', function (event) {
+    document.getElementById(UI.selectedPointId).style.top = (parseInt(event.target.value) + 65).toString() + 'px';
+});
+
 document.getElementById('clear-points').addEventListener('click', function () {
     if (confirm('Are you sure you would like to clear all points?')) {
         const uI = new UI();

@@ -366,9 +366,6 @@ class UI {
             case 'average meet':
                 this.showAverageMeet();
                 break;
-            case 'in motion meet':
-                this.showMeetInMotion();
-                break;
             default:
                 this.showQuickestMeet();
         }
@@ -380,9 +377,6 @@ class UI {
 
     showAverageMeet() {
         console.log(Algorithms.findAveragePoint(PointStore.points));
-    }
-
-    showMeetInMotion() {
     }
 }
 

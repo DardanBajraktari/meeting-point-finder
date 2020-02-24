@@ -96,7 +96,7 @@ p {
     border: 3px;
     transition-property: transform;
     transition-duration: 0.2s;
-    transition-timing-function: linear;
+    transition-timing-function: ease-in-out;
     transform: translateY(-100%);
     border-style: solid;
     border-color: rgba(118, 147, 177, 0.725);

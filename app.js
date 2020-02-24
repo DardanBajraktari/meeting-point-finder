@@ -541,10 +541,6 @@ document.getElementById('average-meet-option').addEventListener('click', functio
     Algorithms.selectedAlgorithm = 'average meet';
 });
 
-document.getElementById('in-motion-meet-option').addEventListener('click', function () {
-    Algorithms.selectedAlgorithm = 'in motion meet';
-});
-
 document.getElementById('add-new-point').addEventListener('click', function () {
     const uI = new UI();
 

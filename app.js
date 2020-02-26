@@ -211,8 +211,8 @@ class UI {
             pos3 = event.clientX;
             pos4 = event.clientY;
 
-            point.style.top = (point.offsetTop - pos2) + "px";
-            point.style.left = (point.offsetLeft - pos1) + "px";
+            point.style.top = (point.offsetTop - pos2) + 'px';
+            point.style.left = (point.offsetLeft - pos1) + 'px';
             self.updatePointPositionFields();
         }
 
@@ -372,7 +372,15 @@ class UI {
     }
 
     showQuickestMeet() {
-       Algorithms.findQuickestMeetPoint(PointStore.points);
+       const meetTime = Algorithms.findQuickestMeetPoint(PointStore.points);
+       const pointCircles = Array.from(document.querySelectorAll('.circle'));
+
+       pointCircles.forEach(function (pointCircle, index) {
+            pointCircle.style.left = (PointStore.points[index].xPosition + 8).toString() + 'px';
+            pointCircle.style.top = (PointStore.points[index].yPosition + 8).toString() + 'px';
+
+            pointCircle.classList.add('animate-circle');
+       });
     }
 
     showAverageMeet() {
@@ -382,7 +390,6 @@ class UI {
 
 class Algorithms {
     static selectedAlgorithm = 'quickest meet';
-    static shortestMeetTime;
 
     static distanceBetween(point1, point2) {
         const xDifference = Math.abs(point1.xPosition - point2.xPosition);
@@ -506,9 +513,10 @@ class Algorithms {
     }
 
     static calculateLociIntersection(points, slowestPoint) {
-        console.log(slowestPoint);
         function findIntersectingArc() {
         }
+
+        return 5;
     }
 
     static findAveragePoint(points) {

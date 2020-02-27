@@ -184,6 +184,26 @@ class UI {
         $('#' + newPoint.id).tooltip();
         this.dragPoint(newPoint);
         this.addClickEventListener(newPoint);
+        this.addPointLocusCircle(newPoint.id);
+    }
+
+    addPointLocusCircle(id) {
+        let locusCircle = document.createElement('div');
+
+        locusCircle.classList.add('locus-circle');
+        locusCircle.id = 'locus-circle' + id;
+        document.getElementById('points-container').appendChild(locusCircle);
+    }
+
+    removePointLocusCircle(id) {
+        function reassignLocusCircleIds() {
+            for (let i = (parseInt(id) + 1); i < PointStore.points.length; i++) {
+                document.getElementById('locus-circle' + i.toString()).id = 'locus-circle' + (i - 1).toString();
+            }
+        }
+
+        document.getElementById('locus-circle' + id).remove();
+        reassignLocusCircleIds();
     }
 
     dragPoint(point) {
@@ -327,6 +347,7 @@ class UI {
     }
 
     removePoint() {
+        this.removePointLocusCircle(UI.selectedPointId);
         document.getElementById(UI.selectedPointId).remove();
 
         this.storeVacatedPosition(UI.selectedPointId);
@@ -373,7 +394,12 @@ class UI {
 
     showQuickestMeet() {
        const meetTime = Algorithms.findQuickestMeetPoint(PointStore.points);
-       const pointCircles = Array.from(document.querySelectorAll('.circle'));
+
+        for (let i = 0; i < PointStore.points.length; i++) {
+            
+        }
+
+       const pointCircles = Array.from(document.querySelectorAll('.locus-circle'));
 
        pointCircles.forEach(function (pointCircle, index) {
             pointCircle.style.left = (PointStore.points[index].xPosition + 8).toString() + 'px';

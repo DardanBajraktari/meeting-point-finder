@@ -196,14 +196,14 @@ class UI {
     }
 
     removePointLocusCircle(id) {
-        function reassignLocusCircleIds() {
+        function reassignLociCircleIds() {
             for (let i = (parseInt(id) + 1); i < PointStore.points.length; i++) {
                 document.getElementById('locus-circle' + i.toString()).id = 'locus-circle' + (i - 1).toString();
             }
         }
 
         document.getElementById('locus-circle' + id).remove();
-        reassignLocusCircleIds();
+        reassignLociCircleIds();
     }
 
     dragPoint(point) {

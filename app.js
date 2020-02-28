@@ -362,6 +362,7 @@ class UI {
     clearPoints() {
         PointStore.points.forEach(function (point) {
             document.getElementById(point.id).remove();
+            document.getElementById('locus-circle' + point.id).remove();
         });
 
         PointStore.points = [];

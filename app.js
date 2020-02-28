@@ -394,21 +394,24 @@ class UI {
     }
 
     showQuickestMeet() {
-       const meetTime = Algorithms.findQuickestMeetPoint(PointStore.points);
+        const meetTime = Algorithms.findQuickestMeetPoint(PointStore.points);
+        const pointLoci = Array.from(document.querySelectorAll('.locus-circle'));
 
-        for (let i = 0; i < PointStore.points.length; i++) {
-            
-        }
+       if (document.getElementById('locus-circle0').style.width !== '10px') {
+           console.log(document.getElementById('locus-circle0').style.width);
+           pointLoci.forEach(function (pointLocus) {
+               pointLocus.style.width = '50px';
+               pointLocus.style.height = '50px';
+           });
+       }
 
-       const pointCircles = Array.from(document.querySelectorAll('.locus-circle'));
+       pointLoci.forEach(function (pointLocus, index) {
+            pointLocus.style.left = (PointStore.points[index].xPosition + 8).toString() + 'px';
+            pointLocus.style.top = (PointStore.points[index].yPosition + 8).toString() + 'px';
+            pointLocus.style.transition = 'width ' + (meetTime / (2 * UI.animationSpeed)).toString() + 's, height ' + (meetTime / (2 * UI.animationSpeed)).toString() + 's';
 
-       pointCircles.forEach(function (pointCircle, index) {
-            pointCircle.style.left = (PointStore.points[index].xPosition + 8).toString() + 'px';
-            pointCircle.style.top = (PointStore.points[index].yPosition + 8).toString() + 'px';
-            pointCircle.style.transition = 'width ' + meetTime.toString() + 's, height ' + meetTime.toString() + 's';
-
-            pointCircle.style.width = (PointStore.points[index].speed * meetTime).toString() + 'px';
-            pointCircle.style.height = (PointStore.points[index].speed * meetTime).toString() + 'px';
+            pointLocus.style.width = (PointStore.points[index].speed * meetTime).toString() + 'px';
+            pointLocus.style.height = (PointStore.points[index].speed * meetTime).toString() + 'px';
        });
     }
 
@@ -545,7 +548,7 @@ class Algorithms {
         function findIntersectingArc() {
         }
 
-        return 9.75;
+        return 15.5;
     }
 
     static findAveragePoint(points) {
@@ -569,6 +572,18 @@ class Algorithms {
 }
 
 document.addEventListener('DOMContentLoaded', onInit);
+
+document.getElementById('0.5x').addEventListener('click', function () {
+    UI.animationSpeed = 0.5;
+});
+
+document.getElementById('1x').addEventListener('click', function () {
+    UI.animationSpeed = 1;
+});
+
+document.getElementById('2x').addEventListener('click', function () {
+    UI.animationSpeed = 2;
+});
 
 document.getElementById('quickest-meet-option').addEventListener('click', function () {
     Algorithms.selectedAlgorithm = 'quickest meet';

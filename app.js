@@ -108,7 +108,7 @@ class UI {
             'By clicking the \'Add New Point\' button in the menu, you can add new points, with a maximum of 10, to the simulation. All points and point data will be saved, even after you close or refresh the page.',
             'You can set the position of any point by either dragging the point to a position with the cursor, or manually input the values for its x and y coordinate in the settings box, which is opened by clicking on the point you wish to edit. Here you can give the points names as well as set the speed at which the object represented by the point travels at.',
             'Points can be individually deleted by clicking the \'Delete Point\' button in its settings. You can also click the \'Clear Points\' button in the menu if you would like to delete all points. You will be prompted to confirm the decision.',
-            'The speed at which the animation plays can be changed in the \'Animation Speed\' section of the menu. You can choose from 0.5x, 1x (normal), and 2x.',
+            'The speed at which the animation runs can be set in the \'Animation Speed\' menu section. You can choose from 0.5x, 1x (normal), 2x, and 4x.',
             'I hope you enjoy using this application! You can send me any feedback or report any bugs by sending an email to bajraktaridardan5@gmail.com.'
         ];
         const tutorialImages = ['Images/points.png', 'Images/Meet Point.png', 'Images/modes.png', 'Images/Adding Points.png', 'Images/Point Settings.png', 'Images/Clear Points.png', 'Images/Animation Speed.png', 'Images/smile.png'];

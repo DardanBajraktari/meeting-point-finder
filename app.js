@@ -394,16 +394,19 @@ class UI {
     }
 
     showQuickestMeet() {
-        const meetTime = Algorithms.findQuickestMeetPoint(PointStore.points);
+        const meetPoint = Algorithms.findQuickestMeetPoint(PointStore.points).meetPoint;
+        const meetTime = Algorithms.findQuickestMeetPoint(PointStore.points).meetTime;
         const pointLoci = Array.from(document.querySelectorAll('.locus-circle'));
 
-       if (document.getElementById('locus-circle0').style.width !== '10px') {
-           console.log(document.getElementById('locus-circle0').style.width);
-           pointLoci.forEach(function (pointLocus) {
-               pointLocus.style.width = '50px';
-               pointLocus.style.height = '50px';
-           });
-       }
+        console.log(meetPoint);
+
+    //    if (document.getElementById('locus-circle0').style.width !== '10px') {
+    //        console.log(document.getElementById('locus-circle0').style.width);
+    //        pointLoci.forEach(function (pointLocus) {
+    //            pointLocus.style.width = '50px';
+    //            pointLocus.style.height = '50px';
+    //        });
+    //    }
 
        pointLoci.forEach(function (pointLocus, index) {
             pointLocus.style.left = (PointStore.points[index].xPosition + 8).toString() + 'px';
@@ -511,7 +514,7 @@ class Algorithms {
             point2Id: slowestPointsData.point2.id,
             meetPoint: twoSlowestMeetPoint,
             slowerPoint: slowestPointsData.slowerPoint,
-            slowerPointDistance: slowestPointsData.slowerPointDistanceTravelled
+            slowerPointTime: slowestPointsData.slowerPointDistanceTravelled / slowestPointsData.slowerPoint.speed
         };
     }
 
@@ -522,14 +525,15 @@ class Algorithms {
             return twoSlowest.meetPoint;
         } else {
             let slowestPoint = twoSlowest.slowerPoint;
-            let slowestDistance = twoSlowest.slowerPointDistance;
+            let slowestTime = twoSlowest.slowerPointTime;   // Find slowest point to get there - distance + speed. NOT just furthest away.
             
             points.forEach(function (point) {
                 if ((point.id !== twoSlowest.point1Id) && (point.id !== twoSlowest.point2Id)) {
                     const distanceAway = Algorithms.distanceBetween(point, twoSlowest.meetPoint);
+                    const time = distanceAway / point.speed;
 
-                    if (distanceAway > slowestDistance) {
-                        slowestDistance = distanceAway;
+                    if (time > slowestTime) {
+                        slowestTime = time;
                         slowestPoint = point;
                     }
                 }
@@ -537,8 +541,12 @@ class Algorithms {
 
             if (slowestPoint === twoSlowest.slowerPoint) {
                 console.log(twoSlowest.meetPoint);
-                return twoSlowest.meetPoint;
+                return {
+                    meetPoint: twoSlowest.meetPoint,
+                    meetTime: 48.5
+                };
             } else {
+                console.log(slowestPoint);
                 return Algorithms.calculateLociIntersection(points, slowestPoint);
             }
         }
@@ -548,7 +556,10 @@ class Algorithms {
         function findIntersectingArc() {
         }
 
-        return 15.5;
+        return {
+            meetPoint: {},
+            meetTime: 48.5
+        };
     }
 
     static findAveragePoint(points) {
@@ -583,6 +594,10 @@ document.getElementById('1x').addEventListener('click', function () {
 
 document.getElementById('2x').addEventListener('click', function () {
     UI.animationSpeed = 2;
+});
+
+document.getElementById('4x').addEventListener('click', function () {
+    UI.animationSpeed = 4;
 });
 
 document.getElementById('quickest-meet-option').addEventListener('click', function () {

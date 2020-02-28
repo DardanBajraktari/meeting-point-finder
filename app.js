@@ -405,8 +405,10 @@ class UI {
        pointCircles.forEach(function (pointCircle, index) {
             pointCircle.style.left = (PointStore.points[index].xPosition + 8).toString() + 'px';
             pointCircle.style.top = (PointStore.points[index].yPosition + 8).toString() + 'px';
+            pointCircle.style.transition = 'width ' + meetTime.toString() + 's, height ' + meetTime.toString() + 's';
 
-            pointCircle.classList.add('animate-circle');
+            pointCircle.style.width = (PointStore.points[index].speed * meetTime).toString() + 'px';
+            pointCircle.style.height = (PointStore.points[index].speed * meetTime).toString() + 'px';
        });
     }
 
@@ -543,7 +545,7 @@ class Algorithms {
         function findIntersectingArc() {
         }
 
-        return 5;
+        return 9.75;
     }
 
     static findAveragePoint(points) {

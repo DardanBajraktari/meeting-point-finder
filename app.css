@@ -15,6 +15,10 @@ p {
     margin-right: -50px;
 }
 
+.lighten-2:hover {
+    background-color: rgb(219, 92, 83) !important;
+}
+
 .point {
     height: 16px;
     width: 16px;
@@ -165,12 +169,12 @@ p {
     opacity: 0.5;
     border-radius: 50%;
     transform: translate(-50%, -50%);
+    transition-timing-function: linear;
+    transition: width 2s, height 2s;
     z-index: -1;
 }
 
 .animate-circle {
-    transition-timing-function: linear;
-    transition: width 2s, height 2s;
     width: 205px;
     height: 205px;
 }

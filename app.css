@@ -173,7 +173,7 @@ p {
     transition: width 2s, height 2s;
     z-index: -1;
     border-style: solid;
-    border-color: rgb(252, 162, 59);
+    border-color: rgb(252, 59, 59);
     border-width: 2px;
 }
 

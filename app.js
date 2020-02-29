@@ -400,22 +400,19 @@ class UI {
 
         console.log(meetPoint);
 
-    //    if (document.getElementById('locus-circle0').style.width !== '10px') {
-    //        console.log(document.getElementById('locus-circle0').style.width);
-    //        pointLoci.forEach(function (pointLocus) {
-    //            pointLocus.style.width = '50px';
-    //            pointLocus.style.height = '50px';
-    //        });
-    //    }
+        pointLoci.forEach(function (pointLocus, index) {
+            pointLocus.style.transition = 'none';
+            pointLocus.style.width = '10px';
+            pointLocus.style.height = '10px';
 
-       pointLoci.forEach(function (pointLocus, index) {
-            pointLocus.style.left = (PointStore.points[index].xPosition + 8).toString() + 'px';
-            pointLocus.style.top = (PointStore.points[index].yPosition + 8).toString() + 'px';
-            pointLocus.style.transition = 'width ' + (meetTime / (2 * UI.animationSpeed)).toString() + 's, height ' + (meetTime / (2 * UI.animationSpeed)).toString() + 's';
-
-            pointLocus.style.width = (PointStore.points[index].speed * meetTime).toString() + 'px';
-            pointLocus.style.height = (PointStore.points[index].speed * meetTime).toString() + 'px';
-       });
+            setTimeout(function () {
+                pointLocus.style.left = (PointStore.points[index].xPosition + 8).toString() + 'px';
+                pointLocus.style.top = (PointStore.points[index].yPosition + 8).toString() + 'px';
+                pointLocus.style.transition = 'width ' + (meetTime / (2 * UI.animationSpeed)).toString() + 's, height ' + (meetTime / (2 * UI.animationSpeed)).toString() + 's';
+                pointLocus.style.width = (PointStore.points[index].speed * meetTime).toString() + 'px';
+                pointLocus.style.height = (PointStore.points[index].speed * meetTime).toString() + 'px';
+            }, 1);
+        });
     }
 
     showAverageMeet() {

@@ -411,7 +411,7 @@ class UI {
                 pointLocus.style.transition = 'width ' + (meetTime / (2 * UI.animationSpeed)).toString() + 's, height ' + (meetTime / (2 * UI.animationSpeed)).toString() + 's';
                 pointLocus.style.width = (PointStore.points[index].speed * meetTime).toString() + 'px';
                 pointLocus.style.height = (PointStore.points[index].speed * meetTime).toString() + 'px';
-            }, 12);
+            }, 13);
         });
     }
 

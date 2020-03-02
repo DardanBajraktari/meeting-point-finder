@@ -394,8 +394,9 @@ class UI {
     }
 
     showQuickestMeet() {
-        const meetPoint = Algorithms.findQuickestMeetPoint(PointStore.points).meetPoint;
-        const meetTime = Algorithms.findQuickestMeetPoint(PointStore.points).meetTime;
+        const meetData = Algorithms.findQuickestMeetPoint(PointStore.points);
+        const meetPoint = meetData.meetPoint;
+        const meetTime = meetData.meetTime;
         const pointLoci = Array.from(document.querySelectorAll('.locus-circle'));
 
         console.log(meetPoint);
@@ -518,11 +519,8 @@ class Algorithms {
     static findQuickestMeetPoint(points) {
         const twoSlowest = Algorithms.findTwoSlowestMeetPoint(points);
         
-        if (points.length === 2) {
-            return twoSlowest.meetPoint;
-        } else {
-            let slowestPoint = twoSlowest.slowerPoint;
-            let slowestTime = twoSlowest.slowerPointTime;   // Find slowest point to get there - distance + speed. NOT just furthest away.
+        let slowestPoint = twoSlowest.slowerPoint;
+        let slowestTime = twoSlowest.slowerPointTime;   // Find slowest point to get there - distance + speed. NOT just furthest away.
             
             points.forEach(function (point) {
                 if ((point.id !== twoSlowest.point1Id) && (point.id !== twoSlowest.point2Id)) {
@@ -540,13 +538,12 @@ class Algorithms {
                 console.log(twoSlowest.meetPoint);
                 return {
                     meetPoint: twoSlowest.meetPoint,
-                    meetTime: 48.5
+                    meetTime: 34
                 };
             } else {
                 console.log(slowestPoint);
                 return Algorithms.calculateLociIntersection(points, slowestPoint);
             }
-        }
     }
 
     static calculateLociIntersection(points, slowestPoint) {
@@ -555,7 +552,7 @@ class Algorithms {
 
         return {
             meetPoint: {},
-            meetTime: 48.5
+            meetTime: 34
         };
     }
 

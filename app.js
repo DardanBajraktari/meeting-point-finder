@@ -9,8 +9,8 @@ function onInit() {
 
 class Point {
     constructor(name, id, xPosition, yPosition, speed) {
-        this.name = name;
         this.id = id;
+        this.name = name;
         this.xPosition = xPosition;
         this.yPosition = yPosition;
         this.speed = speed;
@@ -409,7 +409,7 @@ class UI {
             setTimeout(function () {
                 pointLocus.style.left = (PointStore.points[index].xPosition + 8).toString() + 'px';
                 pointLocus.style.top = (PointStore.points[index].yPosition + 8).toString() + 'px';
-                pointLocus.style.transition = 'width ' + (meetTime / (2 * UI.animationSpeed)).toString() + 's, height ' + (meetTime / (2 * UI.animationSpeed)).toString() + 's';
+                pointLocus.style.transition = 'width ' + (meetTime / (4 * UI.animationSpeed)).toString() + 's, height ' + (meetTime / (4 * UI.animationSpeed)).toString() + 's';
                 pointLocus.style.width = (PointStore.points[index].speed * meetTime).toString() + 'px';
                 pointLocus.style.height = (PointStore.points[index].speed * meetTime).toString() + 'px';
             }, 13);
@@ -535,7 +535,6 @@ class Algorithms {
             });
 
             if (slowestPoint === twoSlowest.slowerPoint) {
-                console.log(twoSlowest.meetPoint);
                 return {
                     meetPoint: twoSlowest.meetPoint,
                     meetTime: 34

@@ -410,8 +410,8 @@ class UI {
                 pointLocus.style.left = (PointStore.points[index].xPosition + 8).toString() + 'px';
                 pointLocus.style.top = (PointStore.points[index].yPosition + 8).toString() + 'px';
                 pointLocus.style.transition = 'width ' + (meetTime / (4 * UI.animationSpeed)).toString() + 's, height ' + (meetTime / (4 * UI.animationSpeed)).toString() + 's';
-                pointLocus.style.width = (PointStore.points[index].speed * meetTime).toString() + 'px';
-                pointLocus.style.height = (PointStore.points[index].speed * meetTime).toString() + 'px';
+                pointLocus.style.width = (2 * PointStore.points[index].speed * meetTime).toString() + 'px';
+                pointLocus.style.height = (2 * PointStore.points[index].speed * meetTime).toString() + 'px';
             }, 13);
         });
     }
@@ -537,7 +537,7 @@ class Algorithms {
             if (slowestPoint === twoSlowest.slowerPoint) {
                 return {
                     meetPoint: twoSlowest.meetPoint,
-                    meetTime: 34
+                    meetTime: slowestTime
                 };
             } else {
                 console.log(slowestPoint);

@@ -92,8 +92,6 @@ class PointStore {
 }
 
 class UI {
-    constructor() {}
-
     static animationSpeed = 1;
     static selectedPointId = '';
     static vacatedPositions;

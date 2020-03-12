@@ -539,13 +539,36 @@ class Algorithms {
                 };
             } else {
                 console.log(slowestPoint);
-                return Algorithms.calculateLociIntersection(points, slowestPoint);
+                return Algorithms.calculateLociIntersection(points, slowestPoint, twoSlowest.point1Id, twoSlowest.point2Id, twoSlowest.meetPoint);
             }
     }
 
-    static calculateLociIntersection(points, slowestPoint) {
-        function findIntersectingArc() {
+    static calculateLociIntersection(points, slowestPoint, point1Id, point2Id, midPoint) {
+        function findQuarterPoints() {
+            const point1 = points[point1Id];
+            const point2 = points[point2Id];
+            
+            const quarterPoint1XPosition = point1.xPosition + (point2.xPosition - point1.xPosition) / 4;
+            const quarterPoint1YPosition = point1.yPosition + (point2.yPosition - point1.yPosition) / 4;
+
+            const quarterPoint2XPosition = point2.xPosition + (point1.xPosition - point2.xPosition) / 4;
+            const quarterPoint2YPosition = point2.yPosition + (point1.yPosition - point2.yPosition) / 4;
+
+            const quarterPoint1 = {
+                xPosition: quarterPoint1XPosition,
+                yPosition: quarterPoint1YPosition
+            };
+
+            const quarterPoint2 = {
+                xPosition: quarterPoint2XPosition,
+                yPosition: quarterPoint2YPosition
+            }
+
+            console.log(quarterPoint1);
+            console.log(quarterPoint2);
         }
+
+        findQuarterPoints();
 
         return {
             meetPoint: {},
@@ -632,7 +655,7 @@ document.getElementById('x-position-input').addEventListener('keyup', function (
 });
 
 document.getElementById('y-position-input').addEventListener('keyup', function (event) {
-    document.getElementById(UI.selectedPointId).style.top = (parseInt(event.target.value) + 65).toString() + 'px';
+    document.getElementById(UI.selectedPointId).style.top = event.target.value + 'px';
 });
 
 document.getElementById('clear-points').addEventListener('click', function () {

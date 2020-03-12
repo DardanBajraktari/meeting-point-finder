@@ -548,11 +548,11 @@ class Algorithms {
             const point1 = points[point1Id];
             const point2 = points[point2Id];
             
-            const quarterPoint1XPosition = point1.xPosition + (point2.xPosition - point1.xPosition) / 4;
-            const quarterPoint1YPosition = point1.yPosition + (point2.yPosition - point1.yPosition) / 4;
+            const quarterPoint1XPosition = Math.round(point1.xPosition + (point2.xPosition - point1.xPosition) / 4);
+            const quarterPoint1YPosition = Math.round(point1.yPosition + (point2.yPosition - point1.yPosition) / 4);
 
-            const quarterPoint2XPosition = point2.xPosition + (point1.xPosition - point2.xPosition) / 4;
-            const quarterPoint2YPosition = point2.yPosition + (point1.yPosition - point2.yPosition) / 4;
+            const quarterPoint2XPosition = Math.round(point2.xPosition + (point1.xPosition - point2.xPosition) / 4);
+            const quarterPoint2YPosition = Math.round(point2.yPosition + (point1.yPosition - point2.yPosition) / 4);
 
             const quarterPoint1 = {
                 xPosition: quarterPoint1XPosition,

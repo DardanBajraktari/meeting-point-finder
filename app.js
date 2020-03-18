@@ -435,12 +435,12 @@ class Algorithms {
             let currentPointsData;
             let slowerPoint;
             let slowerPointDistanceTravelled;
-            let slowestPointsData = calculatePointsData(points[0], points[1]);
+            let slowestPointsData = calculateMeetTime(points[0], points[1]);
             let longestTime = slowestPointsData.meetTime;
 
             for (let i = 0; i < (points.length - 1); i++) {
                 for (let j = (i + 1); j < points.length; j++) {
-                    currentPointsData = calculatePointsData(points[i], points[j]);
+                    currentPointsData = calculateMeetTime(points[i], points[j]);
     
                     if (currentPointsData.meetTime > longestTime) {
                         slowestPointsData = currentPointsData;
@@ -449,7 +449,7 @@ class Algorithms {
                 }
             }
 
-            function calculatePointsData(point1, point2) {
+            function calculateMeetTime(point1, point2) {
                 const distanceBetweenPoints = Algorithms.distanceBetween(point1, point2);
                 const point1DistanceTravelled = (point1.speed / (point1.speed + point2.speed)) * distanceBetweenPoints;
                 const point2DistanceTravelled = distanceBetweenPoints - point1DistanceTravelled;
@@ -457,21 +457,11 @@ class Algorithms {
 
                 Algorithms.shortestMeetTime = meetTime;
 
-                if (point1DistanceTravelled >= point2DistanceTravelled) {
-                    slowerPoint = point1;
-                    slowerPointDistanceTravelled = point1DistanceTravelled;
-                } else {
-                    slowerPoint = point2;
-                    slowerPointDistanceTravelled = point2DistanceTravelled;
-                }
-
                 return {
                     point1,
                     point2,
                     meetTime,
-                    slowerPoint,
-                    point1DistanceTravelled,
-                    slowerPointDistanceTravelled
+                    point1DistanceTravelled
                 }
             }
 
@@ -506,48 +496,43 @@ class Algorithms {
         const twoSlowestMeetPoint = findMeetPoint(slowestPointsData);
 
         return {
-            point1Id: slowestPointsData.point1.id,
-            point2Id: slowestPointsData.point2.id,
+            point1: slowestPointsData.point1,
+            point2: slowestPointsData.point2,
             meetPoint: twoSlowestMeetPoint,
-            slowerPoint: slowestPointsData.slowerPoint,
-            slowerPointTime: slowestPointsData.slowerPointDistanceTravelled / slowestPointsData.slowerPoint.speed
+            meetTime: slowestPointsData.meetTime
         };
     }
 
     static findQuickestMeetPoint(points) {
         const twoSlowest = Algorithms.findTwoSlowestMeetPoint(points);
-        
-        let slowestPoint = twoSlowest.slowerPoint;
-        let slowestTime = twoSlowest.slowerPointTime;   // Find slowest point to get there - distance + speed. NOT just furthest away.
+        const meetTime = twoSlowest.meetTime;
+        let slowestPoint = twoSlowest.point1;
+        let slowestTime = twoSlowest.meetTime;
             
-            points.forEach(function (point) {
-                if ((point.id !== twoSlowest.point1Id) && (point.id !== twoSlowest.point2Id)) {
-                    const distanceAway = Algorithms.distanceBetween(point, twoSlowest.meetPoint);
-                    const time = distanceAway / point.speed;
+        points.forEach(function (point) {
+            if ((point.id !== twoSlowest.point1.id) && (point.id !== twoSlowest.point2.id)) {
+                const distanceAway = Algorithms.distanceBetween(point, twoSlowest.meetPoint);
+                const time = distanceAway / point.speed;
 
-                    if (time > slowestTime) {
-                        slowestTime = time;
-                        slowestPoint = point;
-                    }
+                if (time > slowestTime) {
+                    slowestTime = time;
+                    slowestPoint = point;
                 }
-            });
-
-            if (slowestPoint === twoSlowest.slowerPoint) {
-                return {
-                    meetPoint: twoSlowest.meetPoint,
-                    meetTime: slowestTime
-                };
-            } else {
-                console.log(slowestPoint);
-                return Algorithms.calculateLociIntersection(points, slowestPoint, twoSlowest.point1Id, twoSlowest.point2Id, twoSlowest.meetPoint);
             }
+        });
+
+        if (slowestPoint == twoSlowest.point1) {
+            return {
+                meetPoint: twoSlowest.meetPoint,
+                meetTime: slowestTime
+            };
+        } else {
+            return Algorithms.calculateLociIntersection(twoSlowest.point1, twoSlowest.point2, twoSlowest.meetPoint, slowestPoint, meetTime);
+        }
     }
 
-    static calculateLociIntersection(points, slowestPoint, point1Id, point2Id, midPoint) {
-        function findQuarterPoints() {
-            const point1 = points[point1Id];
-            const point2 = points[point2Id];
-            
+    static calculateLociIntersection(point1, point2, midPoint, slowestPoint, twoSlowestMeetTime) {
+        function findQuarterwayPoints() {
             const quarterPoint1XPosition = Math.round(point1.xPosition + (point2.xPosition - point1.xPosition) / 4);
             const quarterPoint1YPosition = Math.round(point1.yPosition + (point2.yPosition - point1.yPosition) / 4);
 
@@ -564,16 +549,99 @@ class Algorithms {
                 yPosition: quarterPoint2YPosition
             }
 
-            console.log(quarterPoint1);
             console.log(quarterPoint2);
+
+            return [quarterPoint1, quarterPoint2];
         }
 
-        findQuarterPoints();
+        function findCoordinateSearchBounds() {
+            const quarterPoints = findQuarterwayPoints();
+            const quarterPoint1 = quarterPoints[0];
+            const quarterPoint2 = quarterPoints[1];
 
-        return {
-            meetPoint: {},
-            meetTime: 34
-        };
+            let lowerBound;
+            let upperBound;
+            let coordinateValue;
+
+            if (Math.abs(quarterPoint1.xPosition - quarterPoint2.xPosition) > Math.abs(quarterPoint1.yPosition - quarterPoint2.yPosition)) {
+                if (quarterPoint1.xPosition < quarterPoint2.xPosition) {
+                    lowerBound = quarterPoint1.xPosition;
+                    upperBound = quarterPoint2.xPosition;
+                } else {
+                    lowerBound = quarterPoint2.xPosition;
+                    upperBound = quarterPoint1.xPosition
+                }
+
+                coordinateValue = 'x';
+            } else {
+                if (quarterPoint1.yPosition < quarterPoint2.yPosition) {
+                    lowerBound = quarterPoint1.yPosition;
+                    upperBound = quarterPoint2.yPosition;
+                } else {
+
+                }
+
+                lowerBound = quarterPoint2.yPosition;
+                upperBound = quarterPoint1.yPosition;
+                coordinateValue = 'y';
+            }
+
+            return {
+                lowerBound,
+                upperBound,
+                coordinateValue
+            }
+        }
+
+        function findMeetPoint() {
+            const searchBoundsData = findCoordinateSearchBounds();
+            console.log(searchBoundsData);
+            const lowerBound = searchBoundsData.lowerBound;
+            const upperBound = searchBoundsData.upperBound;
+            const coordinateValue = searchBoundsData.coordinateValue;
+            let maxRadius = Algorithms.distanceBetween(slowestPoint, midPoint);
+            let radius = slowestPoint.speed * twoSlowestMeetTime;
+            let x;
+            let y;
+
+            for (let i = radius; i <= maxRadius; i++) {
+                for (let j = lowerBound; j <= upperBound; j++) {
+                    if (coordinateValue === 'x') {
+                        x = j;
+                        y = slowestPoint.yPosition - Math.sqrt(Math.pow(i, 2) - Math.pow((x - slowestPoint.xPosition), 2));
+                    } else {
+                        y = j;
+                        x = Math.sqrt(Math.pow(i, 2) - Math.pow((y - slowestPoint.yPosition), 2)) + slowestPoint.xPosition;
+                    }
+
+                    const currentPoint = {
+                        xPosition: Math.floor(x),
+                        yPosition: Math.floor(y)
+                    };
+
+                    let distanceCurrentToPoint1 = Algorithms.distanceBetween(currentPoint, point1);
+                    let distanceCurrentToPoint2 = Algorithms.distanceBetween(currentPoint, point2);
+                    let distanceCurrentToSlowestPoint = Algorithms.distanceBetween(currentPoint, slowestPoint);
+
+                    if ((Math.abs((distanceCurrentToPoint1 / point1.speed) - (distanceCurrentToPoint2 / point2.speed)) < 0.1) && 
+                        (Math.abs((distanceCurrentToPoint1 / point1.speed) - (distanceCurrentToSlowestPoint / slowestPoint.speed)) < 0.1)) {
+
+                        const meetTime = Algorithms.distanceBetween(currentPoint, slowestPoint) / slowestPoint.speed;
+
+                        console.log(distanceCurrentToPoint1 / point1.speed);
+                        console.log(distanceCurrentToPoint2 / point2.speed);
+                        console.log(distanceCurrentToSlowestPoint / slowestPoint.speed);
+
+                        return {
+                            meetPoint: currentPoint,
+                            meetTime: distanceCurrentToSlowestPoint / slowestPoint.speed
+                        }
+                    }
+                }
+            }
+        }
+
+        return findMeetPoint();
     }
 
     static findAveragePoint(points) {

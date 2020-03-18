@@ -605,6 +605,7 @@ class Algorithms {
             let y;
 
             for (let i = radius; i <= maxRadius; i++) {
+                console.log(radius);
                 for (let j = lowerBound; j <= upperBound; j++) {
                     if (coordinateValue === 'x') {
                         x = j;
@@ -622,15 +623,12 @@ class Algorithms {
                     let distanceCurrentToPoint1 = Algorithms.distanceBetween(currentPoint, point1);
                     let distanceCurrentToPoint2 = Algorithms.distanceBetween(currentPoint, point2);
                     let distanceCurrentToSlowestPoint = Algorithms.distanceBetween(currentPoint, slowestPoint);
+                    let averageTime = ((distanceCurrentToPoint1 / point1.speed) + (distanceCurrentToPoint2 / point2.speed) + (distanceCurrentToSlowestPoint / slowestPoint.speed)) / 3;
 
-                    if ((Math.abs((distanceCurrentToPoint1 / point1.speed) - (distanceCurrentToPoint2 / point2.speed)) < 0.1) && 
-                        (Math.abs((distanceCurrentToPoint1 / point1.speed) - (distanceCurrentToSlowestPoint / slowestPoint.speed)) < 0.1)) {
+                    if ((Math.abs((distanceCurrentToPoint1 / point1.speed) - (distanceCurrentToPoint2 / point2.speed)) < (averageTime / 300)) && 
+                        (Math.abs((distanceCurrentToPoint1 / point1.speed) - (distanceCurrentToSlowestPoint / slowestPoint.speed)) < (averageTime / 300))) {
 
                         const meetTime = Algorithms.distanceBetween(currentPoint, slowestPoint) / slowestPoint.speed;
-
-                        console.log(distanceCurrentToPoint1 / point1.speed);
-                        console.log(distanceCurrentToPoint2 / point2.speed);
-                        console.log(distanceCurrentToSlowestPoint / slowestPoint.speed);
 
                         return {
                             meetPoint: currentPoint,

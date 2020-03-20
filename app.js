@@ -412,6 +412,19 @@ class UI {
                 pointLocus.style.height = (2 * PointStore.points[index].speed * meetTime).toString() + 'px';
             }, 13);
         });
+
+        setTimeout(function () {
+            const meetingPoint = document.createElement('div');
+
+            meetingPoint.classList.add('point');
+            meetingPoint.style.width = '18px';
+            meetingPoint.style.height = '18px';
+            meetingPoint.style.backgroundColor = 'rgb(219, 92, 83)';
+            meetingPoint.style.left = meetPoint.xPosition.toString() + 'px';
+            meetingPoint.style.top = meetPoint.yPosition.toString() + 'px';
+
+            document.getElementById('points-container').appendChild(meetingPoint);
+        }, (meetTime * 1000) / (4 * UI.animationSpeed));
     }
 
     showAverageMeet() {

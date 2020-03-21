@@ -189,6 +189,20 @@ p {
     border-width: 2px;
 }
 
+#meeting-point {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    transform: translate(-50%, -50%);
+    transition-timing-function: cubic-bezier(0.05, 0.05, 0.05, 0.5);
+    background-color: rgb(219, 92, 83);
+    border-radius: 50%;
+    border-style: solid;
+    border-color: rgb(30, 42, 68);
+    border-width: 2px;
+    transition: width 0.3s, height 0.3s;
+}
+
 /* .tracker-circle {
     background-color: salmon;
     border-radius: 50%;

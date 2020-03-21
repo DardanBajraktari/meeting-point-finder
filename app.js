@@ -5,6 +5,7 @@ function onInit() {
     uI.initialiseVacatedPositions();
     uI.toggleRunEnabled();
     uI.updateTutorial();
+    uI.initialiseMeetingPoint();
 }
 
 class Point {
@@ -169,7 +170,7 @@ class UI {
         }
 
         newPoint.setAttribute('data-position', 'top');
-        newPoint.setAttribute('data-delay', '600');
+        newPoint.setAttribute('data-delay', '500');
         
         if (PointStore.points[newPoint.id].name === '') {
             newPoint.setAttribute('data-tooltip', 'Unnamed Point');
@@ -309,6 +310,27 @@ class UI {
         }
     }
 
+    initialiseMeetingPoint() {
+        const meetingPoint = document.createElement('div');
+        meetingPoint.classList.add('tooltipped');
+        meetingPoint.id = 'meeting-point';
+        meetingPoint.style.visibility = 'hidden';
+
+        meetingPoint.setAttribute('data-position', 'top');
+        meetingPoint.setAttribute('data-delay', '500');
+        $('#meeting-point').tooltip();
+        
+        document.getElementById('points-container').appendChild(meetingPoint);
+    }
+
+    resetMeetingPoint() {
+        const meetingPoint = document.getElementById('meeting-point');
+
+        meetingPoint.style.visibility = 'hidden';
+        meetingPoint.style.width = '1px';
+        meetingPoint.style.height = '1px';
+    }
+
     displayPoints() {
         let self = this;
         const points = PointStore.getPoints();
@@ -391,6 +413,22 @@ class UI {
         }
     }
 
+    displayMeetingPoint(meetPoint, meetTime) {
+        setTimeout(function () {
+            const meetingPoint = document.getElementById('meeting-point');
+
+            meetingPoint.style.left = (meetPoint.xPosition + 8).toString() + 'px';
+            meetingPoint.style.top = (meetPoint.yPosition + 8).toString() + 'px';
+            meetingPoint.style.visibility = 'visible';
+            meetingPoint.setAttribute('data-tooltip', '(' + Math.round(meetPoint.xPosition) + ', ' + Math.round(meetPoint.yPosition) + ')');
+
+            $('#meeting-point').tooltip();
+
+            meetingPoint.style.width = '18px';
+            meetingPoint.style.height = '18px';
+        }, (meetTime * 1000) / (4 * UI.animationSpeed) - 150);
+    }
+
     showQuickestMeet() {
         const meetData = Algorithms.findQuickestMeetPoint(PointStore.points);
         const meetPoint = meetData.meetPoint;
@@ -398,6 +436,8 @@ class UI {
         const pointLoci = Array.from(document.querySelectorAll('.locus-circle'));
 
         console.log(meetPoint);
+
+        this.resetMeetingPoint();
 
         pointLoci.forEach(function (pointLocus, index) {
             pointLocus.style.transition = 'none';
@@ -413,18 +453,7 @@ class UI {
             }, 13);
         });
 
-        setTimeout(function () {
-            const meetingPoint = document.createElement('div');
-
-            meetingPoint.classList.add('point');
-            meetingPoint.style.width = '18px';
-            meetingPoint.style.height = '18px';
-            meetingPoint.style.backgroundColor = 'rgb(219, 92, 83)';
-            meetingPoint.style.left = meetPoint.xPosition.toString() + 'px';
-            meetingPoint.style.top = meetPoint.yPosition.toString() + 'px';
-
-            document.getElementById('points-container').appendChild(meetingPoint);
-        }, (meetTime * 1000) / (4 * UI.animationSpeed));
+        this.displayMeetingPoint(meetPoint, meetTime);
     }
 
     showAverageMeet() {
@@ -643,8 +672,8 @@ class Algorithms {
                     let distanceCurrentToSlowestPoint = Algorithms.distanceBetween(currentPoint, slowestPoint);
                     let averageTime = ((distanceCurrentToPoint1 / point1.speed) + (distanceCurrentToPoint2 / point2.speed) + (distanceCurrentToSlowestPoint / slowestPoint.speed)) / 3;
 
-                    if ((Math.abs((distanceCurrentToPoint1 / point1.speed) - (distanceCurrentToPoint2 / point2.speed)) < (averageTime / 200)) && 
-                        (Math.abs((distanceCurrentToPoint1 / point1.speed) - (distanceCurrentToSlowestPoint / slowestPoint.speed)) < (averageTime / 200))) {
+                    if ((Math.abs((distanceCurrentToPoint1 / point1.speed) - (distanceCurrentToPoint2 / point2.speed)) < (averageTime / 50)) && 
+                        (Math.abs((distanceCurrentToPoint1 / point1.speed) - (distanceCurrentToSlowestPoint / slowestPoint.speed)) < (averageTime / 50))) {
 
                         const meetTime = Algorithms.distanceBetween(currentPoint, slowestPoint) / slowestPoint.speed;
 
@@ -728,7 +757,7 @@ document.body.addEventListener('mousedown', function (event) {
     }
 });
 
-document.getElementById('delete-point').addEventListener('click', function (event) {
+document.getElementById('delete-point').addEventListener('click', function () {
     const uI = new UI();
     uI.removePoint();
     uI.toggleRunEnabled();

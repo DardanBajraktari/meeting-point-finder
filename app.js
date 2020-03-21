@@ -575,11 +575,11 @@ class Algorithms {
 
     static calculateLociIntersection(point1, point2, midPoint, slowestPoint, twoSlowestMeetTime) {
         function findQuarterwayPoints() {
-            const quarterPoint1XPosition = Math.round(point1.xPosition + (point2.xPosition - point1.xPosition) / 2.5);
-            const quarterPoint1YPosition = Math.round(point1.yPosition + (point2.yPosition - point1.yPosition) / 2.5);
+            const quarterPoint1XPosition = Math.round(point1.xPosition + (point2.xPosition - point1.xPosition) / 3.5);
+            const quarterPoint1YPosition = Math.round(point1.yPosition + (point2.yPosition - point1.yPosition) / 3.5);
 
-            const quarterPoint2XPosition = Math.round(point2.xPosition + (point1.xPosition - point2.xPosition) / 2.5);
-            const quarterPoint2YPosition = Math.round(point2.yPosition + (point1.yPosition - point2.yPosition) / 2.5);
+            const quarterPoint2XPosition = Math.round(point2.xPosition + (point1.xPosition - point2.xPosition) / 3.5);
+            const quarterPoint2YPosition = Math.round(point2.yPosition + (point1.yPosition - point2.yPosition) / 3.5);
 
             const quarterPoint1 = {
                 xPosition: quarterPoint1XPosition,
@@ -642,44 +642,56 @@ class Algorithms {
             let x;
             let y;
 
-            for (let i = radius; i <= maxRadius; i++) {
-                for (let j = lowerBound; j <= upperBound; j++) {
-                    if (coordinateValue === 'x') {
-                        x = j;
-                        
-                        if (slowestPoint.yPosition > midPoint.yPosition) {
-                            y = slowestPoint.yPosition - Math.sqrt(Math.pow(i, 2) - Math.pow((x - slowestPoint.xPosition), 2));
+            for (let rangeModifier = 200; rangeModifier >= 50; rangeModifier -= 50) {
+                for (let i = radius; i <= maxRadius; i++) {
+                    for (let j = lowerBound; j <= upperBound; j++) {
+                        if (coordinateValue === 'x') {
+                            x = j;
+                            
+                            if (slowestPoint.yPosition > midPoint.yPosition) {
+                                y = slowestPoint.yPosition - Math.sqrt(Math.pow(i, 2) - Math.pow((x - slowestPoint.xPosition), 2));
+                            } else {
+                                y = slowestPoint.yPosition + Math.sqrt(Math.pow(i, 2) - Math.pow((x - slowestPoint.xPosition), 2));
+                            }
                         } else {
-                            y = slowestPoint.yPosition + Math.sqrt(Math.pow(i, 2) - Math.pow((x - slowestPoint.xPosition), 2));
+                            y = j;
+                            
+                            if (slowestPoint.xPosition > midPoint.xPosition) {
+                                x = slowestPoint.xPosition - Math.sqrt(Math.pow(i, 2) - Math.pow((y - slowestPoint.yPosition), 2));
+                            } else {
+                                x = slowestPoint.xPosition + Math.sqrt(Math.pow(i, 2) - Math.pow((y - slowestPoint.yPosition), 2));
+                            }
                         }
-                    } else {
-                        y = j;
-                        
-                        if (slowestPoint.xPosition > midPoint.xPosition) {
-                            x = slowestPoint.xPosition - Math.sqrt(Math.pow(i, 2) - Math.pow((y - slowestPoint.yPosition), 2));
-                        } else {
-                            x = slowestPoint.xPosition + Math.sqrt(Math.pow(i, 2) - Math.pow((y - slowestPoint.yPosition), 2));
-                        }
-                    }
-
-                    const currentPoint = {
-                        xPosition: Math.floor(x),
-                        yPosition: Math.floor(y)
-                    };
-
-                    let distanceCurrentToPoint1 = Algorithms.distanceBetween(currentPoint, point1);
-                    let distanceCurrentToPoint2 = Algorithms.distanceBetween(currentPoint, point2);
-                    let distanceCurrentToSlowestPoint = Algorithms.distanceBetween(currentPoint, slowestPoint);
-                    let averageTime = ((distanceCurrentToPoint1 / point1.speed) + (distanceCurrentToPoint2 / point2.speed) + (distanceCurrentToSlowestPoint / slowestPoint.speed)) / 3;
-
-                    if ((Math.abs((distanceCurrentToPoint1 / point1.speed) - (distanceCurrentToPoint2 / point2.speed)) < (averageTime / 50)) && 
-                        (Math.abs((distanceCurrentToPoint1 / point1.speed) - (distanceCurrentToSlowestPoint / slowestPoint.speed)) < (averageTime / 50))) {
-
-                        const meetTime = Algorithms.distanceBetween(currentPoint, slowestPoint) / slowestPoint.speed;
-
-                        return {
-                            meetPoint: currentPoint,
-                            meetTime: distanceCurrentToSlowestPoint / slowestPoint.speed
+    
+                        const currentPoint = {
+                            xPosition: Math.floor(x),
+                            yPosition: Math.floor(y)
+                        };
+    
+                        // const newCircle = document.createElement('div');
+                        // newCircle.classList.add('tracker-circle');
+                        // newCircle.style.left = currentPoint.xPosition.toString() + 'px';
+                        // newCircle.style.top = currentPoint.yPosition.toString() + 'px';
+                        // document.body.appendChild(newCircle);
+    
+                        let distanceCurrentToPoint1 = Algorithms.distanceBetween(currentPoint, point1);
+                        let distanceCurrentToPoint2 = Algorithms.distanceBetween(currentPoint, point2);
+                        let distanceCurrentToSlowestPoint = Algorithms.distanceBetween(currentPoint, slowestPoint);
+                        let averageTime = ((distanceCurrentToPoint1 / point1.speed) + (distanceCurrentToPoint2 / point2.speed) + (distanceCurrentToSlowestPoint / slowestPoint.speed)) / 3;
+    
+                        console.log(rangeModifier);
+                        if ((Math.abs((distanceCurrentToPoint1 / point1.speed) - (distanceCurrentToPoint2 / point2.speed)) < (averageTime / rangeModifier)) && 
+                            (Math.abs((distanceCurrentToPoint1 / point1.speed) - (distanceCurrentToSlowestPoint / slowestPoint.speed)) < (averageTime / rangeModifier))) {
+    
+                            console.log(averageTime);
+                            console.log(rangeModifier);
+    
+                            const meetTime = Algorithms.distanceBetween(currentPoint, slowestPoint) / slowestPoint.speed;
+    
+                            return {
+                                meetPoint: currentPoint,
+                                meetTime: distanceCurrentToSlowestPoint / slowestPoint.speed
+                            }
                         }
                     }
                 }

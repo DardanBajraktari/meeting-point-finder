@@ -668,25 +668,13 @@ class Algorithms {
                             yPosition: Math.floor(y)
                         };
     
-                        // const newCircle = document.createElement('div');
-                        // newCircle.classList.add('tracker-circle');
-                        // newCircle.style.left = currentPoint.xPosition.toString() + 'px';
-                        // newCircle.style.top = currentPoint.yPosition.toString() + 'px';
-                        // document.body.appendChild(newCircle);
-    
                         let distanceCurrentToPoint1 = Algorithms.distanceBetween(currentPoint, point1);
                         let distanceCurrentToPoint2 = Algorithms.distanceBetween(currentPoint, point2);
                         let distanceCurrentToSlowestPoint = Algorithms.distanceBetween(currentPoint, slowestPoint);
                         let averageTime = ((distanceCurrentToPoint1 / point1.speed) + (distanceCurrentToPoint2 / point2.speed) + (distanceCurrentToSlowestPoint / slowestPoint.speed)) / 3;
     
-                        console.log(rangeModifier);
                         if ((Math.abs((distanceCurrentToPoint1 / point1.speed) - (distanceCurrentToPoint2 / point2.speed)) < (averageTime / rangeModifier)) && 
                             (Math.abs((distanceCurrentToPoint1 / point1.speed) - (distanceCurrentToSlowestPoint / slowestPoint.speed)) < (averageTime / rangeModifier))) {
-    
-                            console.log(averageTime);
-                            console.log(rangeModifier);
-    
-                            const meetTime = Algorithms.distanceBetween(currentPoint, slowestPoint) / slowestPoint.speed;
     
                             return {
                                 meetPoint: currentPoint,

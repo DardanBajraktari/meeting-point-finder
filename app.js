@@ -569,17 +569,17 @@ class Algorithms {
                 meetTime: slowestTime
             };
         } else {
-            return Algorithms.calculateLociIntersection(twoSlowest.point1, twoSlowest.point2, twoSlowest.meetPoint, slowestPoint, meetTime);
+            return Algorithms.calculateLociIntersection(points, twoSlowest.point1, twoSlowest.point2, twoSlowest.meetPoint, slowestPoint, meetTime);
         }
     }
 
-    static calculateLociIntersection(point1, point2, midPoint, slowestPoint, twoSlowestMeetTime) {
+    static calculateLociIntersection(points, point1, point2, midPoint, slowestPoint, twoSlowestMeetTime) {
         function findQuarterwayPoints() {
-            const quarterPoint1XPosition = Math.round(point1.xPosition + (point2.xPosition - point1.xPosition) / 3.5);
-            const quarterPoint1YPosition = Math.round(point1.yPosition + (point2.yPosition - point1.yPosition) / 3.5);
+            const quarterPoint1XPosition = Math.round(point1.xPosition + (point2.xPosition - point1.xPosition) / 4);
+            const quarterPoint1YPosition = Math.round(point1.yPosition + (point2.yPosition - point1.yPosition) / 4);
 
-            const quarterPoint2XPosition = Math.round(point2.xPosition + (point1.xPosition - point2.xPosition) / 3.5);
-            const quarterPoint2YPosition = Math.round(point2.yPosition + (point1.yPosition - point2.yPosition) / 3.5);
+            const quarterPoint2XPosition = Math.round(point2.xPosition + (point1.xPosition - point2.xPosition) / 4);
+            const quarterPoint2YPosition = Math.round(point2.yPosition + (point1.yPosition - point2.yPosition) / 4);
 
             const quarterPoint1 = {
                 xPosition: quarterPoint1XPosition,
@@ -632,7 +632,7 @@ class Algorithms {
             }
         }
 
-        function findMeetPoint() {
+        function findMeetPoint(points, midPoint) {
             const searchBoundsData = findCoordinateSearchBounds();
             const lowerBound = searchBoundsData.lowerBound;
             const upperBound = searchBoundsData.upperBound;
@@ -642,43 +642,59 @@ class Algorithms {
             let x;
             let y;
 
-            for (let rangeModifier = 200; rangeModifier >= 50; rangeModifier -= 50) {
-                for (let i = radius; i <= maxRadius; i++) {
-                    for (let j = lowerBound; j <= upperBound; j++) {
-                        if (coordinateValue === 'x') {
-                            x = j;
-                            
-                            if (slowestPoint.yPosition > midPoint.yPosition) {
-                                y = slowestPoint.yPosition - Math.sqrt(Math.pow(i, 2) - Math.pow((x - slowestPoint.xPosition), 2));
-                            } else {
-                                y = slowestPoint.yPosition + Math.sqrt(Math.pow(i, 2) - Math.pow((x - slowestPoint.xPosition), 2));
-                            }
+            for (let i = radius; i <= maxRadius; i++) {
+                for (let j = lowerBound; j <= upperBound; j++) {
+                    if (coordinateValue === 'x') {
+                        x = j;
+                        
+                        if (slowestPoint.yPosition > midPoint.yPosition) {
+                            y = slowestPoint.yPosition - Math.sqrt(Math.pow(i, 2) - Math.pow((x - slowestPoint.xPosition), 2));
                         } else {
-                            y = j;
-                            
-                            if (slowestPoint.xPosition > midPoint.xPosition) {
-                                x = slowestPoint.xPosition - Math.sqrt(Math.pow(i, 2) - Math.pow((y - slowestPoint.yPosition), 2));
-                            } else {
-                                x = slowestPoint.xPosition + Math.sqrt(Math.pow(i, 2) - Math.pow((y - slowestPoint.yPosition), 2));
-                            }
+                            y = slowestPoint.yPosition + Math.sqrt(Math.pow(i, 2) - Math.pow((x - slowestPoint.xPosition), 2));
                         }
-    
-                        const currentPoint = {
-                            xPosition: Math.floor(x),
-                            yPosition: Math.floor(y)
-                        };
-    
-                        let distanceCurrentToPoint1 = Algorithms.distanceBetween(currentPoint, point1);
-                        let distanceCurrentToPoint2 = Algorithms.distanceBetween(currentPoint, point2);
-                        let distanceCurrentToSlowestPoint = Algorithms.distanceBetween(currentPoint, slowestPoint);
-                        let averageTime = ((distanceCurrentToPoint1 / point1.speed) + (distanceCurrentToPoint2 / point2.speed) + (distanceCurrentToSlowestPoint / slowestPoint.speed)) / 3;
-    
+                    } else {
+                        y = j;
+                        
+                        if (slowestPoint.xPosition > midPoint.xPosition) {
+                            x = slowestPoint.xPosition - Math.sqrt(Math.pow(i, 2) - Math.pow((y - slowestPoint.yPosition), 2));
+                        } else {
+                            x = slowestPoint.xPosition + Math.sqrt(Math.pow(i, 2) - Math.pow((y - slowestPoint.yPosition), 2));
+                        }
+                    }
+
+                    const currentPoint = {
+                        xPosition: Math.floor(x),
+                        yPosition: Math.floor(y)
+                    };
+
+                    // const newCircle = document.createElement('div');
+                    // newCircle.classList.add('tracker-circle');
+                    // newCircle.style.left = currentPoint.xPosition.toString() + 'px';
+                    // newCircle.style.top = currentPoint.yPosition.toString() + 'px';
+                    // document.body.appendChild(newCircle);
+
+                    let distanceCurrentToPoint1 = Algorithms.distanceBetween(currentPoint, point1);
+                    let distanceCurrentToPoint2 = Algorithms.distanceBetween(currentPoint, point2);
+                    let distanceCurrentToSlowestPoint = Algorithms.distanceBetween(currentPoint, slowestPoint);
+                    let averageTime = ((distanceCurrentToPoint1 / point1.speed) + (distanceCurrentToPoint2 / point2.speed) + (distanceCurrentToSlowestPoint / slowestPoint.speed)) / 3;
+
+                    for (let rangeModifier = 200; rangeModifier >= 50; rangeModifier -= 50) {
                         if ((Math.abs((distanceCurrentToPoint1 / point1.speed) - (distanceCurrentToPoint2 / point2.speed)) < (averageTime / rangeModifier)) && 
                             (Math.abs((distanceCurrentToPoint1 / point1.speed) - (distanceCurrentToSlowestPoint / slowestPoint.speed)) < (averageTime / rangeModifier))) {
-    
+
+                            let maxMeetTime = 0;
+
+                            for (let k = 0; k < points.length; k++) {
+                                const meetTime = Algorithms.distanceBetween(points[k], currentPoint) / points[k].speed;
+
+                                if (meetTime > maxMeetTime) {
+                                    maxMeetTime = meetTime;
+                                }
+                            }
+
                             return {
                                 meetPoint: currentPoint,
-                                meetTime: distanceCurrentToSlowestPoint / slowestPoint.speed
+                                meetTime: maxMeetTime
                             }
                         }
                     }
@@ -686,7 +702,7 @@ class Algorithms {
             }
         }
 
-        return findMeetPoint();
+        return findMeetPoint(points, midPoint);
     }
 
     static findAveragePoint(points) {
@@ -790,12 +806,9 @@ document.getElementById('name-input').addEventListener('keyup', function (event)
 document.getElementById('run-button').addEventListener('click', function () {
     if (PointStore.points.length > 1) {
         const uI = new UI();
-        
-        if (PointStore.points.length > 1) {
-            uI.runAnimation(Algorithms.selectedAlgorithm);
-        } else {
-            alert('You have to have at least 2 points.');
-        }
+        uI.runAnimation(Algorithms.selectedAlgorithm);
+    } else {
+        alert('There need to be at least 2 points.');
     }
 });
 

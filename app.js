@@ -317,7 +317,7 @@ class UI {
         meetingPoint.style.visibility = 'hidden';
 
         meetingPoint.setAttribute('data-position', 'top');
-        meetingPoint.setAttribute('data-delay', '500');
+        meetingPoint.setAttribute('data-delay', '200');
         $('#meeting-point').tooltip();
         
         document.getElementById('points-container').appendChild(meetingPoint);
@@ -575,11 +575,11 @@ class Algorithms {
 
     static calculateLociIntersection(points, point1, point2, midPoint, slowestPoint, twoSlowestMeetTime) {
         function calculateSearchLimits() {
-            const quarterPoint1XPosition = Math.round(point1.xPosition + (point2.xPosition - point1.xPosition) / 6);
-            const quarterPoint1YPosition = Math.round(point1.yPosition + (point2.yPosition - point1.yPosition) / 6);
+            const quarterPoint1XPosition = Math.round(point1.xPosition + (point2.xPosition - point1.xPosition) / 5);
+            const quarterPoint1YPosition = Math.round(point1.yPosition + (point2.yPosition - point1.yPosition) / 5);
 
-            const quarterPoint2XPosition = Math.round(point2.xPosition + (point1.xPosition - point2.xPosition) / 6);
-            const quarterPoint2YPosition = Math.round(point2.yPosition + (point1.yPosition - point2.yPosition) / 6);
+            const quarterPoint2XPosition = Math.round(point2.xPosition + (point1.xPosition - point2.xPosition) / 5);
+            const quarterPoint2YPosition = Math.round(point2.yPosition + (point1.yPosition - point2.yPosition) / 5);
 
             const quarterPoint1 = {
                 xPosition: quarterPoint1XPosition,
@@ -642,10 +642,10 @@ class Algorithms {
             let x;
             let y;
 
-            console.log(maxRadius);
-
             for (let i = radius; i <= maxRadius + 50; i++) {
                 for (let j = lowerBound; j <= upperBound; j++) {
+                    let noLongerInCircleBounds = false;
+
                     if (coordinateValue === 'x') {
                         x = j;
                         
@@ -664,41 +664,43 @@ class Algorithms {
                         }
                     }
 
-                    const currentPoint = {
-                        xPosition: Math.floor(x),
-                        yPosition: Math.floor(y)
-                    };
-
-                    // const newCircle = document.createElement('div');
-                    // newCircle.classList.add('tracker-circle');
-                    // newCircle.style.left = currentPoint.xPosition.toString() + 'px';
-                    // newCircle.style.top = currentPoint.yPosition.toString() + 'px';
-                    // document.body.appendChild(newCircle);
-
-                    let distanceCurrentToPoint1 = Algorithms.distanceBetween(currentPoint, point1);
-                    let distanceCurrentToPoint2 = Algorithms.distanceBetween(currentPoint, point2);
-                    let distanceCurrentToSlowestPoint = Algorithms.distanceBetween(currentPoint, slowestPoint);
-                    let averageTime = ((distanceCurrentToPoint1 / point1.speed) + (distanceCurrentToPoint2 / point2.speed) + (distanceCurrentToSlowestPoint / slowestPoint.speed)) / 3;
-
-                    for (let acceptableDifference = 0.25; acceptableDifference >= 0.05; acceptableDifference -= 0.05) {
-                        if ((Math.abs((distanceCurrentToPoint1 / point1.speed) - (distanceCurrentToPoint2 / point2.speed)) < acceptableDifference) && 
-                            (Math.abs((distanceCurrentToPoint1 / point1.speed) - (distanceCurrentToSlowestPoint / slowestPoint.speed)) < acceptableDifference)) {
-
-                            let maxMeetTime = 0;
-
-                            for (let k = 0; k < points.length; k++) {
-                                const meetTime = Algorithms.distanceBetween(points[k], currentPoint) / points[k].speed;
-
-                                console.log(points[k].id + ' meet time: ' + meetTime);
-
-                                if (meetTime > maxMeetTime) {
-                                    maxMeetTime = meetTime;
+                    if ((typeof x === 'number') && (typeof y === 'number')) {
+                        const currentPoint = {
+                            xPosition: Math.floor(x),
+                            yPosition: Math.floor(y)
+                        };
+    
+                        // const newCircle = document.createElement('div');
+                        // newCircle.classList.add('tracker-circle');
+                        // newCircle.style.left = currentPoint.xPosition.toString() + 'px';
+                        // newCircle.style.top = currentPoint.yPosition.toString() + 'px';
+                        // document.body.appendChild(newCircle);
+    
+                        let distanceCurrentToPoint1 = Algorithms.distanceBetween(currentPoint, point1);
+                        let distanceCurrentToPoint2 = Algorithms.distanceBetween(currentPoint, point2);
+                        let distanceCurrentToSlowestPoint = Algorithms.distanceBetween(currentPoint, slowestPoint);
+                        let averageTime = ((distanceCurrentToPoint1 / point1.speed) + (distanceCurrentToPoint2 / point2.speed) + (distanceCurrentToSlowestPoint / slowestPoint.speed)) / 3;
+    
+                        for (let acceptableDifference = 0.25; acceptableDifference >= 0.05; acceptableDifference -= 0.05) {
+                            if ((Math.abs((distanceCurrentToPoint1 / point1.speed) - (distanceCurrentToPoint2 / point2.speed)) < acceptableDifference) && 
+                                (Math.abs((distanceCurrentToPoint1 / point1.speed) - (distanceCurrentToSlowestPoint / slowestPoint.speed)) < acceptableDifference)) {
+    
+                                let maxMeetTime = 0;
+    
+                                for (let k = 0; k < points.length; k++) {
+                                    const meetTime = Algorithms.distanceBetween(points[k], currentPoint) / points[k].speed;
+    
+                                    console.log(points[k].id + ' meet time: ' + meetTime);
+    
+                                    if (meetTime > maxMeetTime) {
+                                        maxMeetTime = meetTime;
+                                    }
                                 }
-                            }
-
-                            return {
-                                meetPoint: currentPoint,
-                                meetTime: maxMeetTime
+    
+                                return {
+                                    meetPoint: currentPoint,
+                                    meetTime: maxMeetTime
+                                }
                             }
                         }
                     }

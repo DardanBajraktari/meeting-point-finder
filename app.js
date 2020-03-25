@@ -317,7 +317,7 @@ class UI {
         meetingPoint.style.visibility = 'hidden';
 
         meetingPoint.setAttribute('data-position', 'top');
-        meetingPoint.setAttribute('data-delay', '200');
+        meetingPoint.setAttribute('data-delay', '50');
         $('#meeting-point').tooltip();
         
         document.getElementById('points-container').appendChild(meetingPoint);

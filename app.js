@@ -426,7 +426,7 @@ class UI {
 
             meetingPoint.style.width = '18px';
             meetingPoint.style.height = '18px';
-        }, (meetTime * 1000) / (4 * UI.animationSpeed) - 150);
+        }, (meetTime * 1000) / (4 * UI.animationSpeed) - 300);
     }
 
     showQuickestMeet() {
@@ -574,12 +574,12 @@ class Algorithms {
     }
 
     static calculateLociIntersection(points, point1, point2, midPoint, slowestPoint, twoSlowestMeetTime) {
-        function findQuarterwayPoints() {
-            const quarterPoint1XPosition = Math.round(point1.xPosition + (point2.xPosition - point1.xPosition) / 4);
-            const quarterPoint1YPosition = Math.round(point1.yPosition + (point2.yPosition - point1.yPosition) / 4);
+        function calculateSearchLimits() {
+            const quarterPoint1XPosition = Math.round(point1.xPosition + (point2.xPosition - point1.xPosition) / 6);
+            const quarterPoint1YPosition = Math.round(point1.yPosition + (point2.yPosition - point1.yPosition) / 6);
 
-            const quarterPoint2XPosition = Math.round(point2.xPosition + (point1.xPosition - point2.xPosition) / 4);
-            const quarterPoint2YPosition = Math.round(point2.yPosition + (point1.yPosition - point2.yPosition) / 4);
+            const quarterPoint2XPosition = Math.round(point2.xPosition + (point1.xPosition - point2.xPosition) / 6);
+            const quarterPoint2YPosition = Math.round(point2.yPosition + (point1.yPosition - point2.yPosition) / 6);
 
             const quarterPoint1 = {
                 xPosition: quarterPoint1XPosition,
@@ -595,7 +595,7 @@ class Algorithms {
         }
 
         function findCoordinateSearchBounds() {
-            const quarterPoints = findQuarterwayPoints();
+            const quarterPoints = calculateSearchLimits();
             const quarterPoint1 = quarterPoints[0];
             const quarterPoint2 = quarterPoints[1];
 
@@ -642,7 +642,9 @@ class Algorithms {
             let x;
             let y;
 
-            for (let i = radius; i <= maxRadius; i++) {
+            console.log(maxRadius);
+
+            for (let i = radius; i <= maxRadius + 50; i++) {
                 for (let j = lowerBound; j <= upperBound; j++) {
                     if (coordinateValue === 'x') {
                         x = j;
@@ -678,14 +680,16 @@ class Algorithms {
                     let distanceCurrentToSlowestPoint = Algorithms.distanceBetween(currentPoint, slowestPoint);
                     let averageTime = ((distanceCurrentToPoint1 / point1.speed) + (distanceCurrentToPoint2 / point2.speed) + (distanceCurrentToSlowestPoint / slowestPoint.speed)) / 3;
 
-                    for (let rangeModifier = 200; rangeModifier >= 50; rangeModifier -= 50) {
-                        if ((Math.abs((distanceCurrentToPoint1 / point1.speed) - (distanceCurrentToPoint2 / point2.speed)) < (averageTime / rangeModifier)) && 
-                            (Math.abs((distanceCurrentToPoint1 / point1.speed) - (distanceCurrentToSlowestPoint / slowestPoint.speed)) < (averageTime / rangeModifier))) {
+                    for (let acceptableDifference = 0.25; acceptableDifference >= 0.05; acceptableDifference -= 0.05) {
+                        if ((Math.abs((distanceCurrentToPoint1 / point1.speed) - (distanceCurrentToPoint2 / point2.speed)) < acceptableDifference) && 
+                            (Math.abs((distanceCurrentToPoint1 / point1.speed) - (distanceCurrentToSlowestPoint / slowestPoint.speed)) < acceptableDifference)) {
 
                             let maxMeetTime = 0;
 
                             for (let k = 0; k < points.length; k++) {
                                 const meetTime = Algorithms.distanceBetween(points[k], currentPoint) / points[k].speed;
+
+                                console.log(points[k].id + ' meet time: ' + meetTime);
 
                                 if (meetTime > maxMeetTime) {
                                     maxMeetTime = meetTime;

@@ -622,18 +622,6 @@ class Algorithms {
             const quarterPoint1 = quarterPoints[0];
             const quarterPoint2 = quarterPoints[1];
 
-            const newCircle1 = document.createElement('div');
-            newCircle1.classList.add('tracker-circle');
-            newCircle1.style.left = quarterPoint1.xPosition.toString() + 'px';
-            newCircle1.style.top = quarterPoint1.yPosition.toString() + 'px';
-            document.body.appendChild(newCircle1);
-
-            const newCircle2 = document.createElement('div');
-            newCircle2.classList.add('tracker-circle');
-            newCircle2.style.left = quarterPoint2.xPosition.toString() + 'px';
-            newCircle2.style.top = quarterPoint2.yPosition.toString() + 'px';
-            document.body.appendChild(newCircle2);
-
             let lowerBound;
             let upperBound;
             let coordinateValue;

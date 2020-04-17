@@ -106,7 +106,7 @@ class UI {
             'In the \'Mode Options\' section of the main menu, you will be able to choose from a number of different criteria by which the optimal meeting-point for the points will be determined. By default, the quickest possible meet (point for all points to meet in the shortest time), is selected.',
             'By clicking the \'Add New Point\' button in the menu, you can add new points, with a maximum of 10, to the simulation. All points and point data will be saved, even after you close or refresh the page.',
             'You can set the position of any point by either dragging the point to a position with the cursor, or manually input the values for its x and y coordinate in the settings box, which is opened by clicking on the point you wish to edit. Here you can give the points names as well as set the speed at which the object represented by the point travels at.',
-            'Points can be individually deleted by clicking the \'Delete Point\' button in its settings. You can also click the \'Clear Points\' button in the menu if you would like to delete all points. You will be prompted to confirm the decision.',
+            'Points can be individually deleted by clicking the \'Delete Point\' button in its settings, or you can also click the \'Clear Points\' button in the menu if you would like to delete all points. You will be prompted to confirm the decision.',
             'The speed at which the animation runs can be set in the \'Animation Speed\' menu section. You can choose from 0.5x, 1x (default), 2x, and 4x.',
             'I hope you enjoy using this application! You can send me feedback or report any bugs by sending an email to bajraktaridardan5@gmail.com.'
         ];

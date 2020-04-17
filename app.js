@@ -107,7 +107,7 @@ class UI {
             'By clicking the \'Add New Point\' button in the menu, you can add new points, with a maximum of 10, to the simulation. All points and point data will be saved, even after you close or refresh the page.',
             'You can set the position of any point by either dragging the point to a position with the cursor, or manually input the values for its x and y coordinate in the settings box, which is opened by clicking on the point you wish to edit. Here you can give the points names as well as set the speed at which the object represented by the point travels at.',
             'Points can be individually deleted by clicking the \'Delete Point\' button in its settings. You can also click the \'Clear Points\' button in the menu if you would like to delete all points. You will be prompted to confirm the decision.',
-            'The speed at which the animation runs can be set in the \'Animation Speed\' menu section. You can choose from 0.5x, 1x (normal), 2x, and 4x.',
+            'The speed at which the animation runs can be set in the \'Animation Speed\' menu section. You can choose from 0.5x, 1x (default), 2x, and 4x.',
             'I hope you enjoy using this application! You can send me feedback or report any bugs by sending an email to bajraktaridardan5@gmail.com.'
         ];
         const tutorialImages = ['Images/points.png', 'Images/Meet Point.png', 'Images/modes.png', 'Images/Adding Points.png', 'Images/Point Settings.png', 'Images/Clear Points.png', 'Images/Animation Speed.png', 'Images/smile.png'];
@@ -126,7 +126,7 @@ class UI {
         document.getElementById('updatedTutorialElements').innerHTML = `
             <h3 class="blue-grey-text text-darken-2">${tutorialTitles[UI.currentTutorialIndex]}</h3>
             <p>${tutorialParagraphs[UI.currentTutorialIndex]}</p>
-            <img src="${tutorialImages[UI.currentTutorialIndex]}" width="50%" height="40%">
+            <img src="${tutorialImages[UI.currentTutorialIndex]}" width="45%" height="40%">
         `;
     }
 
@@ -426,7 +426,7 @@ class UI {
 
             meetingPoint.style.width = '18px';
             meetingPoint.style.height = '18px';
-        }, (meetTime * 1000) / (4 * UI.animationSpeed) - 300);
+        }, (meetTime * 1000) / (4 * UI.animationSpeed) - 400);
     }
 
     showQuickestMeet() {
@@ -575,11 +575,34 @@ class Algorithms {
 
     static calculateLociIntersection(points, point1, point2, midPoint, slowestPoint, twoSlowestMeetTime) {
         function calculateSearchLimits() {
-            const quarterPoint1XPosition = Math.round(point1.xPosition + (point2.xPosition - point1.xPosition) / 5);
-            const quarterPoint1YPosition = Math.round(point1.yPosition + (point2.yPosition - point1.yPosition) / 5);
+            let searchWidth;
+            let quarterPoint1XPosition;
+            let quarterPoint1YPosition;
+            let quarterPoint2XPosition;
+            let quarterPoint2YPosition;
 
-            const quarterPoint2XPosition = Math.round(point2.xPosition + (point1.xPosition - point2.xPosition) / 5);
-            const quarterPoint2YPosition = Math.round(point2.yPosition + (point1.yPosition - point2.yPosition) / 5);
+            const speedDiffToSumRatio = Math.abs(point1.speed - point2.speed) / (point1.speed + point2.speed);
+
+            if (speedDiffToSumRatio > 0.7) {                // Search width adjust to give the minimum needed search width to find the meet-point.
+                quarterPoint1XPosition = point1.xPosition;
+                quarterPoint1YPosition = point1.yPosition;
+                quarterPoint2XPosition = point2.xPosition;
+                quarterPoint2YPosition = point2.yPosition;
+            } else {
+                if (speedDiffToSumRatio <= 0.25) {
+                    searchWidth = 2.5;
+                } else {
+                    searchWidth = (3.8 * (Math.pow(speedDiffToSumRatio + 0.31, 3.7))) + 2;
+                }
+
+                quarterPoint1XPosition = Math.round(point1.xPosition + (point2.xPosition - point1.xPosition) / searchWidth);
+                quarterPoint1YPosition = Math.round(point1.yPosition + (point2.yPosition - point1.yPosition) / searchWidth);
+
+                quarterPoint2XPosition = Math.round(point2.xPosition + (point1.xPosition - point2.xPosition) / searchWidth);
+                quarterPoint2YPosition = Math.round(point2.yPosition + (point1.yPosition - point2.yPosition) / searchWidth);
+            }
+
+            console.log(searchWidth);
 
             const quarterPoint1 = {
                 xPosition: quarterPoint1XPosition,
@@ -598,6 +621,18 @@ class Algorithms {
             const quarterPoints = calculateSearchLimits();
             const quarterPoint1 = quarterPoints[0];
             const quarterPoint2 = quarterPoints[1];
+
+            const newCircle1 = document.createElement('div');
+            newCircle1.classList.add('tracker-circle');
+            newCircle1.style.left = quarterPoint1.xPosition.toString() + 'px';
+            newCircle1.style.top = quarterPoint1.yPosition.toString() + 'px';
+            document.body.appendChild(newCircle1);
+
+            const newCircle2 = document.createElement('div');
+            newCircle2.classList.add('tracker-circle');
+            newCircle2.style.left = quarterPoint2.xPosition.toString() + 'px';
+            newCircle2.style.top = quarterPoint2.yPosition.toString() + 'px';
+            document.body.appendChild(newCircle2);
 
             let lowerBound;
             let upperBound;
@@ -644,8 +679,6 @@ class Algorithms {
 
             for (let i = radius; i <= maxRadius + 50; i++) {
                 for (let j = lowerBound; j <= upperBound; j++) {
-                    let noLongerInCircleBounds = false;
-
                     if (coordinateValue === 'x') {
                         x = j;
                         
@@ -681,7 +714,7 @@ class Algorithms {
                         let distanceCurrentToSlowestPoint = Algorithms.distanceBetween(currentPoint, slowestPoint);
                         let averageTime = ((distanceCurrentToPoint1 / point1.speed) + (distanceCurrentToPoint2 / point2.speed) + (distanceCurrentToSlowestPoint / slowestPoint.speed)) / 3;
     
-                        for (let acceptableDifference = 0.25; acceptableDifference >= 0.05; acceptableDifference -= 0.05) {
+                        for (let acceptableDifference = 0.3; acceptableDifference >= 0.05; acceptableDifference -= 0.05) {
                             if ((Math.abs((distanceCurrentToPoint1 / point1.speed) - (distanceCurrentToPoint2 / point2.speed)) < acceptableDifference) && 
                                 (Math.abs((distanceCurrentToPoint1 / point1.speed) - (distanceCurrentToSlowestPoint / slowestPoint.speed)) < acceptableDifference)) {
     

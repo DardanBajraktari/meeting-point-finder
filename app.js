@@ -445,8 +445,14 @@ class UI {
         document.getElementById('meet-point-settings').classList.add('meet-point-settings-box-view');
 
         document.getElementById('meet-point-settings').innerHTML = `
-            <h3>Meeting Point</h3>
-            <h4>X Position: ${UI.meetPoint.xPosition}</h4>
+            <i class="material-icons left">close</i>
+            <h5 class="center-align white-text">Meeting Point</h5>
+            <div class="">
+                <p class="center-align white-text">X Position: ${UI.meetPoint.xPosition}</p>
+                <p class="center-align white-text">Y Position: ${UI.meetPoint.yPosition}</p>
+                <p class="center-align white-text">Meet-time: ${UI.meetPoint.meetTime.toFixed(2)}s</p>
+                <p class="center-align white-text">Meet Type: ${UI.meetPoint.meetType}</p>
+            </div>
         `;
 
         console.log(UI.meetPoint);

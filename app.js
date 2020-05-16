@@ -98,6 +98,13 @@ class UI {
     static vacatedPositions;
     static currentTutorialIndex = 0;
 
+    static meetPoint = {
+        xPosition: null,
+        yPosition: null,
+        meetTime: null,
+        meetType: null
+    }
+
     updateTutorial() {
         const tutorialTitles = ['Meet Point Finder Tutorial', 'Finding the Meet Point', 'Mode Options', 'Adding Points', 'Point Settings', 'Deleting Points', 'Animation Speed', 'That\'s all!'];
         const tutorialParagraphs = [
@@ -284,11 +291,11 @@ class UI {
     }
 
     openPointSettings(point) {
-        document.getElementById('point-settings').classList.add('settings-box-view');
+        document.getElementById('point-settings').classList.add('point-settings-box-view');
     }
 
     closePointSettings(pointDeleted) {
-        document.getElementById('point-settings').classList.remove('settings-box-view');
+        document.getElementById('point-settings').classList.remove('point-settings-box-view');
 
         if (!pointDeleted) {
             this.toggleHighlightPoint();
@@ -321,6 +328,11 @@ class UI {
         $('#meeting-point').tooltip();
         
         document.getElementById('points-container').appendChild(meetingPoint);
+
+        document.getElementById('meeting-point').addEventListener('click', function () {
+            const uI = new UI();
+            uI.showMeetingPointInfo();
+        });
     }
 
     resetMeetingPoint() {
@@ -429,10 +441,27 @@ class UI {
         }, (meetTime * 1000) / (4 * UI.animationSpeed) - 400);
     }
 
+    showMeetingPointInfo() {
+        document.getElementById('meet-point-settings').classList.add('meet-point-settings-box-view');
+
+        document.getElementById('meet-point-settings').innerHTML = `
+            <h3>Meeting Point</h3>
+            <h4>X Position: ${UI.meetPoint.xPosition}</h4>
+        `;
+
+        console.log(UI.meetPoint);
+    }
+
     showQuickestMeet() {
         const meetData = Algorithms.findQuickestMeetPoint(PointStore.points);
         const meetPoint = meetData.meetPoint;
         const meetTime = meetData.meetTime;
+
+        UI.meetPoint.xPosition = meetPoint.xPosition;
+        UI.meetPoint.yPosition = meetPoint.yPosition;
+        UI.meetPoint.meetTime = meetTime;
+        UI.meetPoint.meetType = 'Quickest Meet';
+
         const pointLoci = Array.from(document.querySelectorAll('.locus-circle'));
 
         console.log(meetPoint);
@@ -583,7 +612,7 @@ class Algorithms {
 
             const speedDiffToSumRatio = Math.abs(point1.speed - point2.speed) / (point1.speed + point2.speed);
 
-            if (speedDiffToSumRatio > 0.7) {                // Search width adjust to give the minimum needed search width to find the meet-point.
+            if (speedDiffToSumRatio > 0.7) {              // Search width adjust to give the minimum needed search width to find the meet-point.
                 quarterPoint1XPosition = point1.xPosition;
                 quarterPoint1YPosition = point1.yPosition;
                 quarterPoint2XPosition = point2.xPosition;
@@ -591,6 +620,22 @@ class Algorithms {
             } else {
                 if (speedDiffToSumRatio <= 0.25) {
                     searchWidth = 2.5;
+
+                    const xDifference = Math.abs(point1.xPosition - point2.xPosition);
+                    const yDifference = Math.abs(point1.yPosition - point2.yPosition);
+                    const ratio = xDifference / (xDifference + yDifference);
+                    const deviationFromHalf = Math.abs(ratio - 0.5);
+
+                    if (deviationFromHalf < 0.15) {
+                        if (deviationFromHalf < 0.075) {
+                            searchWidth = 4;
+                        } else {
+                            searchWidth = 3;
+                        }
+                    }
+
+                    console.log(ratio);
+                    console.log(deviationFromHalf);
                 } else {
                     searchWidth = (3.8 * (Math.pow(speedDiffToSumRatio + 0.31, 3.7))) + 2;
                 }
@@ -601,6 +646,12 @@ class Algorithms {
                 quarterPoint2XPosition = Math.round(point2.xPosition + (point1.xPosition - point2.xPosition) / searchWidth);
                 quarterPoint2YPosition = Math.round(point2.yPosition + (point1.yPosition - point2.yPosition) / searchWidth);
             }
+
+            // quarterPoint1XPosition = Math.round(point1.xPosition + (point2.xPosition - point1.xPosition) / searchWidth);
+            // quarterPoint1YPosition = Math.round(point1.yPosition + (point2.yPosition - point1.yPosition) / searchWidth);
+
+            // quarterPoint2XPosition = Math.round(point2.xPosition + (point1.xPosition - point2.xPosition) / searchWidth);
+            // quarterPoint2YPosition = Math.round(point2.yPosition + (point1.yPosition - point2.yPosition) / searchWidth);
 
             console.log(searchWidth);
 
@@ -621,6 +672,18 @@ class Algorithms {
             const quarterPoints = calculateSearchLimits();
             const quarterPoint1 = quarterPoints[0];
             const quarterPoint2 = quarterPoints[1];
+
+            // const newCircle1 = document.createElement('div');
+            // newCircle1.classList.add('tracker-circle');
+            // newCircle1.style.left = quarterPoint1.xPosition.toString() + 'px';
+            // newCircle1.style.top = quarterPoint1.yPosition.toString() + 'px';
+            // document.body.appendChild(newCircle1);
+
+            // const newCircle2 = document.createElement('div');
+            // newCircle2.classList.add('tracker-circle');
+            // newCircle2.style.left = quarterPoint2.xPosition.toString() + 'px';
+            // newCircle2.style.top = quarterPoint2.yPosition.toString() + 'px';
+            // document.body.appendChild(newCircle2);
 
             let lowerBound;
             let upperBound;

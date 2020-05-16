@@ -8,11 +8,16 @@ p {
 }
 
 #header-title {
-    margin-left: -100px;
+    margin-left: -160px;
 }
 
 #nav-menu-items {
-    margin-right: -50px;
+    margin-left: 50px;
+}
+
+#show-hide-loci {
+    position: absolute;
+    width: 140px !important;
 }
 
 .lighten-2:hover {
@@ -37,6 +42,10 @@ p {
 .highlight {
     background-color: rgb(64, 143, 110);
     border-color: darkslategrey;
+}
+
+#meeting-point {
+    cursor: pointer;
 }
 
 #tutorial {
@@ -89,7 +98,7 @@ p {
     height: 92vh !important;
 }
 
-.settings-box {
+.point-settings-box {
     position: fixed;
     right: 0;
     top: 59px;
@@ -107,8 +116,30 @@ p {
     border-width: 3px;
 }
 
-.settings-box-view {
+.point-settings-box-view {
     transform: translateY(0%);
+}
+
+.meet-point-settings-box {
+    position: fixed;
+    right: 0;
+    top: 59px;
+    width: 250px;
+    height: 245px;
+    border-bottom-left-radius: 5px;
+    background-color: rgba(84, 121, 128, 0.582);
+    border: 3px;
+    transition-property: transform;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in-out;
+    transform: translateX(100%);
+    border-style: solid;
+    border-color: rgba(118, 147, 177, 0.725);
+    border-width: 3px;
+}
+
+.meet-point-settings-box-view {
+    transform: translateX(0%);
 }
 
 #name-input {
@@ -133,7 +164,7 @@ p {
     border-bottom-color: rgba(240, 255, 255, 0.849) !important;
 }
 
-.settings-box i {
+.point-settings-box i {
     font-size: 30px;
     margin-top: 2px;
     margin-left: -11px;
@@ -142,7 +173,7 @@ p {
     color: white;
 }
 
-.settings-box i:hover{
+.point-settings-box i:hover{
     color: rgba(48, 42, 42, 0.534);
 }
 
@@ -154,15 +185,15 @@ p {
     margin-left: 45px;
 }
 
-.settings-box label {
+.point-settings-box label {
     font-size: 15px;
 }
 
-.settings-box span {
+.point-settings-box span {
     color: white;
 }
 
-.settings-box input {
+.point-settings-box input {
     text-align: center !important;
     width: 60px !important;
     height: 15px !important;

@@ -448,10 +448,10 @@ class UI {
             <i class="material-icons left">close</i>
             <h5 class="center-align white-text">Meeting Point</h5>
             <div class="">
-                <p class="center-align white-text">X Position: ${UI.meetPoint.xPosition}</p>
-                <p class="center-align white-text">Y Position: ${UI.meetPoint.yPosition}</p>
-                <p class="center-align white-text">Meet-time: ${UI.meetPoint.meetTime.toFixed(2)}s</p>
-                <p class="center-align white-text">Meet Type: ${UI.meetPoint.meetType}</p>
+                <p class="left-align white-text">X Position: <span class="data-value">${UI.meetPoint.xPosition}</span></p>
+                <p class="left-align white-text">Y Position: <span class="data-value">${UI.meetPoint.yPosition}</span></p>
+                <p class="left-align white-text">Meet-time: <span class="data-value">${UI.meetPoint.meetTime.toFixed(2)}s</span></p>
+                <p class="left-align white-text">Meet Type: <span class="data-value">${UI.meetPoint.meetType}</span></p>
             </div>
         `;
 

@@ -145,6 +145,7 @@ p {
 
 .meet-point-settings-box div * {
     padding: 5px;
+    margin-left: 7px;
 }
 
 .meet-point-settings-box i {
@@ -162,6 +163,10 @@ p {
 
 .meet-point-settings-box-view {
     transform: translateX(0%);
+}
+
+.data-value {
+    color: rgb(228, 228, 228);
 }
 
 #name-input {

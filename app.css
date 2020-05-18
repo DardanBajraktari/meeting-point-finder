@@ -120,7 +120,7 @@ p {
     transform: translateY(0%);
 }
 
-.meet-point-settings-box {
+.meet-point-info-box {
     position: fixed;
     right: 0;
     top: 59px;
@@ -139,16 +139,16 @@ p {
     padding: 10px;
 }
 
-.meet-point-settings-box div {
+.meet-point-info-box div {
     margin-top: 20px;
 }
 
-.meet-point-settings-box div * {
+.meet-point-info-box div * {
     padding: 5px;
     margin-left: 7px;
 }
 
-.meet-point-settings-box i {
+.meet-point-info-box i {
     font-size: 30px;
     margin-top: -5px;
     margin-left: -11px;
@@ -157,11 +157,11 @@ p {
     color: white;
 }
 
-.meet-point-settings-box i:hover{
+.meet-point-info-box i:hover{
     color: rgba(48, 42, 42, 0.534);
 }
 
-.meet-point-settings-box-view {
+.meet-point-info-box-view {
     transform: translateX(0%);
 }
 

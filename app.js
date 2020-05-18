@@ -442,9 +442,9 @@ class UI {
     }
 
     showMeetingPointInfo() {
-        document.getElementById('meet-point-settings').classList.add('meet-point-settings-box-view');
+        document.getElementById('meet-point-info').classList.add('meet-point-info-box-view');
 
-        document.getElementById('meet-point-settings').innerHTML = `
+        document.getElementById('meet-point-info').innerHTML = `
             <i class="material-icons left">close</i>
             <h5 class="center-align white-text">Meeting Point</h5>
             <div class="">

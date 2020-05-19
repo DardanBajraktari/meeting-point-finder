@@ -291,6 +291,8 @@ class UI {
     }
 
     openPointSettings(point) {
+        document.getElementById('point-settings').style.display = 'block';
+        document.getElementById('meet-point-info').style.display = 'none';
         document.getElementById('point-settings').classList.add('point-settings-box-view');
     }
 
@@ -302,6 +304,7 @@ class UI {
         }
 
         UI.selectedPointId = '';
+        document.getElementById('meet-point-info').style.display = 'block';
         console.log(PointStore.points);
     }
 
@@ -442,6 +445,8 @@ class UI {
     }
 
     showMeetingPointInfo() {
+        document.getElementById('point-settings').style.display = 'none';
+
         document.getElementById('meet-point-info').classList.add('meet-point-info-box-view');
 
         document.getElementById('meet-point-info').innerHTML = `
@@ -456,6 +461,11 @@ class UI {
         `;
 
         console.log(UI.meetPoint);
+    }
+
+    closeMeetPointInfo() {
+        document.getElementById('point-settings').style.display = 'block';
+        document.getElementById('meet-point-info').classList.remove('meet-point-info-box-view');
     }
 
     showQuickestMeet() {
@@ -865,6 +875,18 @@ document.body.addEventListener('mouseup', function (event) {
         } else if (event.target.classList.contains('material-icons')) {
             const uI = new UI();
             uI.closePointSettings();
+        }
+    }
+});
+
+document.body.addEventListener('mouseup', function (event) {
+    if (!event.target.classList.contains('point')) {
+        if (!document.getElementById('meet-point-info').contains(event.target)) {
+            const uI = new UI();
+            uI.closeMeetPointInfo();
+        } else if (event.target.classList.contains('material-icons')) {
+            const uI = new UI();
+            uI.closeMeetPointInfo();
         }
     }
 });

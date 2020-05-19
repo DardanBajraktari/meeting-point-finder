@@ -305,7 +305,6 @@ class UI {
 
         UI.selectedPointId = '';
         document.getElementById('meet-point-info').style.display = 'block';
-        console.log(PointStore.points);
     }
 
     toggleHighlightPoint() {
@@ -459,8 +458,6 @@ class UI {
                 <p class="left-align white-text">Meet Type: <span class="data-value">${UI.meetPoint.meetType}</span></p>
             </div>
         `;
-
-        console.log(UI.meetPoint);
     }
 
     closeMeetPointInfo() {
@@ -479,8 +476,6 @@ class UI {
         UI.meetPoint.meetType = 'Quickest Meet';
 
         const pointLoci = Array.from(document.querySelectorAll('.locus-circle'));
-
-        console.log(meetPoint);
 
         this.resetMeetingPoint();
 
@@ -649,9 +644,6 @@ class Algorithms {
                             searchWidth = 3;
                         }
                     }
-
-                    console.log(ratio);
-                    console.log(deviationFromHalf);
                 } else {
                     searchWidth = (3.8 * (Math.pow(speedDiffToSumRatio + 0.31, 3.7))) + 2;
                 }
@@ -668,8 +660,6 @@ class Algorithms {
 
             // quarterPoint2XPosition = Math.round(point2.xPosition + (point1.xPosition - point2.xPosition) / searchWidth);
             // quarterPoint2YPosition = Math.round(point2.yPosition + (point1.yPosition - point2.yPosition) / searchWidth);
-
-            console.log(searchWidth);
 
             const quarterPoint1 = {
                 xPosition: quarterPoint1XPosition,
@@ -789,8 +779,6 @@ class Algorithms {
     
                                 for (let k = 0; k < points.length; k++) {
                                     const meetTime = Algorithms.distanceBetween(points[k], currentPoint) / points[k].speed;
-    
-                                    console.log(points[k].id + ' meet time: ' + meetTime);
     
                                     if (meetTime > maxMeetTime) {
                                         maxMeetTime = meetTime;

@@ -445,7 +445,6 @@ class UI {
 
     showMeetingPointInfo() {
         document.getElementById('point-settings').style.display = 'none';
-
         document.getElementById('meet-point-info').classList.add('meet-point-info-box-view');
 
         document.getElementById('meet-point-info').innerHTML = `
@@ -497,7 +496,14 @@ class UI {
     }
 
     showAverageMeet() {
-        console.log(Algorithms.findAveragePoint(PointStore.points));
+        const meetData = Algorithms.findAveragePosition(PointStore.points);
+        const averagePosition = meetData.averagePosition;
+        const meetTime = meetData.meetTime;
+
+        UI.meetPoint.xPosition = averagePosition.xPosition;
+        UI.meetPoint.yPosition = averagePosition.yPosition;
+        UI.meetPoint.meetTime = meetTime;
+        UI.meetPoint.meetType = 'Average Position';
     }
 }
 
@@ -799,18 +805,42 @@ class Algorithms {
         return findMeetPoint(points, midPoint);
     }
 
-    static findAveragePoint(points) {
+    static findAveragePosition(points) {
         let sumX = 0;
         let sumY = 0;
 
-        points.forEach(function (point) {
-            sumX += parseInt(point.xPosition);
-            sumY += parseInt(point.yPosition);
-        });
+        function findAveragePosition(points) {
+            points.forEach(function (point) {
+                sumX += parseInt(point.xPosition);
+                sumY += parseInt(point.yPosition);
+            });
+    
+            return {
+                xPosition: (sumX / points.length),
+                yPosition: (sumY / points.length)
+            };
+        }
+
+        function findMeetTime(points, averagePosition) {
+            let slowestTime = 0;
+
+            points.forEach(function (point) {
+                const meetTime = Algorithms.distanceBetween(averagePosition, point) / point.speed;
+
+                if (meetTime > slowestTime) {
+                    slowestTime = meetTime;
+                }
+            });
+
+            return slowestTime;
+        }
+
+        const averagePosition = findAveragePosition(points);
+        const meetTime = findMeetTime(points, averagePosition);
 
         return {
-            xPosition: (sumX / points.length),
-            yPosition: (sumY / points.length)
+            averagePosition,
+            meetTime
         };
     }
 

@@ -367,6 +367,7 @@ class UI {
             const pointLoci = Array.from(document.querySelectorAll('.locus-circle'));
 
             pointLoci.forEach(function (pointLocus, index) {
+                pointLocus.style.visibility = 'hidden';
                 pointLocus.style.transition = 'none';
                 pointLocus.style.width = '10px';
                 pointLocus.style.height = '10px';
@@ -514,6 +515,7 @@ class UI {
         const pointLoci = Array.from(document.querySelectorAll('.locus-circle'));
 
         pointLoci.forEach(function (pointLocus, index) {
+            pointLocus.style.visibility = 'visible';
             pointLocus.style.transition = 'none';
             pointLocus.style.width = '10px';
             pointLocus.style.height = '10px';

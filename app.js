@@ -438,6 +438,7 @@ class UI {
         PointStore.points = [];
         this.closePointSettings();
         this.toggleRunEnabled();
+        this.resetMeetingPoint();
     }
 
     toggleRunEnabled() {

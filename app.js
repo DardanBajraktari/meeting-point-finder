@@ -6,6 +6,7 @@ function onInit() {
     uI.toggleRunEnabled();
     uI.updateTutorial();
     uI.initialiseMeetingPoint();
+    uI.initialiseAveragePositionPoint();
 }
 
 class Point {
@@ -321,6 +322,7 @@ class UI {
 
     initialiseMeetingPoint() {
         const meetingPoint = document.createElement('div');
+
         meetingPoint.classList.add('tooltipped');
         meetingPoint.id = 'meeting-point';
         meetingPoint.style.visibility = 'hidden';
@@ -337,12 +339,45 @@ class UI {
         });
     }
 
-    resetMeetingPoint() {
-        const meetingPoint = document.getElementById('meeting-point');
+    initialiseAveragePositionPoint() {
+        const averagePositionPoint = document.createElement('div');
 
-        meetingPoint.style.visibility = 'hidden';
-        meetingPoint.style.width = '1px';
-        meetingPoint.style.height = '1px';
+        averagePositionPoint.classList.add('tooltipped');
+        averagePositionPoint.id = 'average-position';
+        averagePositionPoint.style.visibility = 'hidden';
+
+        averagePositionPoint.setAttribute('data-position', 'top');
+        averagePositionPoint.setAttribute('data-delay', '50');
+        $('#average-position').tooltip();
+
+        document.getElementById('points-container').appendChild(averagePositionPoint);
+
+        document.getElementById('average-position').addEventListener('click', function () {
+            const uI = new UI();
+            uI.showMeetingPointInfo();
+        });
+    }
+
+    resetMeetingPoint() {
+        let meetPoint;
+
+        if (UI.meetPoint.meetType === 'Quickest Meet') {
+            meetPoint = document.getElementById('meeting-point');
+
+            const pointLoci = Array.from(document.querySelectorAll('.locus-circle'));
+
+            pointLoci.forEach(function (pointLocus, index) {
+                pointLocus.style.transition = 'none';
+                pointLocus.style.width = '10px';
+                pointLocus.style.height = '10px';
+            });
+        } else {
+            meetPoint = document.getElementById('average-position');
+        }
+
+        meetPoint.style.visibility = 'hidden';
+        meetPoint.style.width = '1px';
+        meetPoint.style.height = '1px';
     }
 
     displayPoints() {
@@ -465,6 +500,8 @@ class UI {
     }
 
     showQuickestMeet() {
+        this.resetMeetingPoint();
+
         const meetData = Algorithms.findQuickestMeetPoint(PointStore.points);
         const meetPoint = meetData.meetPoint;
         const meetTime = meetData.meetTime;
@@ -475,8 +512,6 @@ class UI {
         UI.meetPoint.meetType = 'Quickest Meet';
 
         const pointLoci = Array.from(document.querySelectorAll('.locus-circle'));
-
-        this.resetMeetingPoint();
 
         pointLoci.forEach(function (pointLocus, index) {
             pointLocus.style.transition = 'none';
@@ -495,7 +530,22 @@ class UI {
         this.displayMeetingPoint(meetPoint, meetTime);
     }
 
+    displayAveragePosition(averagePosition) {
+        const averagePositionPoint = document.getElementById('average-position');
+
+        averagePositionPoint.style.left = (averagePosition.xPosition + 8).toString() + 'px';
+        averagePositionPoint.style.top = (averagePosition.yPosition + 8).toString() + 'px';
+        averagePositionPoint.style.visibility = 'visible';
+        averagePositionPoint.setAttribute('data-tooltip', '(' + Math.round(averagePosition.xPosition) + ', ' + Math.round(averagePosition.yPosition) + ')');
+        averagePositionPoint.style.width = '18px';
+        averagePositionPoint.style.height = '18px';
+
+        $('#average-position').tooltip();
+    }
+
     showAverageMeet() {
+        this.resetMeetingPoint();
+
         const meetData = Algorithms.findAveragePosition(PointStore.points);
         const averagePosition = meetData.averagePosition;
         const meetTime = meetData.meetTime;
@@ -504,6 +554,8 @@ class UI {
         UI.meetPoint.yPosition = averagePosition.yPosition;
         UI.meetPoint.meetTime = meetTime;
         UI.meetPoint.meetType = 'Average Position';
+
+        this.displayAveragePosition(averagePosition);
     }
 }
 

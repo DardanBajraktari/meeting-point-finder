@@ -488,10 +488,10 @@ class UI {
             <i class="material-icons left">close</i>
             <h5 class="center-align white-text">Meeting Point</h5>
             <div class="">
-                <p class="left-align white-text">X Position: <span class="data-value">${Math.round(UI.meetPoint.xPosition)}</span></p>
-                <p class="left-align white-text">Y Position: <span class="data-value">${Math.round(UI.meetPoint.yPosition)}</span></p>
-                <p class="left-align white-text">Meet-time: <span class="data-value">${UI.meetPoint.meetTime.toFixed(2)}s</span></p>
-                <p class="left-align white-text">Meet Type: <span class="data-value">${UI.meetPoint.meetType}</span></p>
+                <p class="left-align white-text">X Position: <span class="data-value"><b>${Math.round(UI.meetPoint.xPosition)}</b></span></p>
+                <p class="left-align white-text">Y Position: <span class="data-value"><b>${Math.round(UI.meetPoint.yPosition)}</b></span></p>
+                <p class="left-align white-text">Meet-time: <span class="data-value"><b>${UI.meetPoint.meetTime.toFixed(2)}s</b></span></p>
+                <p class="left-align white-text">Meet Type: <span class="data-value"><b>${UI.meetPoint.meetType}</b></span></p>
             </div>
         `;
     }
